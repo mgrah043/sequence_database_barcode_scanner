@@ -5,6 +5,12 @@ package com.example.seqdb_barcode_scanner;
  * Let me know if this works
  * 
  * new newnewnwen
+ * 
+ * test
+ * te
+ * tes
+ * tes
+ *  TESTING again
  * */
 import android.os.Bundle;
 import android.app.Activity;
