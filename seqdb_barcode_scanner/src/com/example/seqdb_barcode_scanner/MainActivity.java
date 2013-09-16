@@ -3,6 +3,8 @@ package com.example.seqdb_barcode_scanner;
 /*
  * This is a comment to test the first commit
  * Let me know if this works
+ * 
+ * new newnewnwen
  * */
 import android.os.Bundle;
 import android.app.Activity;
