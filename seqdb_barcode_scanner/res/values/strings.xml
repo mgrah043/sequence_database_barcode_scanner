@@ -4,5 +4,6 @@
     <string name="app_name">seqdb_barcode_scanner</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">This is another commit !!!!!!!!!</string>
+    <string name="Scanner_btn">Click here to test Scanner</string>
 
 </resources>
