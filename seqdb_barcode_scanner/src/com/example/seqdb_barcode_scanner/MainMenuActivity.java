@@ -28,9 +28,11 @@ public class MainMenuActivity extends Activity{
 
 			//login button
 			if(id_of_view == button_lookup.getId()){
-				Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
+				Intent intent = new Intent(MainMenuActivity.this, ScanPlaceholderActivity.class);
 				//closes all activities that start after LookupActivity
 				//intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+				intent.putExtra("next_activity", "lookup_activity");
+
 
 				startActivity(intent);
 			}
