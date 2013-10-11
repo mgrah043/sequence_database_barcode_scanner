@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/tv_field1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Field 1: " />
+    
+    <TextView
+        android:id="@+id/tv_content1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_field1"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:text="Content 1 Data; Content 1 Data" />
+    
+    <TextView
+        android:id="@+id/tv_field2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_content1"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="Field 2: " />
+    
+    <TextView
+        android:id="@+id/tv_content2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_field2"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:text="Content 2 Data; Content 2 Data" />
+    
+    <TextView
+        android:id="@+id/tv_field3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_content2"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="Field 3: " />
+    
+    <TextView
+        android:id="@+id/tv_content3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_field3"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:text="Content 3 Data; Content 3 Data; Content 3 Data; Content 3 Data" />
+    
+    <TextView
+        android:id="@+id/tv_field4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_content3"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="Field 4: " />
+    
+    <TextView
+        android:id="@+id/tv_content4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_field4"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:text="Content 4 Data; Content 4 Data; Content 4 Data; Content 4 Data" />
+    
+
+
+</RelativeLayout>
