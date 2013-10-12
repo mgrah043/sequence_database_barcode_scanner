@@ -5,5 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">This is another commit !!!!!!!!!</string>
     <string name="Scanner_btn">Click here to test Scanner</string>
+    <string name="menu__btn_lookup">Lookup</string>
+    <string name="menu__btn_getcontents">Get Contents</string>
+    <string name="menu__btn_move">Move</string>
+    <string name="menu__btn_bulkmove">Bulk Move</string>
+    <string name="login__btn">Login</string>
+    <string name="login__username">Username</string>
+    <string name="login__password">Password</string>
 
 </resources>

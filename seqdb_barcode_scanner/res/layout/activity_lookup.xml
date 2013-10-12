@@ -8,11 +8,13 @@
         android:id="@+id/tv_field1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="31dp"
+        android:paddingLeft="20dp"
+        android:text="Field 1: "
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Field 1: " />
+        android:textStyle="bold" />
     
     <TextView
         android:id="@+id/tv_content1"
@@ -20,8 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_field1"
         android:layout_marginTop="8dp"
-        android:textSize="20sp"
-        android:text="Content 1 Data; Content 1 Data" />
+        android:paddingLeft="20dp"
+        android:text="Content 1 Data; Content 1 Data"
+        android:textSize="20sp" />
     
     <TextView
         android:id="@+id/tv_field2"
@@ -29,9 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_content1"
         android:layout_marginTop="30dp"
-        android:textStyle="bold"
+        android:paddingLeft="20dp"
+        android:text="Field 2: "
         android:textSize="20sp"
-        android:text="Field 2: " />
+        android:textStyle="bold" />
     
     <TextView
         android:id="@+id/tv_content2"
@@ -39,8 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_field2"
         android:layout_marginTop="8dp"
-        android:textSize="20sp"
-        android:text="Content 2 Data; Content 2 Data" />
+        android:paddingLeft="20dp"
+        android:text="Content 2 Data; Content 2 Data"
+        android:textSize="20sp" />
     
     <TextView
         android:id="@+id/tv_field3"
@@ -48,9 +53,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_content2"
         android:layout_marginTop="30dp"
-        android:textStyle="bold"
+        android:paddingLeft="20dp"
+        android:text="Field 3: "
         android:textSize="20sp"
-        android:text="Field 3: " />
+        android:textStyle="bold" />
     
     <TextView
         android:id="@+id/tv_content3"
@@ -58,8 +64,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_field3"
         android:layout_marginTop="8dp"
-        android:textSize="20sp"
-        android:text="Content 3 Data; Content 3 Data; Content 3 Data; Content 3 Data" />
+        android:paddingLeft="20dp"
+        android:text="Content 3 Data; Content 3 Data; Content 3 Data; Content 3 Data"
+        android:textSize="20sp" />
     
     <TextView
         android:id="@+id/tv_field4"
@@ -67,9 +74,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_content3"
         android:layout_marginTop="30dp"
-        android:textStyle="bold"
+        android:paddingLeft="20dp"
+        android:text="Field 4: "
         android:textSize="20sp"
-        android:text="Field 4: " />
+        android:textStyle="bold" />
     
     <TextView
         android:id="@+id/tv_content4"
@@ -77,9 +85,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_field4"
         android:layout_marginTop="8dp"
-        android:textSize="20sp"
-        android:text="Content 4 Data; Content 4 Data; Content 4 Data; Content 4 Data" />
-    
-
+        android:paddingLeft="20dp"
+        android:text="Content 4 Data; Content 4 Data; Content 4 Data; Content 4 Data"
+        android:textSize="20sp" />
 
 </RelativeLayout>

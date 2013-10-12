@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gv_main_menu"
-    android:layout_width="fill_parent" 
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:columnWidth="90dp"
+    android:gravity="center"
+    android:horizontalSpacing="20dp"
     android:numColumns="2"
-    android:verticalSpacing="10dp"
-    android:horizontalSpacing="10dp"
+    android:padding="20dp"
     android:stretchMode="columnWidth"
-    android:gravity="center">
-    
-    
+    android:verticalSpacing="20dp" >
 
 </GridView>

@@ -5,15 +5,15 @@
     android:orientation="vertical" >
 
    <TextView
-        android:id="@+id/tv_content1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="To scan your employee barcode click the image below" />
+       android:id="@+id/tv_content1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentTop="true"
+       android:layout_centerHorizontal="true"
+       android:layout_marginTop="10dp"
+       android:text="To scan your employee barcode, tap the image below"
+       android:textSize="20sp"
+       android:textStyle="bold" />
    
     <ImageView
         android:id="@+id/iv_scanLogin"
@@ -42,20 +42,20 @@
         android:layout_below="@id/tv_content2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:text="Login using your username and password"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Login using userID and Password" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/et_userID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_content3"
-        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="UserID"
+        android:hint="@string/login__username"
         android:inputType="text" >
 
         <requestFocus />
@@ -65,27 +65,26 @@
         android:id="@+id/et_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_userID"
+        android:layout_alignLeft="@+id/et_userID"
+        android:layout_below="@+id/et_userID"
         android:ems="10"
-        android:layout_centerHorizontal="true"
-        android:hint="Password"
+        android:hint="@string/login__password"
         android:inputType="textPassword" />
-
     
     <Button
         android:id="@+id/b_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/et_password"
-        android:layout_marginTop = "80dp"
-        android:background="#0000FF"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:background="@android:color/holo_blue_light"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:text="@string/login__btn"
         android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="24sp"    
-        android:paddingRight="35dp"  
-        android:paddingLeft="35dp"      
-        android:text="Login" />
-
+        android:textColorLink="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

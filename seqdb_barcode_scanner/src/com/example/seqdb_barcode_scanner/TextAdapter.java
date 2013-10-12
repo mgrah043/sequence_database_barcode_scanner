@@ -2,10 +2,10 @@ package com.example.seqdb_barcode_scanner;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.TextView;
 
 public class TextAdapter extends BaseAdapter{
@@ -36,8 +36,10 @@ public class TextAdapter extends BaseAdapter{
         if (convertView == null) {
             tv = new TextView(context);
             tv.setTextColor(Color.WHITE);
-            tv.setBackgroundColor(Color.BLUE);
+            tv.setBackgroundColor(Color.parseColor("#33b5e5"));
             tv.setTextSize(40);
+            tv.setLines(5); //TODO properly set cell height
+            tv.setGravity(Gravity.CENTER);
         }
         else {
             tv = (TextView) convertView;

@@ -5,70 +5,74 @@
     android:orientation="vertical" >
     
  	<Button
-        android:id="@+id/b_lookup"
-        android:layout_width="600dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop = "80dp"
-        android:background="#0000FF"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:text="Lookup" />
+ 	    android:id="@+id/b_lookup"
+ 	    android:layout_width="600dp"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_alignParentTop="true"
+ 	    android:layout_centerHorizontal="true"
+ 	    android:layout_marginTop="80dp"
+ 	    android:background="@android:color/holo_blue_light"
+ 	    android:minHeight="55dp"
+ 	    android:text="@string/menu__btn_lookup"
+ 	    android:textColor="@android:color/white"
+ 	    android:textColorLink="@android:color/holo_blue_dark"
+ 	    android:textSize="24sp"
+ 	    android:textStyle="bold" />
  	
  	<Button
-        android:id="@+id/b_getContents"
-        android:layout_width="600dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/b_lookup"
-        android:layout_marginTop = "16dp"
-        android:background="#0000FF"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="24sp"        
-        android:text="Get Contents" />
+ 	    android:id="@+id/b_getContents"
+ 	    android:layout_width="600dp"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_alignLeft="@+id/b_lookup"
+ 	    android:layout_below="@+id/b_lookup"
+ 	    android:layout_marginTop="31dp"
+ 	    android:background="@android:color/holo_blue_light"
+ 	    android:minHeight="55dp"
+ 	    android:text="@string/menu__btn_getcontents"
+ 	    android:textColor="@android:color/white"
+ 	    android:textColorLink="@android:color/holo_blue_dark"
+ 	    android:textSize="24sp"
+ 	    android:textStyle="bold" />
  	
  	<Button
-        android:id="@+id/b_move"
-        android:layout_width="600dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/b_getContents"
-        android:layout_marginTop = "16dp"
-        android:background="#0000FF"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="24sp"        
-        android:text="Move" />
+ 	    android:id="@+id/b_move"
+ 	    android:layout_width="600dp"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_alignLeft="@+id/b_getContents"
+ 	    android:layout_below="@+id/b_getContents"
+ 	    android:layout_marginTop="26dp"
+ 	    android:background="@android:color/holo_blue_light"
+ 	    android:minHeight="55dp"
+ 	    android:text="@string/menu__btn_move"
+ 	    android:textColor="@android:color/white"
+ 	    android:textColorLink="@android:color/holo_blue_dark"
+ 	    android:textSize="24sp"
+ 	    android:textStyle="bold" />
  	
- 		<Button
-        android:id="@+id/b_bulkMove"
-        android:layout_width="600dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/b_move"
-        android:layout_marginTop = "16dp"
-        android:background="#0000FF"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="24sp"        
-        android:text="Bulk Move" />
- 		
- 		
- 		<Button
-        android:id="@+id/b_switch_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-		android:layout_alignParentBottom="true"        
-		android:layout_marginBottom = "150dp"
-        android:textStyle="bold"
-        android:textSize="20sp"        
-        android:text="Switch Layout" />
+ 	<Button
+ 	    android:id="@+id/b_bulkMove"
+ 	    android:layout_width="600dp"
+ 	    android:layout_height="wrap_content"
+ 	    android:layout_alignLeft="@+id/b_move"
+ 	    android:layout_below="@+id/b_move"
+ 	    android:layout_marginTop="26dp"
+ 	    android:background="@android:color/holo_blue_light"
+ 	    android:minHeight="55dp"
+ 	    android:text="@string/menu__btn_bulkmove"
+ 	    android:textColor="@android:color/white"
+ 	    android:textColorLink="@android:color/holo_blue_dark"
+ 	    android:textSize="24sp"
+ 	    android:textStyle="bold" />
  	
+ 	<Button
+ 		    android:id="@+id/b_switch_layout"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:layout_alignParentBottom="true"
+ 		    android:layout_centerHorizontal="true"
+ 		    android:layout_marginBottom="150dp"
+ 		    android:text="Grid Layout"
+ 		    android:textSize="20sp"
+ 		    android:textStyle="bold" />
  	
- 	
-
 </RelativeLayout>

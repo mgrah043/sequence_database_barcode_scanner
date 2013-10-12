@@ -3,18 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-    
   <Button
-        android:id="@+id/b_scanPlaceholder"
-        android:layout_width="600dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop = "200dp"
-        android:background="#0000FF"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="24sp"        
-        android:text="Scan Placeholder" />
+      android:id="@+id/b_scanPlaceholder"
+      android:layout_width="600dp"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="200dp"
+      android:background="@android:color/holo_blue_light"
+      android:text="Scan Placeholder"
+      android:textColor="#FFFFFF"
+      android:textSize="24sp"
+      android:textStyle="bold" />
 
 </RelativeLayout>
