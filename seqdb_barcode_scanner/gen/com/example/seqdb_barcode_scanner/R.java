@@ -26,15 +26,17 @@ public final class R {
     }
     public static final class id {
         public static final int ScannerBtn=0x7f08000d;
-        public static final int action_settings=0x7f080013;
+        public static final int action_settings=0x7f080015;
         public static final int b_bulkMove=0x7f080011;
         public static final int b_getContents=0x7f08000f;
         public static final int b_login=0x7f080006;
         public static final int b_lookup=0x7f08000e;
         public static final int b_move=0x7f080010;
-        public static final int b_scanPlaceholder=0x7f080012;
+        public static final int b_scanPlaceholder=0x7f080014;
+        public static final int b_switch_layout=0x7f080012;
         public static final int et_password=0x7f080005;
         public static final int et_userID=0x7f080004;
+        public static final int gv_main_menu=0x7f080013;
         public static final int iv_scanLogin=0x7f080001;
         public static final int textView1=0x7f08000c;
         public static final int tv_content1=0x7f080000;
@@ -51,7 +53,8 @@ public final class R {
         public static final int activity_lookup=0x7f030001;
         public static final int activity_main=0x7f030002;
         public static final int activity_mainmenu=0x7f030003;
-        public static final int activity_scan_placeholder=0x7f030004;
+        public static final int activity_mainmenu_grid=0x7f030004;
+        public static final int activity_scan_placeholder=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f070000;

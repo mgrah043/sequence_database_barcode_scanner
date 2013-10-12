@@ -45,6 +45,13 @@
             android:name="com.example.seqdb_barcode_scanner.LookupActivity"
             android:label="Lookup" >
         </activity>
+        
+         <activity
+            android:name="com.example.seqdb_barcode_scanner.MainMenuGridActivity"
+            android:label="Main Menu Grid" >
+        </activity>
+        
+         
 
         
   

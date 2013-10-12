@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class MainMenuActivity extends Activity{
 	Button button_lookup;
+	Button button_switch_layout;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +18,10 @@ public class MainMenuActivity extends Activity{
         setContentView(R.layout.activity_mainmenu);
         
         button_lookup = (Button) findViewById(R.id.b_lookup);
-
+        button_switch_layout = (Button) findViewById(R.id.b_switch_layout);
+        
         button_lookup.setOnClickListener(Button_Click_Listener);
+        button_switch_layout.setOnClickListener(Button_Click_Listener);
 
 	}
 	
@@ -33,6 +36,11 @@ public class MainMenuActivity extends Activity{
 				//intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 				intent.putExtra("next_activity", "lookup_activity");
 
+
+				startActivity(intent);
+			}
+			else if(id_of_view == button_switch_layout.getId()){
+				Intent intent = new Intent(MainMenuActivity.this, MainMenuGridActivity.class);
 
 				startActivity(intent);
 			}

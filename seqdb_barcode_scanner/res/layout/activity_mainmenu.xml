@@ -55,6 +55,18 @@
         android:textStyle="bold"
         android:textSize="24sp"        
         android:text="Bulk Move" />
+ 		
+ 		
+ 		<Button
+        android:id="@+id/b_switch_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+		android:layout_alignParentBottom="true"        
+		android:layout_marginBottom = "150dp"
+        android:textStyle="bold"
+        android:textSize="20sp"        
+        android:text="Switch Layout" />
  	
  	
  	
