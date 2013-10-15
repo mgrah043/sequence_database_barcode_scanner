@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         scannerBtn = (Button) findViewById(R.id.ScannerBtn);
-        helloWorld = (TextView) findViewById(R.id.textView1);
+//        helloWorld = (TextView) findViewById(R.id.textView1);
         /*
          * this is quick and dirty and needs to be cleaned it is just for the purpose of making a working prototype asap
          * 
