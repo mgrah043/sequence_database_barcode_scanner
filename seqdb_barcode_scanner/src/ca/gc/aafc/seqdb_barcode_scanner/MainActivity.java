@@ -1,4 +1,4 @@
-package com.example.seqdb_barcode_scanner;
+package ca.gc.aafc.seqdb_barcode_scanner;
 
 /*
  * This is a comment to test the first commit
