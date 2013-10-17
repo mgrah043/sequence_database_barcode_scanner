@@ -1,0 +1,7 @@
+Timeline for the project deliverables:
+
+1. Sept 27 – Storyboard for login to database function and Lookup functions
+2. Oct 11 – Bluetooth tethering over HTTP completed / webserices for login and lookup will be defined 
+3. Oct 25 – reading week for students ( this week is canceled) /  Storyboard for getContents functions
+4. Nov 8th – Using the Camera – reading barcodes and getting output decoded information / Working GUI for login and lookup workflows 
+5. Nov 15 –  GUI works / Camera works / Talks to Mock webservices API
