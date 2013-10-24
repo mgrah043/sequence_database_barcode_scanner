@@ -1,7 +1,7 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
 import ca.gc.aafc.seqdb_barcode_scanner.R;
-import ca.gc.aafc.seqdb_barcode_scanner.utils.*;
+
 
 import android.app.Activity;
 import android.content.Intent;
