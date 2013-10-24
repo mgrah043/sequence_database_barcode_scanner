@@ -13,6 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="39dp"
-        android:text="@string/Scanner_btn" />
+        android:text="@string/txt_btn_scan_done" />
 
 </RelativeLayout>

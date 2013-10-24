@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Basic Colors -->
+    <color name="transparent">#00000000</color>    
+    <color name="white">#ffffff</color>
+    <color name="offwhite">#ece8e1</color>
+    <color name="black">#000000</color>
+    
+    <!-- Gray Colors: extension gray_XXX stand for rgb value 
+    because in gray all of them are equal --> 
+    <color name="gray_215">#d7d4cc</color>   
+    <color name="gray_189">#bdbdbd</color>
+    <color name="gray_167">#a7a7a7</color>
+    <color name="gray_79">#4f4f4f</color>
+    <color name="gray_46">#2e2e2e</color>
+    <color name="gray_35">#232323</color>
+    
+    <!-- Gray colors gray_HEXADECIMAL -->
+    <color name="gray_ededed">#ededed</color>
+    <color name="gray_f4f4f4">#f4f4f4</color>
+    <color name="gray_626669">#626669</color>
+    
+    
+    <!-- Black colors black_HEXADECIMAL -->
+    <color name="black_333">#333333</color>
+    <color name="black_222">#222222</color>
+    <color name="black_2e3641">#2e3641</color>
+    
+    <!-- Blue Colors -->
+    <color name="blue">#5a9aa8</color>
+    <color name="dark_blue">#487b86</color>
+    <color name="blue_051f33">#051f33</color>
+        
+</resources>

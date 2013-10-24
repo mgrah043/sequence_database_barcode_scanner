@@ -1,9 +1,13 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
+import ca.gc.aafc.seqdb_barcode_scanner.R;
+import ca.gc.aafc.seqdb_barcode_scanner.utils.*;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
@@ -13,12 +17,19 @@ public class TopActivity extends Activity{
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
+		
+
         
         setContentView(R.layout.activity_top);
-        
-        button_scanLogin = (Button) findViewById(R.id.b_scanLogin);
-        button_manualLogin = (Button) findViewById(R.id.b_manualLogin);
+        /*
+         * ViewGroup vg = (ViewGroup) findViewById(R.id.root);
+         * Need to find a way to set font
+         */
+		
+		
+        button_scanLogin = (Button) findViewById(R.id.btn_scan_login);
+        button_manualLogin = (Button) findViewById(R.id.btn_manual_login);
         
         button_scanLogin.setOnClickListener(Button_Click_Listener);
         button_manualLogin.setOnClickListener(Button_Click_Listener);

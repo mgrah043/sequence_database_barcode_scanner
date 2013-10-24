@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/height"
+    android:layout_alignParentTop="true"
+    android:background="@color/blue" >
+
+    <LinearLayout
+        android:id="@+id/line"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/divider_size"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dark_blue" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="200dp" >
+
+        <ImageButton
+            android:id="@+id/btn_header_menu"
+            android:layout_width="@dimen/width"
+            android:layout_height="fill_parent"
+            android:background="@drawable/ui_button_blue"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/ico_list" />
+
+        <LinearLayout
+            android:layout_width="@dimen/divider_size"
+            android:layout_height="fill_parent"
+            android:background="@color/dark_blue" >
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_header_main_title"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:tag="bold"
+            android:text="@string/txt_main_header"
+            android:textColor="@color/white"
+            android:textSize="@dimen/tex_size_xxlarge" />
+
+        <LinearLayout
+            android:layout_width="@dimen/divider_size"
+            android:layout_height="fill_parent"
+            android:background="@color/dark_blue" >
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

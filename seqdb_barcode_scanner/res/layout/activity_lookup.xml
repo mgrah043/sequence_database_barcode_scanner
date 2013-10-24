@@ -1,92 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
+        
     
-    <TextView
-        android:id="@+id/tv_field1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="31dp"
-        android:paddingLeft="20dp"
-        android:text="Field 1: "
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    
-    <TextView
-        android:id="@+id/tv_content1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_field1"
-        android:layout_marginTop="8dp"
-        android:paddingLeft="20dp"
-        android:text="Content 1 Data; Content 1 Data"
-        android:textSize="20sp" />
-    
-    <TextView
-        android:id="@+id/tv_field2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_content1"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
-        android:text="Field 2: "
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    
-    <TextView
-        android:id="@+id/tv_content2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_field2"
-        android:layout_marginTop="8dp"
-        android:paddingLeft="20dp"
-        android:text="Content 2 Data; Content 2 Data"
-        android:textSize="20sp" />
-    
-    <TextView
-        android:id="@+id/tv_field3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_content2"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
-        android:text="Field 3: "
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    
-    <TextView
-        android:id="@+id/tv_content3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_field3"
-        android:layout_marginTop="8dp"
-        android:paddingLeft="20dp"
-        android:text="Content 3 Data; Content 3 Data; Content 3 Data; Content 3 Data"
-        android:textSize="20sp" />
-    
-    <TextView
-        android:id="@+id/tv_field4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_content3"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
-        android:text="Field 4: "
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    
-    <TextView
-        android:id="@+id/tv_content4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_field4"
-        android:layout_marginTop="8dp"
-        android:paddingLeft="20dp"
-        android:text="Content 4 Data; Content 4 Data; Content 4 Data; Content 4 Data"
-        android:textSize="20sp" />
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="@color/white"
+	    android:orientation="vertical" >
+	
+	    <include
+	        android:id="@+id/main_menu_header"
+	        layout="@layout/header_main_layout" />
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical" >
+			
+	        <TextView
+            android:id="@+id/tv_lookup_spec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_50"
+            android:layout_marginLeft="@dimen/dim_20"
+            android:layout_marginRight="@dimen/dim_20"
+            android:layout_marginBottom="@dimen/dim_10"
+            android:tag="bold"
+            android:text="@string/txt_main_header"
+            android:textColor="@color/blue_051f33"
+            android:textSize="24sp" />
+	        
+	        <TextView
+            android:id="@+id/tv_lookup_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_20"
+            android:layout_marginRight="@dimen/dim_20"
+            android:text="@string/txt_main_header"
+            android:textColor="@color/gray_626669"
+            android:textSize="20sp" />
+
+	    </LinearLayout>
+ 	
+	</LinearLayout>
 
 </RelativeLayout>

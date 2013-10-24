@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.content.Intent;
 public class LoginActivity extends Activity {
     
 	Button button_login;
+	ImageButton button_back;
 	ImageView imageview_scanLogin;
 	
 	@Override
@@ -22,12 +24,11 @@ public class LoginActivity extends Activity {
         
         setContentView(R.layout.activity_login);
   
-        //initializing variables to layout elements
-        button_login = (Button) findViewById(R.id.b_login);
-        
-        
-        //setting click listeners
+        button_login = (Button) findViewById(R.id.btn_login);
         button_login.setOnClickListener(Button_Click_Listener);
+        
+        button_back = (ImageButton) findViewById(R.id.btn_Img_Back);
+        button_back.setOnClickListener(Button_Click_Listener);
 
 	}
 	
@@ -40,6 +41,8 @@ public class LoginActivity extends Activity {
 				Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
 				Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
 				startActivity(intent);
+				finish();
+			}else if(id_of_view == button_back.getId()){
 				finish();
 			}
 		}

@@ -17,13 +17,15 @@
         
         <activity
             android:name="ca.gc.aafc.seqdb_barcode_scanner.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="landscape" >
 
         </activity>
         
         <activity
             android:name="ca.gc.aafc.seqdb_barcode_scanner.TopActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -32,34 +34,30 @@
         
         <activity
             android:name="ca.gc.aafc.seqdb_barcode_scanner.LoginActivity"
-            android:label="Login" >
+            android:label="Login" 
+            android:screenOrientation="landscape" >
             
         </activity>
         
          <activity
             android:name="ca.gc.aafc.seqdb_barcode_scanner.MainMenuActivity"
-            android:label="Main Menu" >
+            android:label="Main Menu"
+            android:screenOrientation="landscape"  >
         </activity>
         
          <activity
             android:name="ca.gc.aafc.seqdb_barcode_scanner.ScanPlaceholderActivity"
-            android:label="Barcode Scanner">
+            android:label="Barcode Scanner"
+            android:screenOrientation="landscape" 
+            >
          </activity>
         
          <activity
             android:name="ca.gc.aafc.seqdb_barcode_scanner.LookupActivity"
-            android:label="Lookup" >
+            android:label="Lookup" 
+            android:screenOrientation="landscape" >
         </activity>
-        
-         <activity
-            android:name="ca.gc.aafc.seqdb_barcode_scanner.MainMenuGridActivity"
-            android:label="Main Menu Grid" >
-        </activity>
-        
-         
-
-        
-  
+          
     </application>
 
 </manifest>

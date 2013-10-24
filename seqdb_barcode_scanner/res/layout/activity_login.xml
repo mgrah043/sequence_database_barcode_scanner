@@ -1,48 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+        
+    
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/et_userID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="177dp"
-        android:ems="10"
-        android:hint="@string/login__username"
-        android:inputType="text" />
+    
 
-    <Button
-        android:id="@+id/b_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@android:color/holo_blue_light"
-        android:paddingLeft="35dp"
-        android:paddingRight="35dp"
-        android:text="@string/login__btn"
-        android:textColor="#FFFFFF"
-        android:textColorLink="@android:color/black"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    <include
+        android:id="@+id/login_header"
+        layout="@layout/header_login_layout" />
 
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/et_userID"
-        android:layout_below="@+id/et_userID"
-        android:layout_marginTop="35dp"
-        android:ems="10"
-        android:hint="@string/login__password"
-        android:inputType="textPassword" >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+		
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dim_20" >
 
-        <requestFocus />
-    </EditText>
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="91dp"
+                android:layout_height="107dp"
+                android:layout_marginBottom="@dimen/dim_20"
+                android:layout_marginTop="@dimen/dim_20"
+                android:src="@drawable/ico_lock" />
 
+            <EditText
+                android:id="@+id/et_username"
+                style="@style/EditText_Blue"
+                android:layout_width="300dp"
+                android:layout_height="0dip"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/dim_20"
+                 android:layout_marginTop="@dimen/dim_20"
+                android:ems="10"
+                android:textSize="24sp"
+                android:hint="@string/txt_login_username"
+                android:inputType="text" />
+			
+            <EditText
+                android:id="@+id/et_password"
+                style="@style/EditText_Blue"
+                android:layout_width="300dp"
+               	android:layout_height="0dip"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/dim_20"
+                android:textSize="24sp"
+                android:ems="10"
+                android:hint="@string/txt_login_password"
+                android:inputType="textPassword" />
+            
+ 			           
+            <Button
+                android:id="@+id/btn_login"
+                style="@style/Button_Blue"
+                android:layout_width="300dp"
+                android:layout_height="@dimen/dim_50"
+                android:layout_marginBottom="@dimen/dim_20"
+                android:textSize="24sp"
+                android:tag="bold"
+                android:text="@string/txt_btn_login" />
+
+        </LinearLayout>
+
+        
+
+    </ScrollView>
+
+</LinearLayout>
 </RelativeLayout>

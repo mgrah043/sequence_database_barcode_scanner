@@ -1,20 +1,96 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="AppTheme" parent="android:Theme">
+        <item name="android:windowTitleSize">0dp</item>
+        <item name="android:windowBackground">@color/offwhite</item>
+    </style>
+	
+    <!-- +++++++++++++++++++++ Base Styles +++++++++++++++++++++ -->
+
+
+    <!-- ListView style -->
+    <style name="CustomListView">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:cacheColorHint">@color/transparent</item>
+        <item name="android:divider">@drawable/line</item>
+        <item name="android:dividerHeight">@dimen/divider_size</item>
     </style>
 
+    <!-- Button style -->
+    <style name="CustomButton" parent="@android:style/Widget.Button">
+        <item name="android:textSize">@dimen/tex_size_large</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@drawable/ui_text_selector</item>
+    </style>
+
+    <!-- EditText style -->
+    <style name="CustomEditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">@dimen/tex_size_xlarge</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">@dimen/dim_10</item>
+    </style>
+
+    <!-- CheckBox style -->
+    <style name="CustomCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:textSize">@dimen/tex_size_large</item>
+        <item name="android:textColor">@color/gray_35</item>
+    </style>
+
+    <!-- RadioButton style -->
+    <style name="CustomRadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:textSize">@dimen/tex_size_large</item>
+        <item name="android:textColor">@color/gray_35</item>
+    </style>
+
+    <!-- ProgressBar style -->
+    <style name="CustomProgressBar" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:layout_height">@dimen/progressbar_height</item>
+        <item name="android:minHeight">@dimen/progressbar_height</item>
+    </style>
+
+    <!-- SeekBar style -->
+    <style name="CustomSeekBar" parent="@android:style/Widget.SeekBar">
+        <item name="android:maxHeight">@dimen/seekbar_height</item>
+        <item name="android:minHeight">@dimen/seekbar_height</item>
+    </style>
+
+    <!-- +++++++++++++++++++++ End of Base Styles +++++++++++++++++++++ -->
+    
+     <!-- +++++++++++++++++++++ Blue Styles +++++++++++++++++++++ -->
+    <!-- Blue button Style -->
+    <style name="Button_Blue" parent="CustomButton">
+        <item name="android:background">@drawable/ui_button_blue</item>
+    </style>
+
+    <!-- Blue EditText style -->
+    <style name="EditText_Blue" parent="CustomEditText">
+        <item name="android:background">@drawable/ui_border_blue</item>
+        <item name="android:textColor">@drawable/ui_text_selector_blue</item>
+    </style>
+
+    <!-- Blue CheckBox style -->
+    <style name="CheckBox_Blue" parent="CustomCheckBox">
+        <item name="android:button">@drawable/ui_checkbox_blue</item>
+    </style>
+
+    <!-- Blue RadioButton style -->
+    <style name="RadioButton_Blue" parent="CustomRadioButton">
+        <item name="android:button">@drawable/ui_radio_blue</item>
+    </style>
+
+    <!-- Blue ProgressBar style -->
+    <style name="ProgressBar_Blue" parent="CustomProgressBar">
+        <item name="android:progressDrawable">@drawable/ui_progress_blue</item>
+    </style>
+
+    <!-- Blue SeekBar style -->
+    <style name="SeekBar_Blue" parent="CustomSeekBar">
+        <item name="android:progressDrawable">@drawable/ui_progress_blue</item>
+        <item name="android:thumb">@drawable/ui_seekbar_handel_blue</item>
+    </style>
+
+    <!-- +++++++++++++++++++++ End of Blue Styles +++++++++++++++++++++ -->
 </resources>

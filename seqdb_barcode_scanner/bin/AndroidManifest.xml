@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.seqdb_barcode_scanner"
+    package="ca.gc.aafc.seqdb_barcode_scanner"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
     <application
@@ -16,45 +16,48 @@
           
         
         <activity
-            android:name="com.example.seqdb_barcode_scanner.MainActivity"
-            android:label="@string/app_name" >
+            android:name="ca.gc.aafc.seqdb_barcode_scanner.MainActivity"
+            android:label="@string/app_name" 
+            android:screenOrientation="landscape" >
 
         </activity>
         
         <activity
-            android:name="com.example.seqdb_barcode_scanner.LoginActivity"
-            android:label="Login" >
+            android:name="ca.gc.aafc.seqdb_barcode_scanner.TopActivity"
+            android:label="@string/app_name" 
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-         <activity
-            android:name="com.example.seqdb_barcode_scanner.MainMenuActivity"
-            android:label="Main Menu" >
+        <activity
+            android:name="ca.gc.aafc.seqdb_barcode_scanner.LoginActivity"
+            android:label="Login" 
+            android:screenOrientation="landscape" >
+            
         </activity>
         
          <activity
-            android:name="com.example.seqdb_barcode_scanner.ScanPlaceholderActivity"
-            android:label="Barcode Scanner">
+            android:name="ca.gc.aafc.seqdb_barcode_scanner.MainMenuActivity"
+            android:label="Main Menu"
+            android:screenOrientation="landscape"  >
+        </activity>
+        
+         <activity
+            android:name="ca.gc.aafc.seqdb_barcode_scanner.ScanPlaceholderActivity"
+            android:label="Barcode Scanner"
+            android:screenOrientation="landscape" 
+            >
          </activity>
         
          <activity
-            android:name="com.example.seqdb_barcode_scanner.LookupActivity"
-            android:label="Lookup" >
+            android:name="ca.gc.aafc.seqdb_barcode_scanner.LookupActivity"
+            android:label="Lookup" 
+            android:screenOrientation="landscape" >
         </activity>
-        
-         <activity
-            android:name="com.example.seqdb_barcode_scanner.MainMenuGridActivity"
-            android:label="Main Menu Grid" >
-        </activity>
-        
-         
-
-        
-  
+          
     </application>
 
 </manifest>

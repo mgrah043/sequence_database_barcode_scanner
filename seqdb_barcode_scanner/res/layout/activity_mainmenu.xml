@@ -1,78 +1,195 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
+        
     
- 	<Button
- 	    android:id="@+id/b_lookup"
- 	    android:layout_width="600dp"
- 	    android:layout_height="wrap_content"
- 	    android:layout_alignParentTop="true"
- 	    android:layout_centerHorizontal="true"
- 	    android:layout_marginTop="80dp"
- 	    android:background="@android:color/holo_blue_light"
- 	    android:minHeight="55dp"
- 	    android:text="@string/menu__btn_lookup"
- 	    android:textColor="@android:color/white"
- 	    android:textColorLink="@android:color/holo_blue_dark"
- 	    android:textSize="24sp"
- 	    android:textStyle="bold" />
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="@color/white"
+	    android:orientation="vertical" >
+	
+	    <include
+	        android:id="@+id/main_menu_header"
+	        layout="@layout/header_main_layout" />
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" >
+
+	        <LinearLayout
+	            android:layout_width="0dp"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="0dip"
+	                android:layout_weight="1"
+	                android:orientation="vertical" >
+	            </LinearLayout>
+
+	            <ImageView
+	                android:id="@+id/imageView1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="120dp"
+	                android:layout_gravity="center"
+	                android:layout_margin="@dimen/dim_20"
+	                android:src="@drawable/ico_lookup" />
+
+	            <Button
+	                android:id="@+id/btn_lookup"
+	                
+	                android:layout_margin="@dimen/dim_20"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:minHeight="55dp"
+	                style="@style/Button_Blue"
+	                android:text="@string/txt_btn_lookup"
+	                android:textColor="@color/white"
+	                android:textSize="24sp"
+	                android:textStyle="bold" />
+
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="0dip"
+	                android:layout_weight="1"
+	                android:orientation="vertical" >
+	            </LinearLayout>
+
+	        </LinearLayout>
+
+	        <LinearLayout
+	            android:layout_width="0dp"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="0dip"
+	                android:layout_weight="1"
+	                android:orientation="vertical" >
+	            </LinearLayout>
+
+	            <ImageView
+	                android:id="@+id/imageView2"
+	                android:layout_width="121dp"
+	                android:layout_height="121dp"
+	                android:layout_gravity="center"
+	                android:layout_margin="@dimen/dim_20"
+	                android:src="@drawable/ico_document" />
+
+	            <Button
+	                android:id="@+id/btn_getContents"
+	                android:layout_margin="@dimen/dim_20"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:minHeight="55dp"
+	                style="@style/Button_Blue"
+	                android:text="@string/txt_btn_getcontents"
+	                android:textColor="@color/white"
+	                android:textSize="24sp"
+	                android:textStyle="bold" />
+
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="0dip"
+	                android:layout_weight="1"
+	                android:orientation="vertical" >
+	            </LinearLayout>
+
+	        </LinearLayout>
+
+	        <LinearLayout
+	            android:layout_width="0dp"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+				
+	            <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="0dip"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+	            </LinearLayout>
+	            
+	            <ImageView
+	                android:id="@+id/imageView3"
+	                android:layout_width="120dp"
+	                android:layout_height="120dp"
+	                android:layout_gravity="center"
+	                android:layout_margin="@dimen/dim_20"
+	                android:src="@drawable/ico_upload" />
+
+	            <Button
+	                android:id="@+id/btn_move"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_margin="@dimen/dim_20"
+	                android:minHeight="55dp"
+	                android:text="@string/txt_btn_move"
+	                android:textColor="@color/white"
+	                style="@style/Button_Blue"
+	                android:textSize="24sp"
+	                android:textStyle="bold" />
+	            
+	            <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="0dip"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+	            </LinearLayout>
+
+	        </LinearLayout>
+
+	        <LinearLayout
+	            android:layout_width="0dp"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+				
+	            <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="0dip"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+	            </LinearLayout>
+
+	            <ImageView
+	                android:id="@+id/imageView4"
+	                android:layout_width="120dp"
+	                android:layout_height="120dp"
+	                android:layout_gravity="center"
+	                android:layout_margin="@dimen/dim_20"
+	                android:src="@drawable/ico_truck" />
+
+	            <Button
+	                android:id="@+id/btn_bulkMove"
+	                android:layout_margin="@dimen/dim_20"
+                    android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                style="@style/Button_Blue"
+	                android:minHeight="55dp"
+	                android:text="@string/txt_btn_bulkmove"
+	                android:textColor="@color/white"
+	                android:textSize="24sp"
+	                android:textStyle="bold" />
+	            <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="0dip"
+	            android:layout_weight="1"
+	            android:orientation="vertical" >
+	            </LinearLayout>
+
+	        </LinearLayout>
+	    </LinearLayout>
  	
- 	<Button
- 	    android:id="@+id/b_getContents"
- 	    android:layout_width="600dp"
- 	    android:layout_height="wrap_content"
- 	    android:layout_alignLeft="@+id/b_lookup"
- 	    android:layout_below="@+id/b_lookup"
- 	    android:layout_marginTop="31dp"
- 	    android:background="@android:color/holo_blue_light"
- 	    android:minHeight="55dp"
- 	    android:text="@string/menu__btn_getcontents"
- 	    android:textColor="@android:color/white"
- 	    android:textColorLink="@android:color/holo_blue_dark"
- 	    android:textSize="24sp"
- 	    android:textStyle="bold" />
- 	
- 	<Button
- 	    android:id="@+id/b_move"
- 	    android:layout_width="600dp"
- 	    android:layout_height="wrap_content"
- 	    android:layout_alignLeft="@+id/b_getContents"
- 	    android:layout_below="@+id/b_getContents"
- 	    android:layout_marginTop="26dp"
- 	    android:background="@android:color/holo_blue_light"
- 	    android:minHeight="55dp"
- 	    android:text="@string/menu__btn_move"
- 	    android:textColor="@android:color/white"
- 	    android:textColorLink="@android:color/holo_blue_dark"
- 	    android:textSize="24sp"
- 	    android:textStyle="bold" />
- 	
- 	<Button
- 	    android:id="@+id/b_bulkMove"
- 	    android:layout_width="600dp"
- 	    android:layout_height="wrap_content"
- 	    android:layout_alignLeft="@+id/b_move"
- 	    android:layout_below="@+id/b_move"
- 	    android:layout_marginTop="26dp"
- 	    android:background="@android:color/holo_blue_light"
- 	    android:minHeight="55dp"
- 	    android:text="@string/menu__btn_bulkmove"
- 	    android:textColor="@android:color/white"
- 	    android:textColorLink="@android:color/holo_blue_dark"
- 	    android:textSize="24sp"
- 	    android:textStyle="bold" />
- 	
- 	<Button
- 		    android:id="@+id/b_switch_layout"
- 		    android:layout_width="wrap_content"
- 		    android:layout_height="wrap_content"
- 		    android:layout_alignParentBottom="true"
- 		    android:layout_centerHorizontal="true"
- 		    android:layout_marginBottom="150dp"
- 		    android:text="Grid Layout"
- 		    android:textSize="20sp"
- 		    android:textStyle="bold" />
- 	
+	</LinearLayout>
+
 </RelativeLayout>
