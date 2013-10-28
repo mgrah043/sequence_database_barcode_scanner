@@ -1,7 +1,22 @@
 Timeline for the project deliverables:
 
-1. Sept 27 – Storyboard for login to database function and Lookup functions
-2. Oct 11 – Bluetooth tethering over HTTP completed / webserices for login and lookup will be defined 
-3. Oct 25 – reading week for students ( this week is canceled) /  Storyboard for getContents functions
-4. Nov 8th – Using the Camera – reading barcodes and getting output decoded information / Working GUI for login and lookup workflows 
-5. Nov 15 –  GUI works / Camera works / Talks to Mock webservices API
+Sept 27 
+	UOttawa – Storyboard for login to database function and Lookup functions
+	
+Oct 18 
+	UOttawa – Bluetooth tethering over HTTP completed 
+	AAFC - webserices for login and lookup will be defined 
+	
+Oct 25 – reading week for students ( the meeting this week is canceled)
+	UOttawa - Storyboard for getContents functions
+	
+Nov 8th 
+	UOttawa – Using the Camera 
+	UOttawa – reading barcodes and getting output decoded information 
+	UOttawa - Working GUI for login and lookup workflows
+	AAFC - Mock webservice implementation for login and lookup functions
+	
+Nov 15 
+	UOttawa - GUI works 
+	UOttawa - Camera works 
+	UOttawa - Talks to Mock webservices API
