@@ -1,4 +1,4 @@
-sequence_database_barcode_scanner
+Sequence Database Barcode Scanner
 =================================
 
 Open source android application developed for AAFC
