@@ -58,11 +58,7 @@ public class LookupActivity extends Activity{
 	@Override
 	public void onBackPressed() {
 	
-		//Exit to home screen and keep activity alive for re-entry to this point in the app
-		Intent intent = new Intent(Intent.ACTION_MAIN);
-		intent.addCategory(Intent.CATEGORY_HOME);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
+		finish();
 		
 	}
 	

@@ -51,11 +51,10 @@ public class MainMenuActivity extends Activity{
 
 			//login button
 			if(id_of_view == button_lookup.getId()){
-				Intent intent = new Intent(MainMenuActivity.this, ScanPlaceholderActivity.class);
-				//closes all activities that start after LookupActivity
-				//intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-				intent.putExtra("next_activity", "lookup_activity");
-				startActivity(intent);
+				Intent intent = new Intent(MainMenuActivity.this, ScannerActivity.class);
+				intent.putExtra("NEXT_ACTIVITY", "lookup");
+				
+				startActivityForResult(intent,0);
 				
 			}else if(id_of_view == button_getContents.getId()){
 				Toast.makeText(MainMenuActivity.this, "get contents button pressed", Toast.LENGTH_LONG).show();
@@ -69,6 +68,40 @@ public class MainMenuActivity extends Activity{
 		}
 	};
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	   // Make sure the request was successful
+	   if (resultCode == RESULT_OK) {
+	       Bundle resultBundle = data.getExtras();
+	       
+	       String nextActivity = resultBundle.getString("NEXT_ACTIVITY");
+	       
+	       if(nextActivity.equalsIgnoreCase("lookup")){
+	    	   
+	    	   String decodedData = resultBundle.getString("DATA_RESULT");
+	    	   Toast.makeText(MainMenuActivity.this, "Data decoded : "+decodedData, Toast.LENGTH_LONG).show();
+	    	   //check if the decodedData is null if so then throw an error
+		       
+		       System.out.print("Success data is - "+decodedData);
+		       
+		       Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
+			   startActivity(intent);
+			   
+	       }else if(nextActivity.equalsIgnoreCase("move_step_1")){
+	    	   
+	       }else if(nextActivity.equalsIgnoreCase("move_step_2")){
+	    	   
+	       }else if(nextActivity.equalsIgnoreCase("bulkMove")){
+	       
+	       }else{
+	    	   
+	       }
+	      
+	   }else{
+		   System.out.print("Failure");
+	   }
+	   
+	}
 	
 	@Override
 	public void onBackPressed() {
