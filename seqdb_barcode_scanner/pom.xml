@@ -6,29 +6,64 @@
     <packaging>apk</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>Sequence Database Barcode Scanner</name>
+    
+    <properties>
+		<org.springframework.android-version>1.0.1.RELEASE</org.springframework.android-version>
+	</properties>
         
     <dependencies>
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
-            <version>4.0.1.2</version>
+            <version>4.1.1.4</version>
            <scope>provided</scope>
         </dependency>
         <dependency>
     		<groupId>com.google.zxing</groupId>
-    		<artifactId>ZXing</artifactId>
+    		<artifactId>core</artifactId>
     		<version>2.2</version>
-    		<scope>system</scope>
-    		<systemPath>${basedir}/libs/core-2.2.jar</systemPath>
 		</dependency>
+		<dependency>
+        	<groupId>org.springframework.android</groupId>
+        	<artifactId>spring-android-auth</artifactId>
+        	<version>${org.springframework.android-version}</version>
+        	<exclusions>
+        		<!-- Exclude in favor of Spring for Android Core -->
+        		<exclusion>
+            		<artifactId>spring-core</artifactId>
+           	 		<groupId>org.springframework</groupId>
+       	 		</exclusion>
+       	 		<!-- Exclude in favor of Spring for Android RestTemplate -->
+        		<exclusion>
+            		<artifactId>spring-web</artifactId>
+            		<groupId>org.springframework</groupId>
+        		</exclusion>
+    		</exclusions>
+    	</dependency>
+		<dependency>
+            <groupId>org.springframework.android</groupId>
+            <artifactId>spring-android-rest-template</artifactId>
+            <version>${org.springframework.android-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.android</groupId>
+            <artifactId>spring-android-core</artifactId>
+            <version>${org.springframework.android-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.2.1</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
+    	<sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -37,11 +72,14 @@
             <plugin>
                 <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                 <artifactId>android-maven-plugin</artifactId>
+                <version>3.7.0</version>
                 <configuration>
                     <sdk>
                         <path>${ANDROID_HOME}</path>
                         <platform>18</platform>
                     </sdk>
+                    <deleteConflictingFiles>true</deleteConflictingFiles>
+                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
                 </configuration>
                 <extensions>true</extensions>
             </plugin>

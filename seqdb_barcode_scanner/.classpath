@@ -23,6 +23,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="libs/core-2.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
