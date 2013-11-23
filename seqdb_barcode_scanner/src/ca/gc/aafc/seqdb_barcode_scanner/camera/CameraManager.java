@@ -1,16 +1,22 @@
 package ca.gc.aafc.seqdb_barcode_scanner.camera;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.Surface;
 import com.google.zxing.PlanarYUVLuminanceSource;
+import com.google.zxing.client.android.AutoFocusManager;
 
 /**
  * Camera manager
  */
 public class CameraManager {
+	
+	private AutoFocusManager autoFocusManager;
+	
+	private final Context context;
     /**
      * Fraction of bounds size in view
      */
@@ -34,8 +40,9 @@ public class CameraManager {
      */
     private int orientation;
 
-    public CameraManager() {
+    public CameraManager(Context context) {
         this.camera = getCameraInstance();
+        this.context = context;
     }
 
     /**
@@ -53,6 +60,8 @@ public class CameraManager {
     public synchronized void startPreview() {
         if (camera != null) {
             camera.startPreview();
+            autoFocusManager = new AutoFocusManager(context, camera);
+
         }
     }
 
@@ -60,8 +69,13 @@ public class CameraManager {
      * Stops preview of camera, if it has been initialized
      */
     public synchronized void stopPreview() {
+    	 if (autoFocusManager != null) {
+    	      autoFocusManager.stop();
+    	      autoFocusManager = null;
+    	 }
         if (camera != null) {
             camera.stopPreview();
+            
         }
     }
 

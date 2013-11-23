@@ -1,7 +1,12 @@
 package ca.gc.aafc.seqdb_barcode_scanner; 
 
 import android.app.Activity;
+import com.google.zxing.client.android.AutoFocusManager;
+
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +21,7 @@ import ca.gc.aafc.seqdb_barcode_scanner.camera.view.CameraPreviewView;
  * Capture activity (camera barcode activity)
  */
 public class ScannerActivity extends Activity {
+	
     /**
      * Camera preview view
      */
@@ -25,28 +31,36 @@ public class ScannerActivity extends Activity {
      */
     private CameraManager cameraManager;
     /**
+     * Auto Focus manger
+     */
+    private AutoFocusManager autoFocusManger;
+    
+    /**
      * Capture handler
      */
     private Handler captureHandler;
+    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
-        // Create an instance of Camera
-        cameraManager = new CameraManager();
         
+        // Create an instance of Camera
+        cameraManager = new CameraManager(this);
         /*
          * 
          * Check if camera is available
          * 
          * */
+        
         if(cameraManager.getCamera() == null){
         	// there's no camera please check your device and enable your camera
         	Log.e(CameraManager.class.getSimpleName(), "There's no camera activated on this device");
         	
-        }else{
+        }else{  
+        	
         	captureHandler = new CaptureHandler(cameraManager, this, new OnDecoded());
 
         	//requesting next frame for decoding
