@@ -9,3 +9,13 @@ Currently Agriculture Canada has an extensive sequence database containing infor
 The project consists of creating an Android application that has the same functionality as the scanner. This will also connect with the database via Bluetooth since there are government regulations that state Wifi can not be used to transmit the sensitive information being used.
 
 We are implementing the scanner as an Android application because most people already have an android device and would be able to easily install the application. Even if they do not have an Android device, it is still significantly cheaper to buy a device rather than the scanner. For this project to be a success we will include all of the original features of the scanner currently in use.
+
+## Useful Links
+
+[Client Meeting Minutes](https://github.com/mgrah043/sequence_database_barcode_scanner/wiki/Meeting-Minutes)
+
+[Group Meeting Minutes](https://github.com/mgrah043/sequence_database_barcode_scanner/wiki/Group-Meeting-Minutes)
+
+[Storyboards](https://github.com/mgrah043/sequence_database_barcode_scanner/wiki/Storyboards)
+
+[Mock Web Service](https://github.com/AAFC-MBB/android-mock-ws)
