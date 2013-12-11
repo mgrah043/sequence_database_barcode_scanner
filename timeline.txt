@@ -19,4 +19,11 @@ Nov 8th
 Nov 15 
 	UOttawa - GUI works 
 	UOttawa - Camera works 
-	UOttawa - Talks to Mock webservices API
+	
+Dec 27 
+	UOttawa - Lookup function talks to web service
+	
+Jan 3
+	UOttawa - Storyboards for Move and Bulk Move workflows
+	UOttawa - Working GUI for Get Contents
+	
