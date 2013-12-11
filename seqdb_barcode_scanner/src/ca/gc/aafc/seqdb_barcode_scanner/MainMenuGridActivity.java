@@ -1,15 +1,20 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 
+/**
+ * Main Menu implemented using a grid
+ * 
+ * NOT CURRENTLY IN USE
+ */
+
 public class MainMenuGridActivity extends Activity{
-	
+
 Button button_switch;
 	
 	@Override
@@ -31,7 +36,7 @@ Button button_switch;
 	
 	OnClickListener Button_Click_Listener = new OnClickListener(){
 		public void onClick(View v){
-			int id_of_view = v.getId();
+			//int id_of_view = v.getId();
 
 			//switch layout to list view
 			//if(id_of_view == button_switch.getId()){

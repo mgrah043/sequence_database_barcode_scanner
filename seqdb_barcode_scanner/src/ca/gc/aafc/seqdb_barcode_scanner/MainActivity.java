@@ -19,8 +19,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	//Variable declaration
 	public final static String SCANNER = "com.google.zxing.client.android.SCAN";
     public Button scannerBtn;
     public TextView helloWorld;
@@ -31,17 +33,10 @@ public class MainActivity extends Activity {
         
         setContentView(R.layout.activity_main);
         
+        //Instantiate and set click listener for button
         scannerBtn = (Button) findViewById(R.id.ScannerBtn);
-//        helloWorld = (TextView) findViewById(R.id.textView1);
-        /*
-         * this is quick and dirty and needs to be cleaned it is just for the purpose of making a working prototype asap
-         * 
-         * The onclick callback is setup here
-         * 
-         * */
         scannerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Do something in response to clicking on the scanner button :)
             	Intent intent = new Intent(SCANNER);
             	startActivityForResult(intent, 0);
             }
@@ -49,18 +44,20 @@ public class MainActivity extends Activity {
         
     }
 	
+	//Handles activities that were started for a result
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		   if (requestCode == 0) {
+		      // Handle successful scan
 		      if (resultCode == RESULT_OK) {
 		         String contents = intent.getStringExtra("SCAN_RESULT");
 		         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-		         // Handle successful scan
 		         System.out.println("contents : "+contents);
 		         System.out.println("format :"+format);
 		         this.helloWorld.setText("Barcode format : "+format+" -- Scanning Result : "+contents);
-		      } else if (resultCode == RESULT_CANCELED) {
-		         // Handle cancel
-		    	  this.helloWorld.setText("No result you've cancelled the scanning :(");
+		      } 
+		      //Handle cancelled scan
+		      else if (resultCode == RESULT_CANCELED) {
+	                Toast.makeText(this, "No result since the scanner was cancelled", Toast.LENGTH_LONG).show();
 		      }
 		   }
 		}
@@ -71,5 +68,4 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
 }

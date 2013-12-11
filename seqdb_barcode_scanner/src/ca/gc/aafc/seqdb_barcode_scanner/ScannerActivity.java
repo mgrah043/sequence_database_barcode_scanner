@@ -1,12 +1,7 @@
 package ca.gc.aafc.seqdb_barcode_scanner; 
 
 import android.app.Activity;
-import com.google.zxing.client.android.AutoFocusManager;
-
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -30,10 +25,6 @@ public class ScannerActivity extends Activity {
      * Camera manager
      */
     private CameraManager cameraManager;
-    /**
-     * Auto Focus manger
-     */
-    private AutoFocusManager autoFocusManger;
     
     /**
      * Capture handler
@@ -49,24 +40,22 @@ public class ScannerActivity extends Activity {
         
         // Create an instance of Camera
         cameraManager = new CameraManager(this);
-        /*
-         * 
-         * Check if camera is available
-         * 
-         * */
         
+        //Check if camera is available
         if(cameraManager.getCamera() == null){
-        	// there's no camera please check your device and enable your camera
+        	//No camera or camera not enabled on device
         	Log.e(CameraManager.class.getSimpleName(), "There's no camera activated on this device");
         	
-        }else{  
+        }
+        //There is a camera enabled on the device
+        else{  
         	
-        	captureHandler = new CaptureHandler(cameraManager, this, new OnDecoded());
+        	captureHandler = new CaptureHandler(cameraManager, new OnDecoded());
 
-        	//requesting next frame for decoding
+        	//Requesting next frame for decoding
         	cameraManager.requestNextFrame(new PreviewCallback(captureHandler, cameraManager));
 
-        	// Create our Preview view and set it as the content of our activity.
+        	// Create our Preview view and set it as the content of the activity.
         	cameraPreview = (CameraPreviewView) findViewById(R.id.camera_preview);
         	cameraPreview.setCameraManager(cameraManager);
         	((BoundingView) findViewById(R.id.bounding_view)).setCameraManager(cameraManager);
@@ -76,20 +65,25 @@ public class ScannerActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        //release camera when application is paused
         cameraManager.release();
     }
 
     private class OnDecoded implements CaptureHandler.OnDecodedCallback {
         @Override
         public void onDecoded(String decodedData) {
+        	//Create intent
         	Intent returnIntent = new Intent();
         	
+        	//Data to send through intent
         	Bundle dataBundle = new Bundle();
         	dataBundle.putString("DATA_RESULT", decodedData);
         	
+        	//Next activity to be shown
         	String nextActivity = (getIntent().getStringExtra("NEXT_ACTIVITY") != "")? getIntent().getStringExtra("NEXT_ACTIVITY") : null;
         	dataBundle.putString("NEXT_ACTIVITY", nextActivity);
         	
+        	//add data to intent and go back to previous activity
         	returnIntent.putExtras(dataBundle);
         	setResult(RESULT_OK,returnIntent);
         	

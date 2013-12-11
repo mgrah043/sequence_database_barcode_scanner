@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
+/**
+ * Used to display menu options in the grid version of main menu
+ * 
+ * NOT CURRENTLY USED
+ */
 public class TextAdapter extends BaseAdapter{
-
-
 
     private Context context;
     private String[] texts = {"Lookup", "Get Contents", "Move", "Bulk Move"};

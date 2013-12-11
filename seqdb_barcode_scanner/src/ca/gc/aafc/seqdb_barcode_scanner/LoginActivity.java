@@ -13,7 +13,8 @@ import android.content.Intent;
 
 
 public class LoginActivity extends Activity {
-    
+	
+	//Variable declaration
 	Button button_login;
 	ImageButton button_back;
 	ImageView imageview_scanLogin;
@@ -24,6 +25,7 @@ public class LoginActivity extends Activity {
         
         setContentView(R.layout.activity_login);
   
+        //Instantiate and set click listener for buttons
         button_login = (Button) findViewById(R.id.btn_login);
         button_login.setOnClickListener(Button_Click_Listener);
         
@@ -42,6 +44,7 @@ public class LoginActivity extends Activity {
 				Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
 				startActivity(intent);
 				finish();
+			//back button
 			}else if(id_of_view == button_back.getId()){
 				finish();
 			}
