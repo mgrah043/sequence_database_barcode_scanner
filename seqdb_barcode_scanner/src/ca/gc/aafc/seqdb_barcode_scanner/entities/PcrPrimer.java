@@ -1,13 +1,24 @@
 package ca.gc.aafc.seqdb_barcode_scanner.entities;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author NazirLKC
+ *
+ */
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class PcrPrimer {
+public class PcrPrimer implements Serializable {
 
-	private String id;
+	@JsonProperty("primaryKey")
+	private long id;
+	@JsonProperty("primerName")
 	private String primerName;
+	@JsonProperty("direction")
 	private String direction;
+	@JsonProperty("location")
 	private Location location;
 	
 	public String getPrimerName() {
@@ -28,7 +39,7 @@ public class PcrPrimer {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 	

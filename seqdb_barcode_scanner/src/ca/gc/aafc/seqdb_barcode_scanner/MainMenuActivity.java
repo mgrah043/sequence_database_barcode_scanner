@@ -1,5 +1,9 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
+import java.io.Serializable;
+
+import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
+import ca.gc.aafc.seqdb_barcode_scanner.service.SpecimenReplicateService;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -80,13 +84,29 @@ public class MainMenuActivity extends Activity{
 	    	   
 	    	   String decodedData = resultBundle.getString("DATA_RESULT");
 	    	   Toast.makeText(MainMenuActivity.this, "Data decoded : "+decodedData, Toast.LENGTH_LONG).show();
-	    	   //check if the decodedData is null if so then throw an error
+	    	   //TODO check if the decodedData is null if so then throw an error
 		       
 		       System.out.print("Success data is - "+decodedData);
 		       
-		       Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
-			   startActivity(intent);
-			   
+		       //send request to server to get result
+		       String acronym = decodedData.split("-")[0];
+		       EntityServiceI service = getService(acronym);
+		       if (service != null){
+		    	   long id = Long.parseLong(decodedData.split("-")[1]);
+		    	   Serializable entity = service.getById(id);
+		    	   
+		    	   // prepare data to send to LookUp Activity
+		    	   Bundle dataBundle = new Bundle();
+		    	   dataBundle.putSerializable("ENTITY", entity);
+		    	   dataBundle.putString("TYPE", acronym);
+		    	   
+		    	   Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
+		    	   intent.putExtras(dataBundle);
+		    	   startActivityForResult(intent, RESULT_OK);
+		       }else {
+		    	   // TODO display error message to user
+		       }
+		       
 	       }else if(nextActivity.equalsIgnoreCase("move_step_1")){
 	    	   
 	       }else if(nextActivity.equalsIgnoreCase("move_step_2")){
@@ -114,6 +134,16 @@ public class MainMenuActivity extends Activity{
 		
 	}
 	
-	
+	private EntityServiceI getService(String acronym){
+		EntityServiceI service = null;
+		
+		if (acronym.equalsIgnoreCase("SPR")){
+			service = new SpecimenReplicateService();
+		}else if (acronym.equalsIgnoreCase("SAM")){
+			
+		}
+		// TODO add other possible acronyms
+		return service;
+	}
 	
 }

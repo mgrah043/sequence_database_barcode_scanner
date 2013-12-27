@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SqReader</string>
+    <string name="app_name">SeqDB Reader</string>
     
-    <string name="txt_main_header">SQ READER</string>
+    <string name="txt_main_header">SeqDB Reader</string>
     <string name="txt_action_settings">Settings</string>
     
     <string name="txt_btn_lookup">Lookup</string>
