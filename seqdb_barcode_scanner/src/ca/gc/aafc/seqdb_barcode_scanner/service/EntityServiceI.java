@@ -15,4 +15,7 @@ public interface EntityServiceI {
 	public long getCount();
 	public ArrayList<?> getAll();
 	public Serializable getById(long id);
+	public boolean deleteById(long id);
+	public boolean create(Serializable entity);
+	public Serializable update(Serializable entity);
 }

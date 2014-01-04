@@ -11,22 +11,32 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import ca.gc.aafc.seqdb_barcode_scanner.R;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 
 /**
  * @author NazirLKC
  *
  */
 public class Config {
-	final String CONFIG_FILE = "seqdb_barcode_scanner.properties";
-	final String DEFAULT_SERVER_URL = "http://localhost:4567/v1";
-	String SERVER_URL = "";
-	String AUTHORIZATION = "";
-	Context context;
+	private String CONFIG_FILE;
+	private final String DEFAULT_SERVER_URL = "http://localhost:4567/v1";
+	private String SERVER_URL = "";
+	private String AUTHORIZATION = "";
+	private Context context;
 	
 	public Config(Context context){
 		this.context = context;
+		
+		CONFIG_FILE = context.getString(R.string.config_file);
 		readConfigFile();
+		
+		SharedPreferences preferences = context.getSharedPreferences(CONFIG_FILE, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString("SERVER_URL", SERVER_URL);
+		editor.commit();
 	}
 	
 	// Reads server address from /Android/data/ca.gc.aafc.seqdb_barcode_scanner/cache/

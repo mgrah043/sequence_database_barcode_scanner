@@ -20,22 +20,22 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Count;
-import ca.gc.aafc.seqdb_barcode_scanner.entities.SpecimenReplicate;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.UriList;
 
 /**
  * @author NazirLKC
  *
  */
-public class SpecimenReplicateService implements EntityServiceI{
+public class ContainerService implements EntityServiceI{
 
 	private String BASE_URL;
 	private String ENTITY_URL;
 	
-	public SpecimenReplicateService(String serverURL){
+	public ContainerService(String serverURL){
 		BASE_URL = serverURL;
-		ENTITY_URL = BASE_URL + "/specimenReplicate";
+		ENTITY_URL = BASE_URL + "/container";
 	}
 	
 	public long getCount() {
@@ -48,7 +48,7 @@ public class SpecimenReplicateService implements EntityServiceI{
 		return restTemplate.getForObject(url, Count.class).getCount();
 	}
 
-	public ArrayList<SpecimenReplicate> getAll() {
+	public ArrayList<Container> getAll() {
 		final String url = ENTITY_URL;
 		// This is where we get the RestTemplate and add the message converters
 		RestTemplate restTemplate = new RestTemplate();
@@ -56,34 +56,34 @@ public class SpecimenReplicateService implements EntityServiceI{
 		// This is where we call the exchange method and process the response
 		ResponseEntity<UriList> responseEntity = restTemplate.exchange(url, HttpMethod.GET, getRequestEntity(), UriList.class);
 		
-		ArrayList<SpecimenReplicate> specimenReplicates = new ArrayList<SpecimenReplicate>();
+		ArrayList<Container> containers = new ArrayList<Container>();
 		UriList uriList = responseEntity.getBody();
 		
 		// iterate over list of URLs to get all entities
 		while (uriList.getNextPageUrl() != null){
-			for (String specimenReplicateURL : uriList.getUris()){
+			for (String containerURL : uriList.getUris()){
 				// parse the id from the URL
-				String[] partialURL = specimenReplicateURL.split("/");
+				String[] partialURL = containerURL.split("/");
 				long id = Long.parseLong(partialURL[partialURL.length-1]);
-				// get specimen replicate by id and add to list
-				specimenReplicates.add(getById(id));
+				// get container by id and add to list
+				containers.add(getById(id));
 			}
 			// get the next set of URLs
 			responseEntity = restTemplate.exchange(uriList.getNextPageUrl(), HttpMethod.GET, getRequestEntity(), UriList.class);
 			uriList = responseEntity.getBody();
 		}
 		
-		return specimenReplicates;
+		return containers;
 	}
 
-	public SpecimenReplicate getById(long id) {
+	public Container getById(long id) {
 		// The URL for making the GET request
 		final String url = ENTITY_URL + "/" + id;
 		// This is where we get the RestTemplate and add the message converters
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-		return restTemplate.getForObject(url, SpecimenReplicate.class, id);
+		return restTemplate.getForObject(url, Container.class, id);
 	}
 
 	public boolean deleteById(long id) {
@@ -92,12 +92,12 @@ public class SpecimenReplicateService implements EntityServiceI{
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-		restTemplate.delete(url, SpecimenReplicate.class, id);
+		restTemplate.delete(url, Container.class, id);
 		return true;
 	}
 
 	public boolean create(Serializable entity) {
-		SpecimenReplicate specimenReplicate = (SpecimenReplicate)entity;
+		Container container = (Container)entity;
 		
 		String url = BASE_URL + "user";
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -105,9 +105,9 @@ public class SpecimenReplicateService implements EntityServiceI{
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		// create the request body
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
-		body.add("specimenReplicate[id]", String.valueOf(specimenReplicate.getId()));
-		// body.add("specimenReplicate[first_name]", specimenReplicate.getFirstName());
-		// body.add("specimenReplicate[last_name]",specimenReplicate.getLastName());
+		body.add("container[id]", String.valueOf(container.getId()));
+		// body.add("container[first_name]", container.getFirstName());
+		// body.add("container[last_name]",container.getLastName());
 
 		// create the request entity
 		HttpEntity<?> requestEntity = new HttpEntity<Object>(body, requestHeaders);
@@ -133,8 +133,8 @@ public class SpecimenReplicateService implements EntityServiceI{
 
 	}
 
-	public SpecimenReplicate update(Serializable entity) {
-		SpecimenReplicate specimenReplicate = (SpecimenReplicate)entity;
+	public Container update(Serializable entity) {
+		Container container = (Container)entity;
 		
 		String url = ENTITY_URL + "/id";
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -142,9 +142,9 @@ public class SpecimenReplicateService implements EntityServiceI{
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
-		body.add("specimenReplicate[id]", String.valueOf(specimenReplicate.getId()));
-//		body.add("specimenReplicate[first_name]",specimenReplicate.getFirstName());
-//		body.add("specimenReplicate[last_name]",specimenReplicate.getLastName());
+		body.add("container[id]", String.valueOf(container.getId()));
+//		body.add("container[first_name]",container.getFirstName());
+//		body.add("container[last_name]",container.getLastName());
 
 		// create the request entity
 		HttpEntity<?> requestEntity = new HttpEntity<Object>(body,requestHeaders);
@@ -155,7 +155,7 @@ public class SpecimenReplicateService implements EntityServiceI{
 		messageConverters.add(new StringHttpMessageConverter());
 		restTemplate.setMessageConverters(messageConverters);
 		try {
-			ResponseEntity<SpecimenReplicate> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, SpecimenReplicate.class, specimenReplicate.getId());
+			ResponseEntity<Container> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Container.class, container.getId());
 			HttpStatus status = response.getStatusCode();
 			if (status == HttpStatus.CREATED) {
 				return response.getBody();

@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
 import ca.gc.aafc.seqdb_barcode_scanner.R;
+import ca.gc.aafc.seqdb_barcode_scanner.utils.Config;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ public class TopActivity extends Activity{
         button_scanLogin.setOnClickListener(Button_Click_Listener);
         button_manualLogin.setOnClickListener(Button_Click_Listener);
 
+        //sets the configurations
+        new Config(this);
 	}
 	
 	OnClickListener Button_Click_Listener = new OnClickListener(){

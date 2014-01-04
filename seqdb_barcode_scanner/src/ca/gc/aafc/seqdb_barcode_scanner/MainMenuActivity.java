@@ -2,10 +2,17 @@ package ca.gc.aafc.seqdb_barcode_scanner;
 
 import java.io.Serializable;
 
+import ca.gc.aafc.seqdb_barcode_scanner.service.ContainerService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
+import ca.gc.aafc.seqdb_barcode_scanner.service.LocationService;
+import ca.gc.aafc.seqdb_barcode_scanner.service.MixedSpecimenService;
+import ca.gc.aafc.seqdb_barcode_scanner.service.PcrPrimerService;
+import ca.gc.aafc.seqdb_barcode_scanner.service.SampleService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.SpecimenReplicateService;
+import ca.gc.aafc.seqdb_barcode_scanner.service.StorageService;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -102,7 +109,7 @@ public class MainMenuActivity extends Activity{
 		    	   
 		    	   Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
 		    	   intent.putExtras(dataBundle);
-		    	   startActivityForResult(intent, RESULT_OK);
+		    	   startActivity(intent);
 		       }else {
 		    	   // TODO display error message to user
 		       }
@@ -137,12 +144,25 @@ public class MainMenuActivity extends Activity{
 	private EntityServiceI getService(String acronym){
 		EntityServiceI service = null;
 		
-		if (acronym.equalsIgnoreCase("SPR")){
-			service = new SpecimenReplicateService();
-		}else if (acronym.equalsIgnoreCase("SAM")){
-			
+		SharedPreferences preferences = getSharedPreferences(getString(R.string.config_file), MODE_PRIVATE);
+		String serverURL = preferences.getString("SERVER_URL", "http://localhost:4567/v1");
+		
+		if (acronym.equalsIgnoreCase("CON")){
+			service = new ContainerService(serverURL);
+		} else if (acronym.equalsIgnoreCase("LOC")){
+			service = new LocationService(serverURL);
+		} else if (acronym.equalsIgnoreCase("MSP")){
+			service = new MixedSpecimenService(serverURL);
+		} else if (acronym.equalsIgnoreCase("PPR")){
+			service = new PcrPrimerService(serverURL);
+		} else if (acronym.equalsIgnoreCase("SAM")){
+			service = new SampleService(serverURL);
+		} else if (acronym.equalsIgnoreCase("SPR")){
+			service = new SpecimenReplicateService(serverURL);
+		} else if (acronym.equalsIgnoreCase("STG")){
+			service = new StorageService(serverURL);
 		}
-		// TODO add other possible acronyms
+		
 		return service;
 	}
 	

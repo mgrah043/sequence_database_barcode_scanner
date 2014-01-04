@@ -3,6 +3,8 @@
 
     <string name="app_name">SeqDB Reader</string>
     
+    <string name="config_file">seqdb_barcode_scanner.properties</string>
+    
     <string name="txt_main_header">SeqDB Reader</string>
     <string name="txt_action_settings">Settings</string>
     
@@ -25,5 +27,6 @@
     <string name="txt_manual_login_header">Login using your username and password</string>
     
      <string name="desc"></string>
+     <string name="no_data">No Data</string>
      
 </resources>
