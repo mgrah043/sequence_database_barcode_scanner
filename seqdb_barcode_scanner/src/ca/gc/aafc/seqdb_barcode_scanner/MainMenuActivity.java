@@ -71,7 +71,8 @@ public class MainMenuActivity extends Activity{
 				Toast.makeText(MainMenuActivity.this, "get contents button pressed", Toast.LENGTH_LONG).show();
 				
 			}else if(id_of_view == button_move.getId()){
-				Toast.makeText(MainMenuActivity.this, "move button pressed", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(MainMenuActivity.this, MoveActivity.class);
+				startActivity(intent);
 				
 			}else if(id_of_view == button_bulkMove.getId()){
 				Toast.makeText(MainMenuActivity.this, "bulk move button pressed", Toast.LENGTH_LONG).show();

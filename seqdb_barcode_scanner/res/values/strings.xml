@@ -29,4 +29,11 @@
      <string name="desc"></string>
      <string name="no_data">No Data</string>
      
+    <string name="txt_well_info">Well Info</string>
+    <string name="txt_well_row">Row</string>
+    <string name="txt_well_col">Column</string>
+    
+    <string name="txt_btn_wellinfo">Use Well Info</string>
+    <string name="txt_btn_wellignore">Ignore for autofill</string>
+     
 </resources>

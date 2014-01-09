@@ -59,6 +59,16 @@
 
     <!-- +++++++++++++++++++++ End of Base Styles +++++++++++++++++++++ -->
     
+     <!-- Green button Style -->
+    <style name="Button_Green" parent="CustomButton">
+        <item name="android:background">@drawable/ui_button_green</item>
+    </style>
+    
+    <!-- Green button Style -->
+    <style name="Button_Red" parent="CustomButton">
+        <item name="android:background">@drawable/ui_button_red</item>
+    </style>
+    
      <!-- +++++++++++++++++++++ Blue Styles +++++++++++++++++++++ -->
     <!-- Blue button Style -->
     <style name="Button_Blue" parent="CustomButton">

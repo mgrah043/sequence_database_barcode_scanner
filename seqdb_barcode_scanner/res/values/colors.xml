@@ -30,5 +30,12 @@
     <color name="blue">#5a9aa8</color>
     <color name="dark_blue">#487b86</color>
     <color name="blue_051f33">#051f33</color>
-        
+    
+    <!-- Green Colors -->
+    <color name="green_16a085">#16a085</color>
+    <color name="dark_green_11997e">#11997e</color>
+    
+    <!-- Red Colors -->
+    <color name="red_e74c3c">#e74c3c</color>
+    <color name="dark_red_e03e2e">#e03e2e</color>
 </resources>

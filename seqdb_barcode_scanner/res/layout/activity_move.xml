@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+         <include
+            android:id="@+id/main_menu_header"
+            layout="@layout/header_main_layout" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dim_20" >
+				
+                <TextView
+	                android:id="@+id/tv_well_header"
+	                android:layout_width="300dp"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center"
+	                android:layout_marginBottom="@dimen/dim_10"
+	                android:layout_marginLeft="@dimen/dim_20"
+	                android:layout_marginRight="@dimen/dim_20"
+	                android:layout_marginTop="@dimen/dim_50"
+	                android:tag="bold"
+	                android:text="@string/txt_well_info"
+	                android:textColor="@color/blue_051f33"
+	                android:textSize="24sp" />
+                
+                <EditText
+                    android:id="@+id/et_well_row"
+                    style="@style/EditText_Blue"
+                    android:layout_width="300dp"
+                    android:layout_height="0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dim_20"
+                    android:layout_marginTop="@dimen/dim_20"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/txt_well_row"
+                    android:inputType="text"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/et_well_column"
+                    style="@style/EditText_Blue"
+                    android:layout_width="300dp"
+                    android:layout_height="0dip"
+                    android:layout_marginBottom="@dimen/dim_20"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/txt_well_col"
+                    android:inputType="text"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/btn_use_well_info"
+                    style="@style/Button_Green"
+                    android:layout_width="300dp"
+                    android:layout_height="@dimen/dim_50"
+                    android:layout_marginBottom="@dimen/dim_20"
+                    android:tag="bold"
+                    android:text="@string/txt_btn_wellinfo"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/btn_ignore_well_info"
+                    style="@style/Button_Red"
+                    android:layout_width="300dp"
+                    android:layout_height="@dimen/dim_50"
+                    android:layout_marginBottom="@dimen/dim_20"
+                    android:tag="bold"
+                    android:text="@string/txt_btn_wellignore"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

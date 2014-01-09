@@ -62,6 +62,11 @@
             android:label="Lookup" 
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="ca.gc.aafc.seqdb_barcode_scanner.MoveActivity"
+            android:label="Move" 
+            android:screenOrientation="landscape" >
+        </activity>
           
     </application>
 

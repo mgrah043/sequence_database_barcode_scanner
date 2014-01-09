@@ -83,6 +83,10 @@ public class ScannerActivity extends Activity {
         	String nextActivity = (getIntent().getStringExtra("NEXT_ACTIVITY") != "")? getIntent().getStringExtra("NEXT_ACTIVITY") : null;
         	dataBundle.putString("NEXT_ACTIVITY", nextActivity);
         	
+        	//Next action 
+        	String nextAction = (getIntent().getStringExtra("SCAN_ACTION") != "")? getIntent().getStringExtra("SCAN_ACTION") : null;
+        	dataBundle.putString("SCAN_ACTION", nextAction);
+        	
         	//add data to intent and go back to previous activity
         	returnIntent.putExtras(dataBundle);
         	setResult(RESULT_OK,returnIntent);
