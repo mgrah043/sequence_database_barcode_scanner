@@ -15,6 +15,13 @@
     <color name="gray_46">#2e2e2e</color>
     <color name="gray_35">#232323</color>
     
+       <!-- Gray Colors: extension gray_XXX stand for rgb value 
+    because in gray all of them are equal --> 
+
+    <color name="gray_getcontents1">#e3e3e3</color>
+    <color name="gray_getcontents2">#c3c3c3</color>
+    <color name="gray_getcontents3">#a3a3a3</color>
+    
     <!-- Gray colors gray_HEXADECIMAL -->
     <color name="gray_ededed">#ededed</color>
     <color name="gray_f4f4f4">#f4f4f4</color>

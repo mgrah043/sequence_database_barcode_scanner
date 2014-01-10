@@ -101,6 +101,24 @@
         <item name="android:progressDrawable">@drawable/ui_progress_blue</item>
         <item name="android:thumb">@drawable/ui_seekbar_handel_blue</item>
     </style>
+    
+      <!-- Square Blue button Style -->
+    <style name="Square_Button_Blue" parent="CustomButton">
+        <item name="android:background">@drawable/ui_button_blue</item>
+        <item name = "android:height">80dp</item>
+        <item name = "android:width">80dp</item>
+        
+        
+    </style>
+    
+    <!-- Square Gray button Style -->
+    <style name="Square_Button_Gray" parent="CustomButton">
+        <item name="android:background">@drawable/ui_button_light_gray</item>
+        <item name = "android:height">80dp</item>
+        <item name = "android:width">80dp</item>
+        
+        
+    </style>
 
     <!-- +++++++++++++++++++++ End of Blue Styles +++++++++++++++++++++ -->
 </resources>
