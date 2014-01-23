@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/login_header"
+        layout="@layout/header_main_layout" />
+
+        <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp" >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_10"
+            android:gravity="center"            
+            android:tag="bold"
+            android:text="Container 5435"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_10"
+            android:gravity="center"            
+            android:text="Size: 81 locations, # Specimens: 80"
+            android:textColor="#000000"
+            android:textSize="20sp" 
+            android:layout_marginBottom="@dimen/dim_10"
+            />
+
+  
+
+
+
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal" >
+            
+             <TableLayout
+                        android:id="@+id/tableLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        >
+            <!--                android:shrinkColumns="0"      to make 1st column smaller       -->
+            <!-- Insert table programatically -->
+            
+            
+            </TableLayout>
+            
+        </HorizontalScrollView>
+        
+            </LinearLayout>
+        
+    </ScrollView>
+
+</LinearLayout>
