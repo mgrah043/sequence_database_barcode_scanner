@@ -7,14 +7,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class GetContentsActivity extends Activity{
@@ -22,8 +20,8 @@ public class GetContentsActivity extends Activity{
 	TextView header_title;
 	ImageButton button_mainMenu;
 	
-	private int num_rows;
-	private int num_cols;
+	private int numRows;
+	private int numCols;
 	
 	final private int WIDTH_OF_TABLE_ELEMENT = 250;
 	final private int HEIGHT_OF_TABLE_ELEMENT = 250;
@@ -35,8 +33,8 @@ public class GetContentsActivity extends Activity{
         
         //get data from bundle
         //TODO initialize number of rows and columns from bundle.........hardcode for now
-        num_rows = 10;
-        num_cols = 10;
+        numRows = 9;
+        numCols = 9;
         
         
         setContentView(R.layout.activity_get_contents_template);
@@ -44,20 +42,20 @@ public class GetContentsActivity extends Activity{
 
         //creating table
         TableLayout table = (TableLayout) findViewById(R.id.tableLayout);
-        Button[][] buttonArray = new Button[num_rows][num_cols];
+        Button[][] buttonArray = new Button[numRows][numCols];
         
         
         //create top table header (alphabetical)
     	TableRow tableTopHeader = new TableRow(table.getContext());
-        for(int c = 0; c  < num_cols; c++){
+        for(int c = 0; c  <= numCols+1; c++){
         	TextView currentTextView = new TextView(table.getContext());
 
-        	//make top left element blank
-        	if(c==0){
+        	//make top left and right elements blank 
+        	if(c==0 || c==numCols+1){
             	currentTextView.setText(" ");
         	}
         	else{
-        		currentTextView.setText("" + c);
+        		currentTextView.setText("" + getCharacterOfNumber(c));
         	}
         	
         	//Set textview attributes
@@ -67,8 +65,8 @@ public class GetContentsActivity extends Activity{
         	//Set textview Layout parameters
         	LayoutParams textViewParams = new LayoutParams(
         			WIDTH_OF_TABLE_ELEMENT,      
-    		        LayoutParams.WRAP_CONTENT,
-    		        1f
+    		        LayoutParams.WRAP_CONTENT
+    		        
     		);
     	
     		textViewParams.setMargins(2, 2, 2, 2);
@@ -77,35 +75,42 @@ public class GetContentsActivity extends Activity{
         }
         table.addView(tableTopHeader);
 
-        
-        for(int row = 0; row  < num_rows; row++){
+        int indexButtonRow = -1;
+        int indexButtonCol = -1;
+        for(int row = 0; row  < numRows; row++){
         	TableRow currentRow = new TableRow(table.getContext());
 
-        	for(int col = 0; col < num_cols; col++){
+        	indexButtonRow ++;
+        	
+        	indexButtonCol = -1;
+        	
+        	for(int col = 0; col <= numCols+1; col++){
         		Button currentButton = new Button(table.getContext());
         		
-        		if(col == 0){
+        		if(col == 0 || col == numCols+1){
         			//Add header item
         			TextView currentTextView = new TextView(table.getContext());
 
-                	
-        			currentTextView.setText("" + row);
+        			
+                	int rowNumber = row+1;
+        			currentTextView.setText("" + rowNumber);
           
                 	//Set textview attributes
                 	currentTextView.setTextAppearance(table.getContext(), R.style.TableHeaderFont);
                 	currentTextView.setGravity(Gravity.CENTER);
-                	/*
+                	
                 	//Set textview Layout parameters
                 	LayoutParams textViewParams = new LayoutParams(
-                			WIDTH_OF_TABLE_ELEMENT,      
-            		        LayoutParams.WRAP_CONTENT
+                			0,      
+            		        LayoutParams.WRAP_CONTENT,
+            		        1f
             		);
             	
             		textViewParams.setMargins(2, 2, 2, 2);
                 	
                 	currentRow.addView(currentTextView, textViewParams);    
-                	*/
-                	currentRow.addView(currentTextView); 
+                	
+                	//currentRow.addView(currentTextView); 
               }
         		
         		else{
@@ -137,8 +142,11 @@ public class GetContentsActivity extends Activity{
 	        		
 	        		currentButton.setOnClickListener(Button_Click_Listener);
 	        		
+	        		indexButtonCol++;
+
 	        		//store button in array
-	        		buttonArray[row][col] = currentButton;
+	        		buttonArray[indexButtonRow][indexButtonCol] = currentButton;
+	        		
 	        		
 	        		//add to table row
 	        		currentRow.addView(currentButton, params);	
@@ -149,6 +157,35 @@ public class GetContentsActivity extends Activity{
         	table.addView(currentRow);  	
         	
         }
+        
+        //create top table header (alphabetical)
+    	TableRow tableBottomHeader = new TableRow(table.getContext());
+        for(int c = 0; c  <= numCols+1; c++){
+        	TextView currentTextView = new TextView(table.getContext());
+
+        	//make top left element blank
+        	if(c==0 || c==numCols+1){
+            	currentTextView.setText(" ");
+        	}
+        	else{
+        		currentTextView.setText("" + getCharacterOfNumber(c));
+        	}
+        	
+        	//Set textview attributes
+        	currentTextView.setTextAppearance(table.getContext(), R.style.TableHeaderFont);
+        	currentTextView.setGravity(Gravity.CENTER);
+        	
+        	//Set textview Layout parameters
+        	LayoutParams textViewParams = new LayoutParams(
+        			WIDTH_OF_TABLE_ELEMENT,      
+    		        LayoutParams.WRAP_CONTENT
+    		);
+    	
+    		textViewParams.setMargins(2, 2, 2, 2);
+        	
+    		tableBottomHeader.addView(currentTextView, textViewParams);
+        }
+        table.addView(tableBottomHeader);
    }
 
 
@@ -165,6 +202,15 @@ public class GetContentsActivity extends Activity{
 	
 		finish();
 		
+	}
+	
+	public String getCharacterOfNumber(int number){
+		//convert to ascii format (capital characters - A is 65)
+		int asciiNumber = number + 64;
+		
+		return  String.valueOf(Character.toChars(asciiNumber));
+		
+		 
 	}
 	
 		
