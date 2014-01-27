@@ -101,10 +101,24 @@ public class MainMenuActivity extends Activity{
 				System.out.print("Success data is - "+decodedData);
 
 				//send request to server to get result
-				String acronym = decodedData.split("-")[0];
+				String acronym;
+				long id;
+				String[] barcodeText = decodedData.split("-");
+				try {
+					Integer.parseInt(barcodeText[0]);
+					// if the characters before the hyphen are numbers, the entity type is 
+					// identified by the first two digits after the hyphen
+					acronym = barcodeText[1].substring(0, 2);
+					id = Long.parseLong(barcodeText[1].substring(2));
+				} catch (NumberFormatException e){
+					// if the characters before the hyphen are letters, the entity type is 
+					// identified by these characters
+					acronym = barcodeText[0];
+					id = Long.parseLong(barcodeText[1]);
+				}
+				
 				EntityServiceI service = getService(acronym);
 				if (service != null){
-					long id = Long.parseLong(decodedData.split("-")[1]);
 					Serializable entity = service.getById(id);
 
 					// prepare data to send to LookUp Activity
@@ -174,20 +188,24 @@ public class MainMenuActivity extends Activity{
 			SharedPreferences preferences = getSharedPreferences(getString(R.string.config_file), MODE_PRIVATE);
 			String serverURL = preferences.getString("SERVER_URL", "http://localhost:4567/v1");
 
-			if (acronym.equalsIgnoreCase("CON")){
+			if (acronym.equalsIgnoreCase("CON") || acronym.equalsIgnoreCase("07")){
 				service = new ContainerService(serverURL);
 			} else if (acronym.equalsIgnoreCase("LOC")){
 				service = new LocationService(serverURL);
-			} else if (acronym.equalsIgnoreCase("MSP")){
+			} else if (acronym.equalsIgnoreCase("MSP") || acronym.equalsIgnoreCase("03")){
 				service = new MixedSpecimenService(serverURL);
-			} else if (acronym.equalsIgnoreCase("PPR")){
+			} else if (acronym.equalsIgnoreCase("PRI") || acronym.equalsIgnoreCase("05")){
 				service = new PcrPrimerService(serverURL);
-			} else if (acronym.equalsIgnoreCase("SAM")){
+			} else if (acronym.equalsIgnoreCase("SAM") || acronym.equalsIgnoreCase("04")){
 				service = new SampleService(serverURL);
-			} else if (acronym.equalsIgnoreCase("SPR")){
+			} else if (acronym.equalsIgnoreCase("SPE") || acronym.equalsIgnoreCase("01") || acronym.equalsIgnoreCase("02")){
 				service = new SpecimenReplicateService(serverURL);
-			} else if (acronym.equalsIgnoreCase("STG")){
+			} else if (acronym.equalsIgnoreCase("STR") || acronym.equalsIgnoreCase("08")){
 				service = new StorageService(serverURL);
+//			} else if (acronym.equalsIgnoreCase("PRD") || acronym.equalsIgnoreCase("06")){
+//				service = new ProductService(serverURL);
+//			} else if (acronym.equalsIgnoreCase("ACC") || acronym.equalsIgnoreCase("00")){
+//				service = new AccountService(serverURL);
 			}
 
 			return service;

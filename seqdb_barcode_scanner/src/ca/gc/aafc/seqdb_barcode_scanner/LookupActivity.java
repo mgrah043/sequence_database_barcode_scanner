@@ -40,31 +40,29 @@ public class LookupActivity extends Activity{
         header_title.setText("LOOKUP RESULT");
         
         if (type != null){
-	        if (type.equalsIgnoreCase("CON")){
+	        if (type.equalsIgnoreCase("CON") || type.equalsIgnoreCase("07")){
 	        	Container container = (Container)dataBundle.getSerializable("ENTITY");
 	        	displayContainer(container);
 	        }else if(type.equalsIgnoreCase("LOC")){
 	        	Location location = (Location)dataBundle.getSerializable("ENTITY");
 	        	displayLocation(location);
-	        }else if(type.equalsIgnoreCase("MSP")){
+	        }else if(type.equalsIgnoreCase("MSP") || type.equalsIgnoreCase("03")){
 	        	MixedSpecimen mixedSpecimen = (MixedSpecimen)dataBundle.getSerializable("ENTITY");
 	        	displayMixedSpecimen(mixedSpecimen);
-	        }else if(type.equalsIgnoreCase("PPR")){
+	        }else if(type.equalsIgnoreCase("PRI") || type.equalsIgnoreCase("05")){
 	        	PcrPrimer pcrPrimer = (PcrPrimer)dataBundle.getSerializable("ENTITY");
 	        	displayPcrPrimer(pcrPrimer);
-	        }else if(type.equalsIgnoreCase("SAM")){
+	        }else if(type.equalsIgnoreCase("SAM") || type.equalsIgnoreCase("04")){
 	        	Sample sample = (Sample)dataBundle.getSerializable("ENTITY");
 	        	displaySample(sample);
-	        }else if(type.equalsIgnoreCase("SPR")){
+	        }else if(type.equalsIgnoreCase("SPE") || type.equalsIgnoreCase("01") || type.equalsIgnoreCase("02")){
 	        	SpecimenReplicate specimenReplicate = (SpecimenReplicate)dataBundle.getSerializable("ENTITY");
 	        	displaySpecimenReplicate(specimenReplicate);
-	        }else if(type.equalsIgnoreCase("STG")){
+	        }else if(type.equalsIgnoreCase("STR") || type.equalsIgnoreCase("08")){
 	        	Storage storage = (Storage)dataBundle.getSerializable("ENTITY");
 	        	displayStorage(storage);
 	        }
         }
-        // TODO add other options besides SPR
-        
 	}
 	
 	OnClickListener Button_Click_Listener = new OnClickListener(){
