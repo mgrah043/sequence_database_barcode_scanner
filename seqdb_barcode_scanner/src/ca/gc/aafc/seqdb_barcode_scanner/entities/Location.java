@@ -12,91 +12,44 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Location implements Serializable {
 
-	@JsonProperty("primaryKey")
+	@JsonProperty("id")
 	private Long id;
-	@JsonProperty("containerNumber")
-	private int containerNumber;
-	@JsonProperty("storageUnit")
-	private int storageUnit;
-	@JsonProperty("compartment")
-	private int compartment;
-	@JsonProperty("shelf")
-	private int shelf;
-	@JsonProperty("rack")
-	private int rack;
-	@JsonProperty("dateMoved")
-	private String dateMoved;
 	@JsonProperty("wellColumn")
-	private String wellColumn;
+	private int wellColumn;
 	@JsonProperty("wellRow")
 	private String wellRow;
+	@JsonProperty("containerId")
+	private Long containerId;
 	
-	public int getContainerNumber() {
-		return containerNumber;
-	}
-
-	public void setContainerNumber(int containerNumber) {
-		this.containerNumber = containerNumber;
-	}
-
-	public int getStorageUnit() {
-		return storageUnit;
-	}
-
-	public void setStorageUnit(int storageUnit) {
-		this.storageUnit = storageUnit;
-	}
-
-	public int getCompartment() {
-		return compartment;
-	}
-
-	public void setCompartment(int compartment) {
-		this.compartment = compartment;
-	}
-
-	public int getShelf() {
-		return shelf;
-	}
-
-	public void setShelf(int shelf) {
-		this.shelf = shelf;
-	}
-
-	public int getRack() {
-		return rack;
-	}
-
-	public void setRack(int rack) {
-		this.rack = rack;
-	}
-
-	public String getDateMoved() {
-		return dateMoved;
-	}
-
-	public void setDateMoved(String dateMoved) {
-		this.dateMoved = dateMoved;
-	}
-
-	public String getWellColumn() {
-		return wellColumn;
-	}
-
-	public void setWellColumn(String wellColumn) {
-		this.wellColumn = wellColumn;
-	}
-
-	public String getWellRow() {
-		return wellRow;
-	}
-
-	public void setWellRow(String wellRow) {
-		this.wellRow = wellRow;
-	}
-
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public int getWellColumn() {
+		return wellColumn;
+	}
+	
+	public void setWellColumn(int wellColumn) {
+		this.wellColumn = wellColumn;
+	}
+	
+	public String getWellRow() {
+		return wellRow;
+	}
+	
+	public void setWellRow(String wellRow) {
+		this.wellRow = wellRow;
+	}
+	
+	public Long getContainerId() {
+		return containerId;
+	}
+	
+	public void setContainerId(Long containerId) {
+		this.containerId = containerId;
+	}
 }

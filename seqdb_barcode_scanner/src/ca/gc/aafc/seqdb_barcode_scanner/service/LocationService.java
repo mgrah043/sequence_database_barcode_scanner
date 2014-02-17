@@ -20,9 +20,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import ca.gc.aafc.seqdb_barcode_scanner.entities.Count;
+import android.util.Log;
+
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Location;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.UriList;
+import ca.gc.aafc.seqdb_barcode_scanner.entities.WSResponse;
 
 /**
  * @author NazirLKC
@@ -39,13 +41,24 @@ public class LocationService implements EntityServiceI{
 	}
 	
 	public long getCount() {
+		long count = -1;
 		// The URL for making the GET request
 		final String url = ENTITY_URL + "/count/";
 		// This is where we get the RestTemplate and add the message converters
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-		return restTemplate.getForObject(url, Count.class).getCount();
+		try {
+			WSResponse wsResponse = restTemplate.getForObject(url, WSResponse.class);
+			// check for errors
+			if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
+				count = wsResponse.getCount().getTotal();
+			}
+		} catch (Exception e){
+			if (e.getMessage() != null) Log.e(LocationService.class.toString(), e.getMessage());
+			else Log.e(LocationService.class.toString(), "An error occured while getting the location count");
+		}
+		return count;
 	}
 
 	public ArrayList<Location> getAll() {
@@ -54,36 +67,98 @@ public class LocationService implements EntityServiceI{
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 		// This is where we call the exchange method and process the response
-		ResponseEntity<UriList> responseEntity = restTemplate.exchange(url, HttpMethod.GET, getRequestEntity(), UriList.class);
+		ResponseEntity<WSResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, getRequestEntity(), WSResponse.class);
 		
 		ArrayList<Location> locations = new ArrayList<Location>();
-		UriList uriList = responseEntity.getBody();
-		
-		// iterate over list of URLs to get all entities
-		while (uriList.getNextPageUrl() != null){
-			for (String locationURL : uriList.getUris()){
-				// parse the id from the URL
-				String[] partialURL = locationURL.split("/");
-				long id = Long.parseLong(partialURL[partialURL.length-1]);
+		WSResponse wsResponse = responseEntity.getBody();
+		// check for errors
+		if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
+			UriList uriList = wsResponse.getUriList();
+			// iterate over list of URIs and get the locations
+			for (UriList.UrlPath locationURL : uriList.getUris()){
+				long id = Long.parseLong(locationURL.getUrlPath());
 				// get location by id and add to list
 				locations.add(getById(id));
 			}
-			// get the next set of URLs
-			responseEntity = restTemplate.exchange(uriList.getNextPageUrl(), HttpMethod.GET, getRequestEntity(), UriList.class);
-			uriList = responseEntity.getBody();
+			
+			// If there are more pages of URIs, get them
+			while (uriList.getNextPageUrl() != null){
+				// get the next set of URLs
+				responseEntity = restTemplate.exchange(uriList.getNextPageUrl(), HttpMethod.GET, getRequestEntity(), WSResponse.class);
+				wsResponse = responseEntity.getBody();
+				uriList = wsResponse.getUriList();
+				// iterate over list of URIs and get the locations
+				for (UriList.UrlPath locationURL : uriList.getUris()){
+					long id = Long.parseLong(locationURL.getUrlPath());
+					// get location by id and add to list
+					locations.add(getById(id));
+				}
+			}
+		}
+		
+		return locations;
+	}
+	
+	public ArrayList<Location> getAll(String url) {
+		// This is where we get the RestTemplate and add the message converters
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+		Log.d(LocationService.class.toString(), "URL: " + url);
+		// This is where we call the exchange method and process the response
+		ResponseEntity<WSResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, getRequestEntity(), WSResponse.class);
+		
+		ArrayList<Location> locations = new ArrayList<Location>();
+		WSResponse wsResponse = responseEntity.getBody();
+		// check for errors
+		if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
+			UriList uriList = wsResponse.getUriList();
+			Log.d(LocationService.class.toString(), "URL list is null: " + (uriList == null));
+			// iterate over list of URIs and get the locations
+			for (UriList.UrlPath containerURL : uriList.getUris()){
+				long id = Long.parseLong(containerURL.getUrlPath());
+				// get container by id and add to list
+				locations.add(getById(id));
+			}
+			
+			// If there are more pages of URIs, get them
+			while (uriList.getNextPageUrl() != null){
+				// get the next set of URLs
+				responseEntity = restTemplate.exchange(uriList.getNextPageUrl(), HttpMethod.GET, getRequestEntity(), WSResponse.class);
+				wsResponse = responseEntity.getBody();
+				uriList = wsResponse.getUriList();
+				// iterate over list of URIs and get the locations
+				for (UriList.UrlPath containerURL : uriList.getUris()){
+					long id = Long.parseLong(containerURL.getUrlPath());
+					// get container by id and add to list
+					locations.add(getById(id));
+				}
+			}
 		}
 		
 		return locations;
 	}
 
 	public Location getById(long id) {
+		Location location = null;
 		// The URL for making the GET request
 		final String url = ENTITY_URL + "/" + id;
 		// This is where we get the RestTemplate and add the message converters
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-		return restTemplate.getForObject(url, Location.class, id);
+		try {
+			WSResponse wsResponse = restTemplate.getForObject(url, WSResponse.class, id);
+			// check for errors
+			if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
+				location = wsResponse.getLocation();
+			}
+		} catch (Exception e){
+			if (e.getMessage() != null) Log.e(LocationService.class.toString(), e.getMessage());
+			else Log.e(LocationService.class.toString(), "An error occured while getting the location by ID");
+		}
+		
+		return location;
 	}
 
 	public boolean deleteById(long id) {

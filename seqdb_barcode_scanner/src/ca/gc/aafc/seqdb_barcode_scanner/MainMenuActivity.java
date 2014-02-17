@@ -184,7 +184,7 @@ public class MainMenuActivity extends Activity{
 			EntityServiceI service = null;
 
 			SharedPreferences preferences = getSharedPreferences(getString(R.string.config_file), MODE_PRIVATE);
-			String serverURL = preferences.getString("SERVER_URL", "http://localhost:4567/v1");
+			String serverURL = preferences.getString("SERVER_URL", "http://localhost:8080/seqdb-ws/v1");
 
 			if (acronym.equalsIgnoreCase("CON") || acronym.equalsIgnoreCase("07")){
 				service = new ContainerService(serverURL);

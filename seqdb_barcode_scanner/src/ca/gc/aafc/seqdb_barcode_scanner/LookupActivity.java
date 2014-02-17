@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
+import ca.gc.aafc.seqdb_barcode_scanner.entities.ContainerType;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Location;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.MixedSpecimen;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.PcrPrimer;
@@ -39,7 +40,7 @@ public class LookupActivity extends Activity{
         header_title = (TextView) findViewById(R.id.tv_header_main_title);
         header_title.setText("LOOKUP RESULT");
         
-        if (type != null){
+        if (type != null && dataBundle.getSerializable("ENTITY") != null){
 	        if (type.equalsIgnoreCase("CON") || type.equalsIgnoreCase("07")){
 	        	Container container = (Container)dataBundle.getSerializable("ENTITY");
 	        	displayContainer(container);
@@ -62,6 +63,14 @@ public class LookupActivity extends Activity{
 	        	Storage storage = (Storage)dataBundle.getSerializable("ENTITY");
 	        	displayStorage(storage);
 	        }
+        }else{
+        	// display an error message
+        	textview_name = (TextView) findViewById(R.id.tv_lookup_name);
+            textview_name.setText("Error: Content not found");
+            
+            textview_desc = (TextView) findViewById(R.id.tv_lookup_desc);
+            //TODO add a detailed description of why the error occurred
+            textview_desc.setText("");
         }
 	}
 	
@@ -87,15 +96,22 @@ public class LookupActivity extends Activity{
 	//***************************************
 
 	private void displayContainer(Container container){
+		ContainerType containerType = container.getContainerType();
+		
 		//Instantiate and set text for textviews
         textview_name = (TextView) findViewById(R.id.tv_lookup_name);
-        textview_name.setText("Container: " + container.getContainer());
+        textview_name.setText("Container: " + container.getContainerNumber());
         
         textview_desc = (TextView) findViewById(R.id.tv_lookup_desc);
-        String content = "Storage Unit: " + container.getStorageUnit() + " \n";
-        content += "Compartment: " + container.getCompartment() + " \n";
-        content += "Shelf: " + container.getShelf() + " \n";
-        content += "Rack: " + container.getRack() + " \n";
+        String content = "No Data is available";
+        if (containerType != null){
+        	content = "Container Type: \n";
+            content += "\t Name: " + containerType.getName() + " \n";
+            content += "\t Base Type: " + containerType.getBaseType() + " \n";
+            content += "\t Number Of Wells: " + containerType.getNumberOfWells() + " \n";
+            content += "\t Number Of Columns: " + containerType.getNumberOfColumns() + " \n";
+            content += "\t Number Of Rows: " + containerType.getNumberOfRows() + " \n";
+        }
         textview_desc.setText(content);
 	}
 	
@@ -105,20 +121,12 @@ public class LookupActivity extends Activity{
         textview_name.setText("Location");
         
         textview_desc = (TextView) findViewById(R.id.tv_lookup_desc);
-        String content = "Container Number: " + location.getContainerNumber() + " \n";
-        content += "Storage Unit: " + location.getStorageUnit() + " \n";
-        content += "Compartment: " + location.getCompartment() + " \n";
-        content += "Shelf: " + location.getShelf() + " \n";
-        content += "Rack: " + location.getRack() + " \n";
-        content += "Date Moved: " + location.getDateMoved() + " \n";
-        content += "Well Column: " + location.getWellColumn() + " \n";
+        String content = "Well Column: " + location.getWellColumn() + " \n";
         content += "Well Row: " + location.getWellRow() + " \n";
         textview_desc.setText(content);
 	}
 	
 	private void displayMixedSpecimen(MixedSpecimen mixedSpecimen){
-		Location location = mixedSpecimen.getLocation();
-		
 		//Instantiate and set text for textviews
         textview_name = (TextView) findViewById(R.id.tv_lookup_name);
         textview_name.setText("Mixed Specimen: " + mixedSpecimen.getMixedSpecimenNumber());
@@ -126,21 +134,10 @@ public class LookupActivity extends Activity{
         textview_desc = (TextView) findViewById(R.id.tv_lookup_desc);
         String content = "Biological Collection: " + mixedSpecimen.getMixedSpecimenBiologicalCollection() + " \n";
 
-        content += "\n Location \n";
-        content += "Container Number: " + location.getContainerNumber() + " \n";
-        content += "Storage Unit: " + location.getStorageUnit() + " \n";
-        content += "Compartment: " + location.getCompartment() + " \n";
-        content += "Shelf: " + location.getShelf() + " \n";
-        content += "Rack: " + location.getRack() + " \n";
-        content += "Date Moved: " + location.getDateMoved() + " \n";
-        content += "Well Column: " + location.getWellColumn() + " \n";
-        content += "Well Row: " + location.getWellRow() + " \n";
         textview_desc.setText(content);
 	}
 	
 	private void displayPcrPrimer(PcrPrimer pcrPrimer){
-		Location location = pcrPrimer.getLocation();
-		
 		//Instantiate and set text for textviews
         textview_name = (TextView) findViewById(R.id.tv_lookup_name);
         textview_name.setText("PCR Primer: " + pcrPrimer.getPrimerName());
@@ -148,21 +145,10 @@ public class LookupActivity extends Activity{
         textview_desc = (TextView) findViewById(R.id.tv_lookup_desc);
         String content = "Direction: " + pcrPrimer.getDirection() + " \n";
 
-        content += "\n Location \n";
-        content += "Container Number: " + location.getContainerNumber() + " \n";
-        content += "Storage Unit: " + location.getStorageUnit() + " \n";
-        content += "Compartment: " + location.getCompartment() + " \n";
-        content += "Shelf: " + location.getShelf() + " \n";
-        content += "Rack: " + location.getRack() + " \n";
-        content += "Date Moved: " + location.getDateMoved() + " \n";
-        content += "Well Column: " + location.getWellColumn() + " \n";
-        content += "Well Row: " + location.getWellRow() + " \n";
         textview_desc.setText(content);
 	}
 	
 	private void displaySample(Sample sample){
-		Location location = sample.getLocation();
-		
 		//Instantiate and set text for textviews
         textview_name = (TextView) findViewById(R.id.tv_lookup_name);
         textview_name.setText("Sample: " + sample.getSampleName());
@@ -176,21 +162,10 @@ public class LookupActivity extends Activity{
         content += "Biological Collection: " + sample.getMixedSpecimenBiologicalCollection() + " \n";
         content += "Mixed Specimen Number: " + sample.getMixedSpecimenNumber() + " \n";
 
-        content += "\n Location \n";
-        content += "Container Number: " + location.getContainerNumber() + " \n";
-        content += "Storage Unit: " + location.getStorageUnit() + " \n";
-        content += "Compartment: " + location.getCompartment() + " \n";
-        content += "Shelf: " + location.getShelf() + " \n";
-        content += "Rack: " + location.getRack() + " \n";
-        content += "Date Moved: " + location.getDateMoved() + " \n";
-        content += "Well Column: " + location.getWellColumn() + " \n";
-        content += "Well Row: " + location.getWellRow() + " \n";
         textview_desc.setText(content);
 	}
 	
 	private void displaySpecimenReplicate(SpecimenReplicate specimenReplicate){
-		Location location = specimenReplicate.getLocation();
-    	
     	//Instantiate and set text for textviews
         textview_name = (TextView) findViewById(R.id.tv_lookup_name);
         textview_name.setText("Specimen Replicate: " + specimenReplicate.getName());
@@ -206,15 +181,6 @@ public class LookupActivity extends Activity{
         content += "Revival Date: " + specimenReplicate.getRevivalDate() + " \n";
         content += "Date Destroyed: " + specimenReplicate.getDateDestroyed() + " \n";
         
-        content += "\n Location \n";
-        content += "Container Number: " + location.getContainerNumber() + " \n";
-        content += "Storage Unit: " + location.getStorageUnit() + " \n";
-        content += "Compartment: " + location.getCompartment() + " \n";
-        content += "Shelf: " + location.getShelf() + " \n";
-        content += "Rack: " + location.getRack() + " \n";
-        content += "Date Moved: " + location.getDateMoved() + " \n";
-        content += "Well Column: " + location.getWellColumn() + " \n";
-        content += "Well Row: " + location.getWellRow() + " \n";
         textview_desc.setText(content);
 	}
 	

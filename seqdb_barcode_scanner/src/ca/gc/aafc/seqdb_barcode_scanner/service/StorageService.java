@@ -20,9 +20,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import ca.gc.aafc.seqdb_barcode_scanner.entities.Count;
+import android.util.Log;
+
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Storage;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.UriList;
+import ca.gc.aafc.seqdb_barcode_scanner.entities.WSResponse;
 
 /**
  * @author NazirLKC
@@ -40,13 +42,24 @@ public class StorageService implements EntityServiceI{
 	}
 	
 	public long getCount() {
+		long count = -1;
 		// The URL for making the GET request
 		final String url = ENTITY_URL + "/count/";
 		// This is where we get the RestTemplate and add the message converters
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-		return restTemplate.getForObject(url, Count.class).getCount();
+		try {
+			WSResponse wsResponse = restTemplate.getForObject(url, WSResponse.class);
+			// check for errors
+			if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
+				count = wsResponse.getCount().getTotal();
+			}
+		} catch (Exception e){
+			if (e.getMessage() != null) Log.e(StorageService.class.toString(), e.getMessage());
+			else Log.e(StorageService.class.toString(), "An error occured while getting the Storage count");
+		}
+		return count;
 	}
 
 	public ArrayList<Storage> getAll() {
@@ -55,36 +68,57 @@ public class StorageService implements EntityServiceI{
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 		// This is where we call the exchange method and process the response
-		ResponseEntity<UriList> responseEntity = restTemplate.exchange(url, HttpMethod.GET, getRequestEntity(), UriList.class);
+		ResponseEntity<WSResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, getRequestEntity(), WSResponse.class);
 		
 		ArrayList<Storage> storages = new ArrayList<Storage>();
-		UriList uriList = responseEntity.getBody();
-		
-		// iterate over list of URLs to get all entities
-		while (uriList.getNextPageUrl() != null){
-			for (String storageURL : uriList.getUris()){
-				// parse the id from the URL
-				String[] partialURL = storageURL.split("/");
-				long id = Long.parseLong(partialURL[partialURL.length-1]);
+		WSResponse wsResponse = responseEntity.getBody();
+		// check for errors
+		if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
+			UriList uriList = wsResponse.getUriList();
+			// iterate over list of URIs and get the storages
+			for (UriList.UrlPath storageURL : uriList.getUris()){
+				long id = Long.parseLong(storageURL.getUrlPath());
 				// get storage by id and add to list
 				storages.add(getById(id));
 			}
-			// get the next set of URLs
-			responseEntity = restTemplate.exchange(uriList.getNextPageUrl(), HttpMethod.GET, getRequestEntity(), UriList.class);
-			uriList = responseEntity.getBody();
+			
+			// If there are more pages of URIs, get them
+			while (uriList.getNextPageUrl() != null){
+				// get the next set of URLs
+				responseEntity = restTemplate.exchange(uriList.getNextPageUrl(), HttpMethod.GET, getRequestEntity(), WSResponse.class);
+				wsResponse = responseEntity.getBody();
+				uriList = wsResponse.getUriList();
+				// iterate over list of URIs and get the storages
+				for (UriList.UrlPath storageURL : uriList.getUris()){
+					long id = Long.parseLong(storageURL.getUrlPath());
+					// get storage by id and add to list
+					storages.add(getById(id));
+				}
+			}
 		}
 		
 		return storages;
 	}
 
 	public Storage getById(long id) {
+		Storage storage = null;
 		// The URL for making the GET request
 		final String url = ENTITY_URL + "/" + id;
 		// This is where we get the RestTemplate and add the message converters
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-		return restTemplate.getForObject(url, Storage.class, id);
+		try {
+			WSResponse wsResponse = restTemplate.getForObject(url, WSResponse.class, id);
+			// check for errors
+			if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
+				storage = wsResponse.getStorage();
+			}
+		} catch (Exception e){
+			if (e.getMessage() != null) Log.e(StorageService.class.toString(), e.getMessage());
+			else Log.e(StorageService.class.toString(), "An error occured while getting the Storage by ID");
+		}
+		return storage;
 	}
 
 	public boolean deleteById(long id) {

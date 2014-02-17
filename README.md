@@ -18,4 +18,4 @@ We are implementing the scanner as an Android application because most people al
 
 [Storyboards](https://github.com/mgrah043/sequence_database_barcode_scanner/wiki/Storyboards)
 
-[Mock Web Service](https://github.com/AAFC-MBB/android-mock-ws)
+[Web Service](https://github.com/AAFC-MBB/android-real-ws)

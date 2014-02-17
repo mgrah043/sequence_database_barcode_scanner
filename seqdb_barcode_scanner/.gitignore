@@ -6,6 +6,7 @@
 /target/generated-test-sources
 /target/maven-archiver
 /target/maven-status
+/target/surefire-reports
 /target/test-classes
 /target/classes.dex
 /target/seqdb_barcode_scanner-0.0.1-SNAPSHOT.ap_

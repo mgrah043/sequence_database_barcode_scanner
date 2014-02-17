@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author Nazir
+ * @author NazirLKC
  *
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -19,14 +19,29 @@ public class UriList {
 	private int limit;
 	@JsonProperty("offset")
 	private int offset;
-	@JsonProperty("type")
-	private String type;
+	@JsonProperty("count")
+	private long count;
 	@JsonProperty("previousPageUrl")
 	private String previousPageUrl;
 	@JsonProperty("nextPageUrl")
 	private String nextPageUrl;
-	@JsonProperty("uris")
-	private String[] uris;
+	@JsonProperty("urls")
+	private UrlPath[] uris;
+	
+	// nested class UrlPath is used to map received JSON objects
+	@JsonIgnoreProperties(ignoreUnknown=true)
+	public static class UrlPath {
+		@JsonProperty("urlPath")
+		private String urlPath;
+
+		public String getUrlPath() {
+			return urlPath;
+		}
+
+		public void setUrlPath(String urlPath) {
+			this.urlPath = urlPath;
+		}
+	}
 	
 	public long getTotal() {
 		return total;
@@ -46,11 +61,11 @@ public class UriList {
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
-	public String getType() {
-		return type;
+	public long getCount() {
+		return count;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setCount(long count) {
+		this.count = count;
 	}
 	public String getPreviousPageUrl() {
 		return previousPageUrl;
@@ -64,10 +79,10 @@ public class UriList {
 	public void setNextPageUrl(String nextPageUrl) {
 		this.nextPageUrl = nextPageUrl;
 	}
-	public String[] getUris() {
+	public UrlPath[] getUris() {
 		return uris;
 	}
-	public void setUris(String[] uris) {
+	public void setUris(UrlPath[] uris) {
 		this.uris = uris;
 	}
 }
