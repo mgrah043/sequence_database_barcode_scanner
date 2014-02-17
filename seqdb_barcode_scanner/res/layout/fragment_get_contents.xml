@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+          <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                
+                <TextView
+                android:layout_width="wrap_content"
+	            android:layout_height="0dip"
+	            android:layout_weight="1"
+                android:layout_marginTop="@dimen/dim_10"
+                android:tag="bold"
+                android:text="Container 5435"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+	            <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="0dip"
+	                android:layout_weight="1"
+	                android:layout_marginBottom="@dimen/dim_10"
+	                android:layout_marginTop="@dimen/dim_10"
+	                
+	                android:text="Size: 81 locations, # Specimens: 80"
+	                android:textColor="#000000"
+	                android:textSize="20sp" />
+	        </LinearLayout>
+			
+            
+
+            <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal" 
+                android:layout_marginRight="5dp">
+
+               <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" >
+                    
+                    <TableLayout
+                        android:id="@+id/tableLayoutLeftColumnHeader"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentLeft="true" 
+                        android:layout_marginRight="5dp">
+
+                        <!-- Insert table programatically -->
+
+                    </TableLayout>
+                    
+
+                    <TableLayout
+                        android:id="@+id/tableLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" 
+                        android:layout_toRightOf="@id/tableLayoutLeftColumnHeader">
+
+                        <!-- Insert table programatically -->
+
+                    </TableLayout>
+                    
+
+                   
+                     <TableLayout
+                        android:id="@+id/tableLayoutRightColumnHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+						android:layout_toRightOf="@id/tableLayout" 
+						android:layout_marginLeft="5dp"
+						android:layout_marginRight="5dp"          
+                        >
+
+                        <!-- Insert table programatically -->
+
+                    </TableLayout>
+                    
+                </RelativeLayout>
+            </HorizontalScrollView> 
+</LinearLayout>

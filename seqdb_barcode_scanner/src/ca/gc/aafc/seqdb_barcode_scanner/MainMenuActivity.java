@@ -69,11 +69,9 @@ public class MainMenuActivity extends Activity{
 
 			//GetContents button
 			}else if(id_of_view == button_getContents.getId()){
-				Intent intent = new Intent(MainMenuActivity.this, ScannerActivity.class);
-				intent.putExtra("NEXT_ACTIVITY", "getcontents");
-				startActivityForResult(intent,0);
-
-
+				Intent intent = new Intent(MainMenuActivity.this, GetContentsActivity.class);
+				startActivity(intent);
+				
 			}else if(id_of_view == button_move.getId()){
 				Intent intent = new Intent(MainMenuActivity.this, MoveActivity.class);
 				startActivity(intent);

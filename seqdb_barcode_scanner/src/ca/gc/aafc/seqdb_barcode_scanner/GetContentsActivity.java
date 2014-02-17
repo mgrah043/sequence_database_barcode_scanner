@@ -1,8 +1,11 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
+import ca.gc.aafc.seqdb_barcode_scanner.utils.Session;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,22 +14,27 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
 
-public class GetContentsActivity extends Activity{
+public class GetContentsActivity extends FragmentActivity implements GetContentFragment.OnContentSelectedListener{
 	//Variable declaration
 	TextView header_title;
 	ImageButton button_mainMenu;
 
 	private int numRows;
 	private int numCols;
+	private GetContentFragment getContentFragment;
+	
 
 	final private int WIDTH_OF_TABLE_ELEMENT = 250;
 	final private int HEIGHT_OF_TABLE_ELEMENT = 250;
 
-
+	Session getContentSession;
+	static String SESSION_TYPE = "GET_CONTENT";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,228 +46,93 @@ public class GetContentsActivity extends Activity{
 
 
 		setContentView(R.layout.activity_get_contents_template);
-
-		/*
-		 * creating left column header
-		 */
-		TableLayout leftHeader = (TableLayout) findViewById(R.id.tableLayoutLeftColumnHeader);
-
-		for(int r = 0; r  <= numRows+1; r++){
-			TableRow tableLeftHeader = new TableRow(leftHeader.getContext());
-
-			TextView currentTextView = new TextView(leftHeader.getContext());
-			LayoutParams textViewParams = null;
-
-			//make top left and right elements blank 
-			if(r==0 || r==numRows+1){
-				currentTextView.setText(" ");
-
-				//Set textview Layout parameters
-				textViewParams = new LayoutParams(
-						LayoutParams.WRAP_CONTENT,      
-						LayoutParams.WRAP_CONTENT
-						);
-			}
-			else{
-				//store row number in textview
-				currentTextView.setText("" + r);
-
-				//Set textview Layout parameters
-				textViewParams = new LayoutParams(
-						LayoutParams.WRAP_CONTENT,      
-						HEIGHT_OF_TABLE_ELEMENT
-						);
-			}
-
-			//Set textview attributes
-			currentTextView.setTextAppearance(leftHeader.getContext(), R.style.TableHeaderFont);
-			currentTextView.setGravity(Gravity.CENTER);
-
-			textViewParams.setMargins(2, 2, 2, 2);
-
-			//add textview to tablerow
-			tableLeftHeader.addView(currentTextView, textViewParams);
-
-			//add tablerow to tablelayout
-			leftHeader.addView(tableLeftHeader);
-		}
-
-		/*
-		 * creating get contents table
-		 */
-		TableLayout table = (TableLayout) findViewById(R.id.tableLayout);
-		Button[][] buttonArray = new Button[numRows][numCols];
-
-		//create top table header (alphabetical)
-		TableRow tableTopHeader = new TableRow(table.getContext());
-		for(int c = 0; c  < numCols; c++){
-			TextView currentTextView = new TextView(table.getContext());
-
-			//store column number in textview
-			currentTextView.setText("" + getCharacterOfNumber(c));
-
-			//Set textview attributes
-			currentTextView.setTextAppearance(table.getContext(), R.style.TableHeaderFont);
-			currentTextView.setGravity(Gravity.CENTER);
-
-			//Set textview Layout parameters
-			LayoutParams textViewParams = new LayoutParams(
-					WIDTH_OF_TABLE_ELEMENT,      
-					LayoutParams.WRAP_CONTENT
-					);
-
-			textViewParams.setMargins(2, 2, 2, 2);
-
-			//add textview to tablerow
-			tableTopHeader.addView(currentTextView, textViewParams);
-		}
-		//add tablerow to tablelayout
-		table.addView(tableTopHeader);
-
-		/*
-		 * create main table
-		 */
-		for(int row = 0; row  < numRows; row++){
-			TableRow currentRow = new TableRow(table.getContext());
-
-			for(int col = 0; col < numCols; col++){
-				Button currentButton = new Button(table.getContext());
-
-				//Set button attributes
-				currentButton.setBackgroundResource(R.drawable.ui_button_blue);
-				currentButton.setText("SAM-111");
-
-
-				//TODO Change these to work on all devices...get size of screen then apply calculations?
-				//set parameters of button
-				LayoutParams params = new LayoutParams(
-						WIDTH_OF_TABLE_ELEMENT,      
-						HEIGHT_OF_TABLE_ELEMENT
-						);
-
-				params.setMargins(2, 2, 2, 2);
-
-				//initialize button....check to see if there is a data or empty element at this position
-				if (col == 2 && row == 2){
-					currentButton.setBackgroundColor(Color.RED);
-					currentButton.setText("");
-				}
-
-				//set click listener for button
-				currentButton.setOnClickListener(Button_Click_Listener);
-
-				//store button in array
-				buttonArray[row][col] = currentButton;
-
-				//add button to tablerow
-				currentRow.addView(currentButton, params);	
-			}
-
-			//add tablerow to tablelayout
-			table.addView(currentRow);  	
-
-		}
-
-		//create bottom table header (alphabetical)
-		TableRow tableBottomHeader = new TableRow(table.getContext());
-		for(int c = 0; c  < numCols; c++){
-			TextView currentTextView = new TextView(table.getContext());
-
-			//store column number in textview
-			currentTextView.setText("" + getCharacterOfNumber(c));
-
-			//Set textview attributes
-			currentTextView.setTextAppearance(table.getContext(), R.style.TableHeaderFont);
-			currentTextView.setGravity(Gravity.CENTER);
-
-			//Set textview Layout parameters
-			LayoutParams textViewParams = new LayoutParams(
-					WIDTH_OF_TABLE_ELEMENT,      
-					LayoutParams.WRAP_CONTENT
-					);
-
-			textViewParams.setMargins(2, 2, 2, 2);
-
-			//add textviews to tablerow
-			tableBottomHeader.addView(currentTextView, textViewParams);
-		}
-		//add tablerow to tablelayout
-		table.addView(tableBottomHeader);
-
-		/*
-		 * creating right column header
-		 */
-		TableLayout rightHeader = (TableLayout) findViewById(R.id.tableLayoutRightColumnHeader);
-
-		for(int r = 0; r  <= numRows+1; r++){
-			TableRow tableRightHeader = new TableRow(rightHeader.getContext());
-			TextView currentTextView = new TextView(rightHeader.getContext());
-			LayoutParams textViewParams = null;
-
-			//make bottom left and right elements blank 
-			if(r==0 || r==numRows+1){
-				currentTextView.setText(" ");
-
-				//Set textview Layout parameters
-				textViewParams = new LayoutParams(
-						LayoutParams.WRAP_CONTENT,      
-						LayoutParams.WRAP_CONTENT
-						);
-			}
-			else{
-				//store row number in textview
-				currentTextView.setText("" + r);
-
-				//Set textview Layout parameters
-				textViewParams = new LayoutParams(
-						LayoutParams.WRAP_CONTENT,      
-						HEIGHT_OF_TABLE_ELEMENT
-						);
-			}
-
-			//Set textview attributes
-			currentTextView.setTextAppearance(rightHeader.getContext(), R.style.TableHeaderFont);
-			currentTextView.setGravity(Gravity.CENTER);
-
-			textViewParams.setMargins(2, 2, 2, 2);
-
-			//add textview to tablerow
-			tableRightHeader.addView(currentTextView, textViewParams);
-
-			//add tablerow to tablelayout
-			rightHeader.addView(tableRightHeader);
-		}
+		
+		getContentFragment = (GetContentFragment) getSupportFragmentManager().findFragmentById(R.id.get_content_fragment);
+		
+		getContentSession = new Session(this,SESSION_TYPE);
+	    Toast.makeText(GetContentsActivity.this, "Please scan the container to get its content", Toast.LENGTH_LONG).show();
+	    
+		this.launchScanner("SCAN_CONTAINER");
 	}
-
-	/**
-	 * General click listener for buttons
-	 */
-	OnClickListener Button_Click_Listener = new OnClickListener(){
-		public void onClick(View v){
-			int id_of_view = v.getId();
-
-		}
-	};
 
 	@Override
 	public void onBackPressed() {
-
 		finish();
-
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		/*
+		 * Is called whenever scanning was done
+		 * get scanned result and decode using getEntity
+		 * */
+	   // Make sure the request was successful
+	   if (resultCode == RESULT_OK) {
+	       Bundle resultBundle = data.getExtras();
+	       String decodedData = resultBundle.getString("DATA_RESULT");
+	       String scanAction = resultBundle.getString("SCAN_ACTION");
+	       
+	       Toast.makeText(GetContentsActivity.this, "Data decoded : "+decodedData, Toast.LENGTH_LONG).show();
+	       //TODO check if the decodedData is null if so then throw an error
+		       
+		   System.out.print("Success data is - "+decodedData);
+		   
+		   String current_container = this.getContentSession.getSession().getString("GET_CONTENTS_CONTAINER", "");
+		   
+		   if(scanAction != null && scanAction.equalsIgnoreCase("SCAN_CONTAINER")){
+			   /*
+			    * With the decoded data use session.get entity etc... then call server to get container info
+			    * 
+			    * */
+			   this.getContentSession.getSessionEditor().putString("GET_CONTENTS_CONTAINER", decodedData);
+			   this.getContentSession.getSessionEditor().commit();
+			   this.getContentFragment.loadContent();
+			   
+		   }else{
+			   Toast.makeText(GetContentsActivity.this, "NO SCANNING ACTION", Toast.LENGTH_LONG).show();
+			   this.launchScanner("SCAN_CONTAINER");
+		   }
+		 
+		   
+	   }else{
+		   Toast.makeText(GetContentsActivity.this, "ERROR when scanning", Toast.LENGTH_LONG).show();		   
+	   }
+		   /*
+		   //send request to server to get result
+		   String acronym = decodedData.split("-")[0];
+		       EntityServiceI service = getService(acronym);
+		       if (service != null){
+		    	   long id = Long.parseLong(decodedData.split("-")[1]);
+		    	   Serializable entity = service.getById(id);
+		    	   
+		    	   // prepare data to send to LookUp Activity
+		    	   Bundle dataBundle = new Bundle();
+		    	   dataBundle.putSerializable("ENTITY", entity);
+		    	   dataBundle.putString("TYPE", acronym);
+		    	   
+		    	   Intent intent = new Intent(MoveActivity.this, LookupActivity.class);
+		    	   intent.putExtras(dataBundle);
+		    	   startActivity(intent);
+		       }else {
+		    	   // TODO display error message to user
+		       }*/
+		  
 	}
 
-	/**
-	 * Takes an integer as a parameter and convers it to a capital letter
-	 * Integer Range: 0 - 26 will produce String A - Z (Capitalized)
-	 */
-	public String getCharacterOfNumber(int number){
-		//convert to ascii format (capital characters - A is 65)
-		int asciiNumber = number + 65;
-
-		return  String.valueOf(Character.toChars(asciiNumber));
-
-
+	@Override
+	public void onContentSelected(int index) {
+		// TODO Auto-generated method stub
+		/*
+		 * fetch the content at index of container entity that we got from the server
+		 * */
+		Toast.makeText(GetContentsActivity.this, "A content has been clicked at index : "+index, Toast.LENGTH_LONG).show();
 	}
-
+	
+	 private void launchScanner(String action){
+		   Intent intent = new Intent(GetContentsActivity.this, ScannerActivity.class);
+		   intent.putExtra("SCAN_ACTION", action);
+		   
+		   startActivityForResult(intent,0);
+	 }
 
 }

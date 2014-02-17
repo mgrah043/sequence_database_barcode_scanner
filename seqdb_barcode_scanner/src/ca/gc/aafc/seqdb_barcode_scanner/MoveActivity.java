@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ca.gc.aafc.seqdb_barcode_scanner.utils.*;
 
-public class MoveActivity extends Activity{
+public class MoveActivity extends FragmentActivity implements GetContentFragment.OnContentSelectedListener{
 	EditText et_well_row;
 	EditText et_well_col;
 	
@@ -35,12 +36,23 @@ public class MoveActivity extends Activity{
 	Session moveSession;
 	static String SESSION_TYPE = "MOVE";
 	
+	private int numRows;
+	private int numCols;
+	private GetContentFragment getContentFragment;
+	
+
+	final private int WIDTH_OF_TABLE_ELEMENT = 250;
+	final private int HEIGHT_OF_TABLE_ELEMENT = 250;
+
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_move);
+		
+		getContentFragment = (GetContentFragment) getSupportFragmentManager().findFragmentById(R.id.get_content_fragment);
+		
         
         button_mainMenu = (ImageButton) findViewById(R.id.btn_header_menu);
         button_mainMenu.setOnClickListener(Button_Click_Listener);
@@ -48,18 +60,19 @@ public class MoveActivity extends Activity{
         header_title = (TextView) findViewById(R.id.tv_header_main_title);
         header_title.setText("MOVE");
         
-        et_well_row = (EditText) findViewById(R.id.et_well_row);
-        et_well_col = (EditText) findViewById(R.id.et_well_column);
-        
-        button_use = (Button) findViewById(R.id.btn_use_well_info);
-        button_use.setOnClickListener(Button_Click_Listener);
-        
         button_ignore = (Button) findViewById(R.id.btn_ignore_well_info);
         button_ignore.setOnClickListener(Button_Click_Listener);
         
         moveSession = new Session(this,SESSION_TYPE);
         Toast.makeText(MoveActivity.this, "Please scan item to move", Toast.LENGTH_LONG).show();
 		this.launchScanner("SCAN_ITEM");
+		
+		numRows = 9;
+		numCols = 9;
+
+
+		
+		
    }
 	
 	
@@ -192,6 +205,15 @@ public class MoveActivity extends Activity{
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 		
+	}
+	
+	@Override
+	public void onContentSelected(int index) {
+		// TODO Auto-generated method stub
+		/*
+		 * fetch the content at index of container entity that we got from the server
+		 * */
+		Toast.makeText(MoveActivity.this, "A content has been clicked at index : "+index, Toast.LENGTH_LONG).show();
 	}
 	
 	  private void launchScanner(String action){

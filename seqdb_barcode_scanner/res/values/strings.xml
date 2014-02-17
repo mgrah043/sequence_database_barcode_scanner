@@ -34,6 +34,6 @@
     <string name="txt_well_col">Column</string>
     
     <string name="txt_btn_wellinfo">Use Well Info</string>
-    <string name="txt_btn_wellignore">Ignore for autofill</string>
+    <string name="txt_btn_wellignore">Autofill</string>
      
 </resources>
