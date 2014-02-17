@@ -10,25 +10,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Count {
 
-	@JsonProperty("type")
-	private String type;
-	@JsonProperty("count")
-	private long count;
+	@JsonProperty("total")
+	private long total;
 	
-	public String getType() {
-		return type;
+	public long getTotal() {
+		return total;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public long getCount() {
-		return count;
-	}
-	
-	public void setCount(long count) {
-		this.count = count;
+	public void setTotal(long total) {
+		this.total = total;
 	}
 	
 }
