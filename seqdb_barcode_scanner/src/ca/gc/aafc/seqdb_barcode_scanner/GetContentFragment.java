@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb_barcode_scanner;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.*;
 
 import java.util.ArrayList;
@@ -32,22 +34,21 @@ import java.util.List;
 * 
 * @version 1.0
 */
-public class GetContentFragment extends Fragment implements OnItemClickListener{
+public class GetContentFragment extends Fragment {
     // The container with a list of elements.
     
 	List<SpecimenReplicate> contentList = new ArrayList<SpecimenReplicate>();
     private TableLayout tableLayoutHeaderLeft;
     private TableLayout tableLayout;
     private TableLayout tableLayoutHeaderRight;
-    
-    private int selectedContentRow = 0;
-    private int selectedContentColumn = 0;
+    private TextView containerId;
+    private TextView containerSize;
     
     /*
      * this should be from the container info
      * */
-    private int contentRow = 9;
-    private int contentColumn = 9;
+    private int contentRow = 0;
+    private int contentColumn = 0;
     
     final private int WIDTH_OF_TABLE_ELEMENT = 250;
 	final private int HEIGHT_OF_TABLE_ELEMENT = 250;
@@ -63,8 +64,7 @@ public class GetContentFragment extends Fragment implements OnItemClickListener{
          * Called when a given content is selected.
          * @param index the index of the selected content.
          */
-        public void onContentSelected(int index);
-		
+        public void onContentSelected(String row,int column);
     }
 
     /**
@@ -108,6 +108,8 @@ public class GetContentFragment extends Fragment implements OnItemClickListener{
     	View view =  inflater.inflate(R.layout.fragment_get_contents,
                   container, false);
     	
+    	this.containerId = (TextView) view.findViewById(R.id.tv_container_id);
+    	this.containerSize = (TextView) view.findViewById(R.id.tv_container_size);
     	this.tableLayout =  (TableLayout) view.findViewById(R.id.tableLayout);
     	this.tableLayoutHeaderLeft = (TableLayout) view.findViewById(R.id.tableLayoutLeftColumnHeader);
     	this.tableLayoutHeaderRight = (TableLayout) view.findViewById(R.id.tableLayoutRightColumnHeader);
@@ -122,13 +124,13 @@ public class GetContentFragment extends Fragment implements OnItemClickListener{
      *
      * This causes the configured listener to be notified that a content was selected
      */
-    @Override
+   /* @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != contentSelectedListener) {
         	contentSelectedListener.onContentSelected(position);
         }
     }
-
+*/
     @Override
     public void onStart() {
         super.onStart();
@@ -157,12 +159,18 @@ public class GetContentFragment extends Fragment implements OnItemClickListener{
 	 * This function should be called after the system has fetched the content of the container from the server
 	 * perhaps a parameter to loadContent
 	 * */
-	public void loadContent(){
+	public void loadContent(Container container){
 		/*
     	 * 
     	 * Creating the left column header
     	 * 
     	 * */
+		this.contentRow =  container.getContainerType().getNumberOfRows();
+		this.contentColumn = container.getContainerType().getNumberOfColumns();
+		
+		this.containerId.setText("Container "+container.getId());
+		this.containerSize.setText("Size: "+this.contentRow * this.contentColumn+" locations, # Specimens: ?");
+		
     	TableLayout leftHeader = this.tableLayoutHeaderLeft;
     	for(int r = 0; r  <= this.contentRow+1; r++){
 			TableRow tableLeftHeader = new TableRow(leftHeader.getContext());
@@ -208,7 +216,8 @@ public class GetContentFragment extends Fragment implements OnItemClickListener{
 		 * creating get contents table
 		 */
 		TableLayout table = this.tableLayout;
-		Button[][] buttonArray = new Button[this.contentRow][this.contentColumn];
+		
+		//Button[][] buttonArray = new Button[this.contentRow][this.contentColumn];
 
 		//create top table header (alphabetical)
 		TableRow tableTopHeader = new TableRow(table.getContext());
@@ -243,12 +252,29 @@ public class GetContentFragment extends Fragment implements OnItemClickListener{
 			TableRow currentRow = new TableRow(table.getContext());
 
 			for(int col = 0; col < this.contentColumn; col++){
+				
 				Button currentButton = new Button(table.getContext());
-
-				//Set button attributes
-				currentButton.setBackgroundResource(R.drawable.ui_button_blue);
-				currentButton.setText("SAM-111");
-
+				//initialize button....check to see if there is a data or empty element at this position
+				currentButton.setBackgroundColor(Color.RED);
+				currentButton.setText("");
+				
+				ArrayList<Location> containerLocations = container.getlocationList();
+				
+				for(int i = 0; i < containerLocations.size(); i++){
+					Location l = containerLocations.get(i);
+					
+					if( row == (int)l.getWellRow().charAt(0) && col == l.getWellColumn()){
+						//Set button attributes
+						currentButton.setBackgroundResource(R.drawable.ui_button_blue);
+						currentButton.setText("Spec "+l.getWellRow()+"-"+l.getWellColumn());
+						
+						//set listener
+						currentButton.setTag(0, l.getWellRow());
+						currentButton.setTag(1, l.getWellColumn());
+						currentButton.setOnClickListener(Button_Click_Listener);
+					}
+				}
+				
 
 				//TODO Change these to work on all devices...get size of screen then apply calculations?
 				//set parameters of button
@@ -259,15 +285,11 @@ public class GetContentFragment extends Fragment implements OnItemClickListener{
 
 				params.setMargins(2, 2, 2, 2);
 
-				//initialize button....check to see if there is a data or empty element at this position
-				if (col == 2 && row == 2){
-					currentButton.setBackgroundColor(Color.RED);
-					currentButton.setText("");
-				}
+				
 
 				//store button in array
-				buttonArray[row][col] = currentButton;
-
+				//buttonArray[row][col] = currentButton;
+				
 				//add button to tablerow
 				currentRow.addView(currentButton, params);	
 			}
@@ -348,6 +370,24 @@ public class GetContentFragment extends Fragment implements OnItemClickListener{
 		}
 		
 	}
+	
+	OnClickListener Button_Click_Listener = new OnClickListener(){
+		public void onClick(View v){
+			System.out.println("Onclick listener");
+			if (null != contentSelectedListener) {
+	        	contentSelectedListener.onContentSelected((String)v.getTag(0),(Integer)v.getTag(1)); // pass row then column
+	        }
+		}
+	};
+
+	/*@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		System.out.println("onclick listener triggered");
+		if (null != contentSelectedListener) {
+        	contentSelectedListener.onContentSelected(0);
+        }
+	}*/
 	
 
 }

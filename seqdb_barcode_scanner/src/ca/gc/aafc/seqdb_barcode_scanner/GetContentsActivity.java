@@ -1,5 +1,9 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
+import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
+import ca.gc.aafc.seqdb_barcode_scanner.service.ContainerService;
+import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
+import ca.gc.aafc.seqdb_barcode_scanner.utils.DataParser;
 import ca.gc.aafc.seqdb_barcode_scanner.utils.Session;
 import android.app.Activity;
 import android.content.Intent;
@@ -24,13 +28,9 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	TextView header_title;
 	ImageButton button_mainMenu;
 
-	private int numRows;
-	private int numCols;
 	private GetContentFragment getContentFragment;
-	
-
-	final private int WIDTH_OF_TABLE_ELEMENT = 250;
-	final private int HEIGHT_OF_TABLE_ELEMENT = 250;
+	private Container contentContainer;
+	private DataParser parser;
 
 	Session getContentSession;
 	static String SESSION_TYPE = "GET_CONTENT";
@@ -38,13 +38,9 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		//get data from bundle
-		//TODO initialize number of rows and columns from bundle.........hardcode for now
-		numRows = 9;
-		numCols = 9;
-
-
+		
+		//Should had possibility to get data from bundle in cas we start this view for move or bulk move
+		
 		setContentView(R.layout.activity_get_contents_template);
 		
 		getContentFragment = (GetContentFragment) getSupportFragmentManager().findFragmentById(R.id.get_content_fragment);
@@ -53,6 +49,8 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	    Toast.makeText(GetContentsActivity.this, "Please scan the container to get its content", Toast.LENGTH_LONG).show();
 	    
 		this.launchScanner("SCAN_CONTAINER");
+		
+		parser = new DataParser();
 	}
 
 	@Override
@@ -77,16 +75,31 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		       
 		   System.out.print("Success data is - "+decodedData);
 		   
-		   String current_container = this.getContentSession.getSession().getString("GET_CONTENTS_CONTAINER", "");
+		   //String current_container = this.getContentSession.getSession().getString("GET_CONTENTS_CONTAINER", "");
 		   
 		   if(scanAction != null && scanAction.equalsIgnoreCase("SCAN_CONTAINER")){
 			   /*
 			    * With the decoded data use session.get entity etc... then call server to get container info
 			    * 
 			    * */
-			   this.getContentSession.getSessionEditor().putString("GET_CONTENTS_CONTAINER", decodedData);
-			   this.getContentSession.getSessionEditor().commit();
-			   this.getContentFragment.loadContent();
+			   this.parser.parse(decodedData);
+			   
+			   String acronym = this.parser.getAcronym();
+			   long id = this.parser.getId();
+			   
+			   EntityServiceI service = this.getContentSession.getService(acronym);
+			   
+			   if(service != null){
+				   this.contentContainer = (Container)service.getById(id);
+			   }
+			   
+			   //this.getContentSession.getSessionEditor().putString("GET_CONTENTS_CONTAINER", decodedData);
+			   //this.getContentSession.getSessionEditor().commit();
+			   if(this.contentContainer == null){
+				   Toast.makeText(GetContentsActivity.this, "Error getById failed", Toast.LENGTH_LONG).show();
+			   }else{
+				   this.getContentFragment.loadContent(this.contentContainer);
+			   }
 			   
 		   }else{
 			   Toast.makeText(GetContentsActivity.this, "NO SCANNING ACTION", Toast.LENGTH_LONG).show();
@@ -97,30 +110,11 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	   }else{
 		   Toast.makeText(GetContentsActivity.this, "ERROR when scanning", Toast.LENGTH_LONG).show();		   
 	   }
-		   /*
-		   //send request to server to get result
-		   String acronym = decodedData.split("-")[0];
-		       EntityServiceI service = getService(acronym);
-		       if (service != null){
-		    	   long id = Long.parseLong(decodedData.split("-")[1]);
-		    	   Serializable entity = service.getById(id);
-		    	   
-		    	   // prepare data to send to LookUp Activity
-		    	   Bundle dataBundle = new Bundle();
-		    	   dataBundle.putSerializable("ENTITY", entity);
-		    	   dataBundle.putString("TYPE", acronym);
-		    	   
-		    	   Intent intent = new Intent(MoveActivity.this, LookupActivity.class);
-		    	   intent.putExtras(dataBundle);
-		    	   startActivity(intent);
-		       }else {
-		    	   // TODO display error message to user
-		       }*/
 		  
 	}
 
 	@Override
-	public void onContentSelected(int index) {
+	public void onContentSelected(String row, int index) {
 		// TODO Auto-generated method stub
 		/*
 		 * fetch the content at index of container entity that we got from the server

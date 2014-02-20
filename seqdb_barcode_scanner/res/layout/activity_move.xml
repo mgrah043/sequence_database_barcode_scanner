@@ -21,6 +21,8 @@
                 android:orientation="vertical"
                 android:padding="@dimen/dim_20" >
 
+                
+
                 <Button
                     android:id="@+id/btn_ignore_well_info"
                     style="@style/Button_Green"
@@ -29,6 +31,16 @@
                     android:layout_marginBottom="@dimen/dim_20"
                     android:tag="bold"
                     android:text="@string/txt_btn_wellignore"
+                    android:textSize="24sp" />
+                
+                <Button
+                    android:id="@+id/btn_cancel_move"
+                    style="@style/Button_Red"
+                    android:layout_width="300dp"
+                    android:layout_height="@dimen/dim_50"
+                    android:layout_marginBottom="@dimen/dim_20"
+                    android:tag="bold"
+                    android:text="Cancel Move"
                     android:textSize="24sp" />
                 
                	<fragment

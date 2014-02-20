@@ -1,7 +1,6 @@
 package ca.gc.aafc.seqdb_barcode_scanner.utils;
 
 import android.content.*;
-import android.content.SharedPreferences;
 import ca.gc.aafc.seqdb_barcode_scanner.R;
 import ca.gc.aafc.seqdb_barcode_scanner.service.ContainerService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
@@ -44,24 +43,29 @@ public class Session {
 	
 	public EntityServiceI getService(String acronym){
 		EntityServiceI service = null;
-		String serverURL = this.config.getString("SERVER_URL", "http://localhost:4567/v1");
-		
-		if (acronym.equalsIgnoreCase("CON")){
+				
+		String serverURL = this.config.getString("SERVER_URL", "http://192.168.0.101:8080/seqdb-ws/v1");
+
+		if (acronym.equalsIgnoreCase("CON") || acronym.equalsIgnoreCase("07")){
 			service = new ContainerService(serverURL);
 		} else if (acronym.equalsIgnoreCase("LOC")){
 			service = new LocationService(serverURL);
-		} else if (acronym.equalsIgnoreCase("MSP")){
+		} else if (acronym.equalsIgnoreCase("MSP") || acronym.equalsIgnoreCase("03")){
 			service = new MixedSpecimenService(serverURL);
-		} else if (acronym.equalsIgnoreCase("PPR")){
+		} else if (acronym.equalsIgnoreCase("PRI") || acronym.equalsIgnoreCase("05")){
 			service = new PcrPrimerService(serverURL);
-		} else if (acronym.equalsIgnoreCase("SAM")){
+		} else if (acronym.equalsIgnoreCase("SAM") || acronym.equalsIgnoreCase("04")){
 			service = new SampleService(serverURL);
-		} else if (acronym.equalsIgnoreCase("SPR")){
+		} else if (acronym.equalsIgnoreCase("SPE") || acronym.equalsIgnoreCase("01") || acronym.equalsIgnoreCase("02")){
 			service = new SpecimenReplicateService(serverURL);
-		} else if (acronym.equalsIgnoreCase("STG")){
+		} else if (acronym.equalsIgnoreCase("STR") || acronym.equalsIgnoreCase("08")){
 			service = new StorageService(serverURL);
+//		} else if (acronym.equalsIgnoreCase("PRD") || acronym.equalsIgnoreCase("06")){
+//			service = new ProductService(serverURL);
+//		} else if (acronym.equalsIgnoreCase("ACC") || acronym.equalsIgnoreCase("00")){
+//			service = new AccountService(serverURL);
 		}
-		
+
 		return service;
 	}
 

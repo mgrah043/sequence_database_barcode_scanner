@@ -10,6 +10,7 @@ import ca.gc.aafc.seqdb_barcode_scanner.service.PcrPrimerService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.SampleService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.SpecimenReplicateService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.StorageService;
+import ca.gc.aafc.seqdb_barcode_scanner.utils.DataParser;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -97,10 +98,15 @@ public class MainMenuActivity extends Activity{
 				//TODO check if the decodedData is null if so then throw an error
 
 				System.out.print("Success data is - "+decodedData);
-
+				
+				DataParser p = new DataParser();
+				p.parse(decodedData);
+				
 				//send request to server to get result
-				String acronym;
-				long id;
+				String acronym = p.getAcronym();
+				long id = p.getId();
+				
+				/*
 				String[] barcodeText = decodedData.split("-");
 				try {
 					Integer.parseInt(barcodeText[0]);
@@ -114,7 +120,7 @@ public class MainMenuActivity extends Activity{
 					acronym = barcodeText[0];
 					id = Long.parseLong(barcodeText[1]);
 				}
-				
+				*/
 				EntityServiceI service = getService(acronym);
 				if (service != null){
 					Serializable entity = service.getById(id);

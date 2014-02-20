@@ -198,22 +198,16 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 	
 	@Override
 	public void onBackPressed() {
-	
-		//Exit to home screen and keep activity alive for re-entry to this point in the app
-		Intent intent = new Intent(Intent.ACTION_MAIN);
-		intent.addCategory(Intent.CATEGORY_HOME);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
-		
+		finish();
 	}
 	
 	@Override
-	public void onContentSelected(int index) {
+	public void onContentSelected(String row, int column) {
 		// TODO Auto-generated method stub
 		/*
 		 * fetch the content at index of container entity that we got from the server
 		 * */
-		Toast.makeText(MoveActivity.this, "A content has been clicked at index : "+index, Toast.LENGTH_LONG).show();
+		Toast.makeText(MoveActivity.this, "A content has been clicked at index : ", Toast.LENGTH_LONG).show();
 	}
 	
 	  private void launchScanner(String action){
