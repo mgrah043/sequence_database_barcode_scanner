@@ -53,7 +53,7 @@ public class GetContentFragment extends Fragment {
     final private int WIDTH_OF_TABLE_ELEMENT = 250;
 	final private int HEIGHT_OF_TABLE_ELEMENT = 250;
     
-    // The listener we are to notify when a headline is selected
+    // The listener when a button is selected
     OnContentSelectedListener contentSelectedListener = null;
 
     /**

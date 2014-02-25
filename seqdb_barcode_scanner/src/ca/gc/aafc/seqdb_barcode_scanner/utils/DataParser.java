@@ -1,9 +1,13 @@
 package ca.gc.aafc.seqdb_barcode_scanner.utils;
 
-/*
- * Helper function used to parse scanned data
- * 
- * */
+
+/**
+* Helper function used to parse scanned data
+* 
+* @author Vincent Maliko
+* 
+* @version 1.0
+*/
 public class DataParser {
 	private String acronym;
 	private long id;

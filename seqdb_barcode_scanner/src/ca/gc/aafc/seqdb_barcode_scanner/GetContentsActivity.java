@@ -1,9 +1,12 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
+import java.util.HashMap;
+
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
 import ca.gc.aafc.seqdb_barcode_scanner.service.ContainerService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
 import ca.gc.aafc.seqdb_barcode_scanner.utils.DataParser;
+import ca.gc.aafc.seqdb_barcode_scanner.utils.ServiceTask;
 import ca.gc.aafc.seqdb_barcode_scanner.utils.Session;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,7 +26,7 @@ import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
 
-public class GetContentsActivity extends FragmentActivity implements GetContentFragment.OnContentSelectedListener{
+public class GetContentsActivity extends FragmentActivity implements GetContentFragment.OnContentSelectedListener, ServiceTask.OnServiceCallCompletedListener{
 	//Variable declaration
 	TextView header_title;
 	ImageButton button_mainMenu;
@@ -31,8 +34,9 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	private GetContentFragment getContentFragment;
 	private Container contentContainer;
 	private DataParser parser;
+	private ServiceTask taskRunner;
 
-	Session getContentSession;
+	private Session getContentSession;
 	static String SESSION_TYPE = "GET_CONTENT";
 	
 	@Override
@@ -51,6 +55,7 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		this.launchScanner("SCAN_CONTAINER");
 		
 		parser = new DataParser();
+		taskRunner = new ServiceTask(this);
 	}
 
 	@Override
@@ -88,18 +93,22 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 			   long id = this.parser.getId();
 			   
 			   EntityServiceI service = this.getContentSession.getService(acronym);
+			   this.taskRunner.setService(service);
 			   
 			   if(service != null){
-				   this.contentContainer = (Container)service.getById(id);
+				   //this.contentContainer = (Container)service.getById(id);
+				   HashMap<String,Object> params = new HashMap<String,Object>();
+				   params.put("getById", id);
+				   this.taskRunner.execute(params);
 			   }
 			   
 			   //this.getContentSession.getSessionEditor().putString("GET_CONTENTS_CONTAINER", decodedData);
 			   //this.getContentSession.getSessionEditor().commit();
-			   if(this.contentContainer == null){
+			   /*if(this.contentContainer == null){
 				   Toast.makeText(GetContentsActivity.this, "Error getById failed", Toast.LENGTH_LONG).show();
 			   }else{
 				   this.getContentFragment.loadContent(this.contentContainer);
-			   }
+			   }*/
 			   
 		   }else{
 			   Toast.makeText(GetContentsActivity.this, "NO SCANNING ACTION", Toast.LENGTH_LONG).show();
@@ -128,5 +137,21 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		   
 		   startActivityForResult(intent,0);
 	 }
+
+	@Override
+	public void onServiceCalled(String method, Object output) {
+		// TODO Auto-generated method stub
+		if(method.equalsIgnoreCase("getById")){
+			if(output !=null){
+				
+				this.contentContainer = (Container)output;
+				this.getContentFragment.loadContent(this.contentContainer);
+				
+			}else{
+				Toast.makeText(GetContentsActivity.this, "Error getById failed", Toast.LENGTH_LONG).show();
+			}
+			
+		}
+	}
 
 }
