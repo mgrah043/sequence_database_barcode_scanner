@@ -43,6 +43,7 @@ public class GetContentFragment extends Fragment {
     private TableLayout tableLayoutHeaderRight;
     private TextView containerId;
     private TextView containerSize;
+    private Button[][] buttonArray;
     
     /*
      * this should be from the container info
@@ -217,7 +218,7 @@ public class GetContentFragment extends Fragment {
 		 */
 		TableLayout table = this.tableLayout;
 		
-		//Button[][] buttonArray = new Button[this.contentRow][this.contentColumn];
+		this.buttonArray = new Button[this.contentRow][this.contentColumn];
 
 		//create top table header (alphabetical)
 		TableRow tableTopHeader = new TableRow(table.getContext());
@@ -271,7 +272,6 @@ public class GetContentFragment extends Fragment {
 						//set listener
 						currentButton.setTag(0, l.getWellRow());
 						currentButton.setTag(1, l.getWellColumn());
-						currentButton.setOnClickListener(Button_Click_Listener);
 					}
 				}
 				
@@ -288,7 +288,9 @@ public class GetContentFragment extends Fragment {
 				
 
 				//store button in array
-				//buttonArray[row][col] = currentButton;
+				this.buttonArray[row][col] = currentButton;
+				
+				currentButton.setOnClickListener(Button_Click_Listener);
 				
 				//add button to tablerow
 				currentRow.addView(currentButton, params);	
@@ -375,6 +377,7 @@ public class GetContentFragment extends Fragment {
 		public void onClick(View v){
 			System.out.println("Onclick listener");
 			if (null != contentSelectedListener) {
+				//check if tags exist if not then clicked on empty cell
 	        	contentSelectedListener.onContentSelected((String)v.getTag(0),(Integer)v.getTag(1)); // pass row then column
 	        }
 		}
