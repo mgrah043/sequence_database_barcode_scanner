@@ -12,42 +12,56 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class MixedSpecimen implements Serializable {
 
-	@JsonProperty("primaryKey")
+	@JsonProperty("id")
 	private long id;
-	@JsonProperty("mixedSpecimenBiologicalCollection")
-	private String mixedSpecimenBiologicalCollection;
-	@JsonProperty("mixedSpecimenNumber")
-	private long mixedSpecimenNumber;
-	@JsonProperty("location")
-	private Location location;
+	@JsonProperty("fungiIsolated")
+	private String fungiIsolated;
+	@JsonProperty("notes")
+	private String notes;
+	@JsonProperty("treatment")
+	private String treatment;
+	@JsonProperty("project")
+	private String project;
 	
-	public String getMixedSpecimenBiologicalCollection() {
-		return mixedSpecimenBiologicalCollection;
-	}
-	
-	public void setMixedSpecimenBiologicalCollection(
-			String mixedSpecimenBiologicalCollection) {
-		this.mixedSpecimenBiologicalCollection = mixedSpecimenBiologicalCollection;
-	}
-	
-	public long getMixedSpecimenNumber() {
-		return mixedSpecimenNumber;
-	}
-	
-	public void setMixedSpecimenNumber(long mixedSpecimenNumber) {
-		this.mixedSpecimenNumber = mixedSpecimenNumber;
-	}
-	
-	public Location getLocation() {
-		return location;
-	}
-	
-	public void setLocation(Location location) {
-		this.location = location;
-	}
 	
 	public long getId() {
 		return id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public String getFungiIsolated() {
+		return fungiIsolated;
+	}
+	
+	public void setFungiIsolated(String fungiIsolated) {
+		this.fungiIsolated = fungiIsolated;
+	}
+	
+	public String getNotes() {
+		return notes;
+	}
+	
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+	
+	public String getTreatment() {
+		return treatment;
+	}
+	
+	public void setTreatment(String treatment) {
+		this.treatment = treatment;
+	}
+	
+	public String getProject() {
+		return project;
+	}
+	
+	public void setProject(String project) {
+		this.project = project;
 	}
 	
 }

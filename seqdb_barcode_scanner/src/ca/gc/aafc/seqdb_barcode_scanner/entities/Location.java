@@ -20,6 +20,14 @@ public class Location implements Serializable {
 	private String wellRow;
 	@JsonProperty("containerId")
 	private Long containerId;
+	@JsonProperty("mixedSpecimen")
+	private MixedSpecimen mixedSpecimen;
+	@JsonProperty("pcrPrimer")
+	private PcrPrimer pcrPrimer;
+	@JsonProperty("sample")
+	private Sample sample;
+	@JsonProperty("specimenReplicate")
+	private SpecimenReplicate specimenReplicate;
 	
 	public Long getId() {
 		return id;
@@ -52,4 +60,37 @@ public class Location implements Serializable {
 	public void setContainerId(Long containerId) {
 		this.containerId = containerId;
 	}
+
+	public MixedSpecimen getMixedSpecimen() {
+		return mixedSpecimen;
+	}
+
+	public void setMixedSpecimen(MixedSpecimen mixedSpecimen) {
+		this.mixedSpecimen = mixedSpecimen;
+	}
+
+	public PcrPrimer getPcrPrimer() {
+		return pcrPrimer;
+	}
+
+	public void setPcrPrimer(PcrPrimer pcrPrimer) {
+		this.pcrPrimer = pcrPrimer;
+	}
+
+	public Sample getSample() {
+		return sample;
+	}
+
+	public void setSample(Sample sample) {
+		this.sample = sample;
+	}
+
+	public SpecimenReplicate getSpecimenReplicate() {
+		return specimenReplicate;
+	}
+
+	public void setSpecimenReplicate(SpecimenReplicate specimenReplicate) {
+		this.specimenReplicate = specimenReplicate;
+	}
+	
 }

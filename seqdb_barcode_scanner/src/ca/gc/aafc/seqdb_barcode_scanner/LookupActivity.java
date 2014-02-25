@@ -129,10 +129,12 @@ public class LookupActivity extends Activity{
 	private void displayMixedSpecimen(MixedSpecimen mixedSpecimen){
 		//Instantiate and set text for textviews
         textview_name = (TextView) findViewById(R.id.tv_lookup_name);
-        textview_name.setText("Mixed Specimen: " + mixedSpecimen.getMixedSpecimenNumber());
+        textview_name.setText("Mixed Specimen: " + mixedSpecimen.getFungiIsolated());
         
         textview_desc = (TextView) findViewById(R.id.tv_lookup_desc);
-        String content = "Biological Collection: " + mixedSpecimen.getMixedSpecimenBiologicalCollection() + " \n";
+        String content = "Notes: " + mixedSpecimen.getNotes() + " \n";
+        content += "Treatment: " + mixedSpecimen.getTreatment() + " \n";
+        content += "Project: " + mixedSpecimen.getProject() + " \n";
 
         textview_desc.setText(content);
 	}
