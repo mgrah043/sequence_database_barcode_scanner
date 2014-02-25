@@ -185,27 +185,16 @@ public class GetContentFragment extends Fragment {
 			TextView currentTextView = new TextView(leftHeader.getContext());
 			LayoutParams textViewParams = null;
 
-			//make top left and right elements blank 
-			if(r==0 || r==this.contentRow+1){
-				currentTextView.setText(" ");
-
-				//Set textview Layout parameters
-				textViewParams = new LayoutParams(
-						LayoutParams.WRAP_CONTENT,      
-						LayoutParams.WRAP_CONTENT
-						);
-			}
-			else{
+			
 				//store row number in textview
-				currentTextView.setText("" + getCharacterOfNumber(r+1));
+				currentTextView.setText("" + getCharacterOfNumber(r));
 
 				//Set textview Layout parameters
 				textViewParams = new LayoutParams(
 						LayoutParams.WRAP_CONTENT,      
 						HEIGHT_OF_TABLE_ELEMENT
 						);
-			}
-
+			
 			//Set textview attributes
 			currentTextView.setTextAppearance(leftHeader.getContext(), R.style.TableHeaderFont);
 			currentTextView.setGravity(Gravity.CENTER);
@@ -348,25 +337,16 @@ public class GetContentFragment extends Fragment {
 			LayoutParams textViewParams = null;
 
 			//make bottom left and right elements blank 
-			if(r==0 || r==this.contentRow+1){
-				currentTextView.setText(" ");
 
-				//Set textview Layout parameters
-				textViewParams = new LayoutParams(
-						LayoutParams.WRAP_CONTENT,      
-						LayoutParams.WRAP_CONTENT
-						);
-			}
-			else{
 				//store row number in textview
-				currentTextView.setText("" + getCharacterOfNumber(r+1));
+				currentTextView.setText("" + getCharacterOfNumber(r));
 
 				//Set textview Layout parameters
 				textViewParams = new LayoutParams(
 						LayoutParams.WRAP_CONTENT,      
 						HEIGHT_OF_TABLE_ELEMENT
 						);
-			}
+
 
 			//Set textview attributes
 			currentTextView.setTextAppearance(rightHeader.getContext(), R.style.TableHeaderFont);
