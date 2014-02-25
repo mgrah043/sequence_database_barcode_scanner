@@ -123,12 +123,13 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	}
 
 	@Override
-	public void onContentSelected(String row, int index) {
+	public void onContentSelected(String row, int col) {
 		// TODO Auto-generated method stub
 		/*
 		 * fetch the content at index of container entity that we got from the server
+		 * if row and col == null then it was an empty cell
 		 * */
-		Toast.makeText(GetContentsActivity.this, "A content has been clicked at index : "+index, Toast.LENGTH_LONG).show();
+		Toast.makeText(GetContentsActivity.this, "A content has been clicked at "+row+" "+col, Toast.LENGTH_LONG).show();
 	}
 	
 	 private void launchScanner(String action){

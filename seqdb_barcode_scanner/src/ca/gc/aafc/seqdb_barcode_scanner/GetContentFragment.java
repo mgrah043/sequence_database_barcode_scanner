@@ -24,7 +24,9 @@ import android.widget.Toast;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
 * This allows for creating a getContent Fragment.
@@ -155,6 +157,10 @@ public class GetContentFragment extends Fragment {
 		return  String.valueOf(Character.toChars(asciiNumber));
 	}
 	
+	public int getIntegerFromChar(char character){
+		return ((int)character)-65;
+	}
+	
 	
 	/*
 	 * This function should be called after the system has fetched the content of the container from the server
@@ -191,7 +197,7 @@ public class GetContentFragment extends Fragment {
 			}
 			else{
 				//store row number in textview
-				currentTextView.setText("" + r);
+				currentTextView.setText("" + getCharacterOfNumber(r));
 
 				//Set textview Layout parameters
 				textViewParams = new LayoutParams(
@@ -226,7 +232,7 @@ public class GetContentFragment extends Fragment {
 			TextView currentTextView = new TextView(table.getContext());
 
 			//store column number in textview
-			currentTextView.setText("" + getCharacterOfNumber(c));
+			currentTextView.setText(""+c);
 
 			//Set textview attributes
 			currentTextView.setTextAppearance(table.getContext(), R.style.TableHeaderFont);
@@ -264,14 +270,18 @@ public class GetContentFragment extends Fragment {
 				for(int i = 0; i < containerLocations.size(); i++){
 					Location l = containerLocations.get(i);
 					
-					if( row == (int)l.getWellRow().charAt(0) && col == l.getWellColumn()){
+					int rowVal = getIntegerFromChar(l.getWellRow().charAt(0));
+					int colVal = l.getWellColumn();
+					if( row == rowVal && col == colVal-1){
 						//Set button attributes
 						currentButton.setBackgroundResource(R.drawable.ui_button_blue);
 						currentButton.setText("Spec "+l.getWellRow()+"-"+l.getWellColumn());
 						
+						HashMap<String,Integer> rowCol = new HashMap<String,Integer>();
+						rowCol.put(l.getWellRow(),l.getWellColumn());
+						
 						//set listener
-						currentButton.setTag(0, l.getWellRow());
-						currentButton.setTag(1, l.getWellColumn());
+						currentButton.setTag(rowCol);
 					}
 				}
 				
@@ -307,7 +317,7 @@ public class GetContentFragment extends Fragment {
 			TextView currentTextView = new TextView(table.getContext());
 
 			//store column number in textview
-			currentTextView.setText("" + getCharacterOfNumber(c));
+			currentTextView.setText("" + c);
 
 			//Set textview attributes
 			currentTextView.setTextAppearance(table.getContext(), R.style.TableHeaderFont);
@@ -349,7 +359,7 @@ public class GetContentFragment extends Fragment {
 			}
 			else{
 				//store row number in textview
-				currentTextView.setText("" + r);
+				currentTextView.setText("" + getCharacterOfNumber(r));
 
 				//Set textview Layout parameters
 				textViewParams = new LayoutParams(
@@ -377,8 +387,14 @@ public class GetContentFragment extends Fragment {
 		public void onClick(View v){
 			System.out.println("Onclick listener");
 			if (null != contentSelectedListener) {
-				//check if tags exist if not then clicked on empty cell
-	        	contentSelectedListener.onContentSelected((String)v.getTag(0),(Integer)v.getTag(1)); // pass row then column
+				String row = null;
+				int col = 0;
+				for(Entry<String, Integer> entry : ((HashMap<String,Integer>)v.getTag()).entrySet()) {
+				    row = entry.getKey();
+				    col = entry.getValue();
+				}
+				contentSelectedListener.onContentSelected(row,col); // pass row then column
+				
 	        }
 		}
 	};
