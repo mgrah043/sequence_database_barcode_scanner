@@ -197,7 +197,7 @@ public class GetContentFragment extends Fragment {
 			}
 			else{
 				//store row number in textview
-				currentTextView.setText("" + getCharacterOfNumber(r));
+				currentTextView.setText("" + getCharacterOfNumber(r+1));
 
 				//Set textview Layout parameters
 				textViewParams = new LayoutParams(
@@ -232,7 +232,7 @@ public class GetContentFragment extends Fragment {
 			TextView currentTextView = new TextView(table.getContext());
 
 			//store column number in textview
-			currentTextView.setText(""+c);
+			currentTextView.setText(""+(c+1));
 
 			//Set textview attributes
 			currentTextView.setTextAppearance(table.getContext(), R.style.TableHeaderFont);
@@ -317,7 +317,7 @@ public class GetContentFragment extends Fragment {
 			TextView currentTextView = new TextView(table.getContext());
 
 			//store column number in textview
-			currentTextView.setText("" + c);
+			currentTextView.setText("" +(c+1));
 
 			//Set textview attributes
 			currentTextView.setTextAppearance(table.getContext(), R.style.TableHeaderFont);
@@ -359,7 +359,7 @@ public class GetContentFragment extends Fragment {
 			}
 			else{
 				//store row number in textview
-				currentTextView.setText("" + getCharacterOfNumber(r));
+				currentTextView.setText("" + getCharacterOfNumber(r+1));
 
 				//Set textview Layout parameters
 				textViewParams = new LayoutParams(
