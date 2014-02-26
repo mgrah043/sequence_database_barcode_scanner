@@ -17,7 +17,7 @@ public class DataParser {
 		this.id = 0;
 	}
 	
-	public void parse(String data){
+	public void parse(String data) throws Exception{
 		String[] barcodeText = data.split("-");
 		
 		try {

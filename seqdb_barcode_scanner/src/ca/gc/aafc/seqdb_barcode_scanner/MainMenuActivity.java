@@ -85,6 +85,8 @@ public class MainMenuActivity extends Activity{
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//this method should no longer be used
+		
 		// Make sure the request was successful
 		if (resultCode == RESULT_OK) {
 			Bundle resultBundle = data.getExtras();
@@ -100,6 +102,7 @@ public class MainMenuActivity extends Activity{
 				System.out.print("Success data is - "+decodedData);
 				
 				DataParser p = new DataParser();
+				try{
 				p.parse(decodedData);
 				
 				//send request to server to get result
@@ -138,36 +141,12 @@ public class MainMenuActivity extends Activity{
 				else {
 					// TODO display error message to user
 				}
-
-			}
-			else if(nextActivity.equalsIgnoreCase("getcontents")){
-
-				String decodedData = resultBundle.getString("DATA_RESULT");
-				Toast.makeText(MainMenuActivity.this, "Data decoded : "+ decodedData, Toast.LENGTH_LONG).show();
-				//TODO check if the decodedData is null if so then throw an error
-
-				System.out.print("Success data is - "+decodedData);
-				
-				
-				// prepare data to send to GetContents Activity
-				Bundle dataBundle = new Bundle();
-				dataBundle.putString("DECODEDDATA", decodedData);			
-
-				Intent intent = new Intent(MainMenuActivity.this, GetContentsActivity.class);
-				intent.putExtras(dataBundle);
-
-				startActivity(intent);
-				
-				}else if(nextActivity.equalsIgnoreCase("move_step_1")){
-
-				}else if(nextActivity.equalsIgnoreCase("move_step_2")){
-
-				}else if(nextActivity.equalsIgnoreCase("bulkMove")){
-
-				}else{
-
+				}catch(Exception e){
+					Toast.makeText(MainMenuActivity.this, "ERROR", Toast.LENGTH_LONG).show();
 				}
 
+			}
+			
 			}else{
 				
 				System.out.print("Failure");

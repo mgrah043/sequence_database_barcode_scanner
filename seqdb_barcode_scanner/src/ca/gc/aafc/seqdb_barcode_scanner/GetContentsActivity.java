@@ -75,9 +75,8 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	       String decodedData = resultBundle.getString("DATA_RESULT");
 	       String scanAction = resultBundle.getString("SCAN_ACTION");
 	       
-	       Toast.makeText(GetContentsActivity.this, "Data decoded : "+decodedData, Toast.LENGTH_LONG).show();
-	       //TODO check if the decodedData is null if so then throw an error
-		       
+	       //Toast.makeText(GetContentsActivity.this, "Data decoded : "+decodedData, Toast.LENGTH_LONG).show();
+	           
 		   System.out.print("Success data is - "+decodedData);
 		   
 		   //String current_container = this.getContentSession.getSession().getString("GET_CONTENTS_CONTAINER", "");
@@ -87,21 +86,29 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 			    * With the decoded data use session.get entity etc... then call server to get container info
 			    * 
 			    * */
-			   this.parser.parse(decodedData);
 			   
-			   String acronym = this.parser.getAcronym();
-			   long id = this.parser.getId();
-			   
-			   EntityServiceI service = this.getContentSession.getService(acronym);
-			   
-			   
-			   if(service != null){
-				   this.taskRunner.setService(service);
-				   //this.contentContainer = (Container)service.getById(id);
-				   HashMap<String,Object> params = new HashMap<String,Object>();
-				   params.put("getById", id);
-				   this.taskRunner.execute(params);
+			   try{
+				   this.parser.parse(decodedData);
+				   
+				   String acronym = this.parser.getAcronym();
+				   long id = this.parser.getId();
+				   
+				   EntityServiceI service = this.getContentSession.getService(acronym);
+				   
+				   
+				   if(service != null){
+					   this.taskRunner.setService(service);
+					   //this.contentContainer = (Container)service.getById(id);
+					   HashMap<String,Object> params = new HashMap<String,Object>();
+					   params.put("getById", id);
+					   this.taskRunner.execute(params);
+				   }
+			   }catch(Exception e){
+				   Toast.makeText(GetContentsActivity.this, "Unknown barcode format please san a valid container", Toast.LENGTH_LONG).show();
+				   this.launchScanner("SCAN_CONTAINER");
 			   }
+			   
+			   
 			   
 			   //this.getContentSession.getSessionEditor().putString("GET_CONTENTS_CONTAINER", decodedData);
 			   //this.getContentSession.getSessionEditor().commit();
