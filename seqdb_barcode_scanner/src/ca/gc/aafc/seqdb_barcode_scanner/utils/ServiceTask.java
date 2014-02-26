@@ -127,7 +127,7 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
         // call activity  
         if (null != this.serviceCallListener) {
         	this.serviceCallListener.onServiceCalled(this.serviceCall, this.output); // pass row then column
-        	
+        	this.output = null;
         	this.setServiceCall("");//clear the call
         }
         

@@ -93,9 +93,10 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 			   long id = this.parser.getId();
 			   
 			   EntityServiceI service = this.getContentSession.getService(acronym);
-			   this.taskRunner.setService(service);
+			   
 			   
 			   if(service != null){
+				   this.taskRunner.setService(service);
 				   //this.contentContainer = (Container)service.getById(id);
 				   HashMap<String,Object> params = new HashMap<String,Object>();
 				   params.put("getById", id);
@@ -129,7 +130,11 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		 * fetch the content at index of container entity that we got from the server
 		 * if row and col == null then it was an empty cell
 		 * */
-		Toast.makeText(GetContentsActivity.this, "A content has been clicked at "+row+" "+col, Toast.LENGTH_LONG).show();
+		if(row == null){
+			Toast.makeText(GetContentsActivity.this, "You've clicked on an empty cell", Toast.LENGTH_LONG).show();
+		}else{
+			Toast.makeText(GetContentsActivity.this, "A content has been clicked at "+row+" "+col, Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	 private void launchScanner(String action){

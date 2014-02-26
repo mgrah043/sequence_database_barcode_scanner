@@ -369,10 +369,16 @@ public class GetContentFragment extends Fragment {
 			if (null != contentSelectedListener) {
 				String row = null;
 				int col = 0;
-				for(Entry<String, Integer> entry : ((HashMap<String,Integer>)v.getTag()).entrySet()) {
-				    row = entry.getKey();
-				    col = entry.getValue();
+				
+				try{
+					for(Entry<String, Integer> entry : ((HashMap<String,Integer>)v.getTag()).entrySet()) {
+					    row = entry.getKey();
+					    col = entry.getValue();
+					}
+				}catch(Exception e){
+					System.out.println("empty cell clicked");
 				}
+				
 				contentSelectedListener.onContentSelected(row,col); // pass row then column
 				
 	        }
