@@ -125,7 +125,7 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		 
 		   
 	   }else{
-		   Toast.makeText(GetContentsActivity.this, "ERROR when scanning", Toast.LENGTH_LONG).show();		   
+		   finish();		   
 	   }
 		  
 	}
