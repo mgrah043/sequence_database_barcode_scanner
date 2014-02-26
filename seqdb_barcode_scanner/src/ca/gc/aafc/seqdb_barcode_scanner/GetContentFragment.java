@@ -264,7 +264,8 @@ public class GetContentFragment extends Fragment {
 					if( row == rowVal && col == colVal-1){
 						//Set button attributes
 						currentButton.setBackgroundResource(R.drawable.ui_button_blue);
-						currentButton.setText("Spec "+l.getWellRow()+"-"+l.getWellColumn());
+						String output = (l.getMixedSpecimen() != null)? l.getMixedSpecimen().getFungiIsolated() : "Spec "+l.getWellRow()+"-"+l.getWellColumn();
+						currentButton.setText(output);
 						
 						HashMap<String,Integer> rowCol = new HashMap<String,Integer>();
 						rowCol.put(l.getWellRow(),l.getWellColumn());
