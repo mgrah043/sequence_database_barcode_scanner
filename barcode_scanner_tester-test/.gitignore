@@ -1,0 +1,15 @@
+/libs/.classpath
+/libs/.project
+/gen
+/target/classes
+/target/generated-sources
+/target/generated-test-sources
+/target/maven-archiver
+/target/maven-status
+/target/surefire-reports
+/target/test-classes
+/target/classes.dex
+/target/seqdb_barcode_scanner_tester-0.0.1-SNAPSHOT.ap_
+/target/seqdb_barcode_scanner_tester-0.0.1-SNAPSHOT.jar
+/bin
+*.prefs
