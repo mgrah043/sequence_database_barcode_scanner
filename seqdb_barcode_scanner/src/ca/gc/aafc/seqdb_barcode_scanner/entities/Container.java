@@ -16,7 +16,7 @@ public class Container implements Serializable {
 	@JsonProperty("id")
 	private long id;
 	@JsonProperty("containerNumber")
-	private int containerNumber;
+	private String containerNumber;
 	@JsonProperty("containerType")
 	private ContainerType containerType;
 	@JsonProperty("locations")
@@ -32,11 +32,11 @@ public class Container implements Serializable {
 		this.id = id;
 	}
 	
-	public int getContainerNumber() {
+	public String getContainerNumber() {
 		return containerNumber;
 	}
 	
-	public void setContainerNumber(int containerNumber) {
+	public void setContainerNumber(String containerNumber) {
 		this.containerNumber = containerNumber;
 	}
 	
