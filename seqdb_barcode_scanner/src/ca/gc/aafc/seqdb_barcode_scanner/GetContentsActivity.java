@@ -92,9 +92,14 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 				   
 				   String acronym = this.parser.getAcronym();
 				   long id = this.parser.getId();
+				   EntityServiceI service = null;
 				   
-				   EntityServiceI service = this.getContentSession.getService(acronym);
-				   
+				   if (acronym.equalsIgnoreCase("CON") || acronym.equalsIgnoreCase("07")){
+					   service = this.getContentSession.getService(acronym);
+				   }else{
+					   Toast.makeText(GetContentsActivity.this, "Wrong object scanned please scan a container", Toast.LENGTH_LONG).show();
+					   this.launchScanner("SCAN_CONTAINER");
+				   }
 				   
 				   if(service != null){
 					   this.taskRunner.setService(service);
@@ -161,7 +166,7 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 				this.getContentFragment.loadContent(this.contentContainer);
 				
 			}else{
-				Toast.makeText(GetContentsActivity.this, "Error getById failed", Toast.LENGTH_LONG).show();
+				Toast.makeText(GetContentsActivity.this, "Record not valid in database", Toast.LENGTH_LONG).show();
 			}
 			
 		}
