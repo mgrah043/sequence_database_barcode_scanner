@@ -20,6 +20,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import android.util.Log;
 
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Storage;
@@ -138,34 +141,35 @@ public class StorageService implements EntityServiceI{
 		HttpHeaders requestHeaders = new HttpHeaders();
 		// Set the Content-Type header
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		// create the request body
-		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
-		body.add("storage[id]", String.valueOf(storage.getId()));
-		// body.add("storage[first_name]", storage.getFirstName());
-		// body.add("storage[last_name]",storage.getLastName());
-
-		// create the request entity
-		HttpEntity<?> requestEntity = new HttpEntity<Object>(body, requestHeaders);
-		// Get the RestTemplate and add the message converters
-		RestTemplate restTemplate = new RestTemplate();
-
-		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-		messageConverters.add(new FormHttpMessageConverter());
-		messageConverters.add(new StringHttpMessageConverter());
-		restTemplate.setMessageConverters(messageConverters);
+		
 		try {
-			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-			HttpStatus status = response.getStatusCode();
-			if (status == HttpStatus.CREATED) {
-				return true;
-			} else {
+			// create the request entity
+			String body = new ObjectMapper().writeValueAsString(storage);
+			// create the request entity
+			HttpEntity<?> requestEntity = new HttpEntity<Object>(body, requestHeaders);
+			// Get the RestTemplate and add the message converters
+			RestTemplate restTemplate = new RestTemplate();
+
+			List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+			messageConverters.add(new FormHttpMessageConverter());
+			messageConverters.add(new StringHttpMessageConverter());
+			restTemplate.setMessageConverters(messageConverters);
+			try {
+				ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+				HttpStatus status = response.getStatusCode();
+				if (status == HttpStatus.CREATED) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch (HttpClientErrorException e) {
+				e.printStackTrace();
 				return false;
 			}
-		} catch (HttpClientErrorException e) {
-			e.printStackTrace();
+		} catch (JsonProcessingException e1) {
+			Log.e(StorageService.class.toString(), "An error occured while converting to JSON");
 			return false;
 		}
-
 	}
 
 	public Storage update(Serializable entity) {
@@ -176,29 +180,31 @@ public class StorageService implements EntityServiceI{
 		// Set the Content-Type header
 		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
-		body.add("storage[id]", String.valueOf(storage.getId()));
-//		body.add("storage[first_name]",storage.getFirstName());
-//		body.add("storage[last_name]",storage.getLastName());
-
-		// create the request entity
-		HttpEntity<?> requestEntity = new HttpEntity<Object>(body,requestHeaders);
-		RestTemplate restTemplate = new RestTemplate();
-
-		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-		messageConverters.add(new FormHttpMessageConverter());
-		messageConverters.add(new StringHttpMessageConverter());
-		restTemplate.setMessageConverters(messageConverters);
 		try {
-			ResponseEntity<Storage> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Storage.class, storage.getId());
-			HttpStatus status = response.getStatusCode();
-			if (status == HttpStatus.CREATED) {
-				return response.getBody();
-			} else {
+			// create the request entity
+			String body = new ObjectMapper().writeValueAsString(storage);
+			// create the request entity
+			HttpEntity<?> requestEntity = new HttpEntity<Object>(body,requestHeaders);
+			RestTemplate restTemplate = new RestTemplate();
+
+			List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+			messageConverters.add(new FormHttpMessageConverter());
+			messageConverters.add(new StringHttpMessageConverter());
+			restTemplate.setMessageConverters(messageConverters);
+			try {
+				ResponseEntity<Storage> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Storage.class, storage.getId());
+				HttpStatus status = response.getStatusCode();
+				if (status == HttpStatus.CREATED) {
+					return response.getBody();
+				} else {
+					return null;
+				}
+			} catch (HttpClientErrorException e) {
+				e.printStackTrace();
 				return null;
 			}
-		} catch (HttpClientErrorException e) {
-			e.printStackTrace();
+		} catch (JsonProcessingException e1) {
+			Log.e(StorageService.class.toString(), "An error occured while converting to JSON");
 			return null;
 		}
 	}

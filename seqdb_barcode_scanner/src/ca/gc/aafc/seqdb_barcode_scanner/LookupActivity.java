@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
+import java.util.HashMap;
+
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.ContainerType;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Location;
@@ -8,14 +10,20 @@ import ca.gc.aafc.seqdb_barcode_scanner.entities.PcrPrimer;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Sample;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.SpecimenReplicate;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Storage;
+import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
+import ca.gc.aafc.seqdb_barcode_scanner.utils.DataParser;
+import ca.gc.aafc.seqdb_barcode_scanner.utils.ServiceTask;
+import ca.gc.aafc.seqdb_barcode_scanner.utils.Session;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class LookupActivity extends Activity{
+public class LookupActivity extends Activity implements ServiceTask.OnServiceCallCompletedListener{
 	
 	//Variable declaration
 	ImageButton button_mainMenu;
@@ -23,55 +31,34 @@ public class LookupActivity extends Activity{
 	TextView textview_name;
 	TextView textview_desc;
 	
+	private DataParser parser;
+	private ServiceTask taskRunner;
+	private String entityType = "";
+	
+	private Session lookupSession;
+	static final String SESSION_TYPE = "LOOKUP";
+	static final String SCAN_TYPE = "SCAN_BARCODE";
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        //get the data to be displayed
-        Bundle dataBundle = getIntent().getExtras();
-        String type = (dataBundle != null) ? dataBundle.getString("TYPE") : null;
-        
-        setContentView(R.layout.activity_lookup);
-        
+        lookupSession = new Session(this,SESSION_TYPE);
+	    Toast.makeText(this, "Please scan a barcode", Toast.LENGTH_LONG).show();
+	    
+		launchScanner(SCAN_TYPE);
+		
+		parser = new DataParser();
+		taskRunner = new ServiceTask(this);
+		
+		 setContentView(R.layout.activity_lookup);
+	        
         //Instantiate and set click listener for buttons
         button_mainMenu = (ImageButton) findViewById(R.id.btn_header_menu);
         button_mainMenu.setOnClickListener(Button_Click_Listener);
         
         header_title = (TextView) findViewById(R.id.tv_header_main_title);
         header_title.setText("LOOKUP RESULT");
-        
-        if (type != null && dataBundle.getSerializable("ENTITY") != null){
-	        if (type.equalsIgnoreCase("CON") || type.equalsIgnoreCase("07")){
-	        	Container container = (Container)dataBundle.getSerializable("ENTITY");
-	        	displayContainer(container);
-	        }else if(type.equalsIgnoreCase("LOC")){
-	        	Location location = (Location)dataBundle.getSerializable("ENTITY");
-	        	displayLocation(location);
-	        }else if(type.equalsIgnoreCase("MSP") || type.equalsIgnoreCase("03")){
-	        	MixedSpecimen mixedSpecimen = (MixedSpecimen)dataBundle.getSerializable("ENTITY");
-	        	displayMixedSpecimen(mixedSpecimen);
-	        }else if(type.equalsIgnoreCase("PRI") || type.equalsIgnoreCase("05")){
-	        	PcrPrimer pcrPrimer = (PcrPrimer)dataBundle.getSerializable("ENTITY");
-	        	displayPcrPrimer(pcrPrimer);
-	        }else if(type.equalsIgnoreCase("SAM") || type.equalsIgnoreCase("04")){
-	        	Sample sample = (Sample)dataBundle.getSerializable("ENTITY");
-	        	displaySample(sample);
-	        }else if(type.equalsIgnoreCase("SPE") || type.equalsIgnoreCase("01") || type.equalsIgnoreCase("02")){
-	        	SpecimenReplicate specimenReplicate = (SpecimenReplicate)dataBundle.getSerializable("ENTITY");
-	        	displaySpecimenReplicate(specimenReplicate);
-	        }else if(type.equalsIgnoreCase("STR") || type.equalsIgnoreCase("08")){
-	        	Storage storage = (Storage)dataBundle.getSerializable("ENTITY");
-	        	displayStorage(storage);
-	        }
-        }else{
-        	// display an error message
-        	textview_name = (TextView) findViewById(R.id.tv_lookup_name);
-            textview_name.setText("Error: Content not found");
-            
-            textview_desc = (TextView) findViewById(R.id.tv_lookup_desc);
-            //TODO add a detailed description of why the error occurred
-            textview_desc.setText("");
-        }
 	}
 	
 	OnClickListener Button_Click_Listener = new OnClickListener(){
@@ -89,6 +76,49 @@ public class LookupActivity extends Activity{
 	@Override
 	public void onBackPressed() {
 		finish();
+	}
+	
+	/*
+	 * Is called whenever scanning was done
+	 * get scanned result and decode using getEntity
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+	   // Make sure the request was successful
+	   if (resultCode == RESULT_OK) {
+	       Bundle resultBundle = data.getExtras();
+	       String decodedData = resultBundle.getString("DATA_RESULT");
+	       String scanAction = resultBundle.getString("SCAN_ACTION");
+		   
+		   if(scanAction != null && scanAction.equalsIgnoreCase(SCAN_TYPE)){
+			   // With the decoded data use session.get entity etc... then call server to get entity info
+			   try{
+				   parser.parse(decodedData);
+				   entityType = parser.getAcronym();
+				   
+				   EntityServiceI service = lookupSession.getService(entityType);
+				   
+				   if(service != null){
+					   taskRunner.setService(service);
+					   HashMap<String,Object> params = new HashMap<String,Object>();
+					   params.put("getById", parser.getId());
+					   taskRunner.execute(params);
+				   }
+			   }catch(Exception e){
+				   Toast.makeText(this, "Unknown barcode format: please scan a valid barcode", Toast.LENGTH_LONG).show();
+				   launchScanner(SCAN_TYPE);
+			   }
+			   
+		   }else{
+			   Toast.makeText(this, "NO SCANNING ACTION", Toast.LENGTH_LONG).show();
+			   launchScanner(SCAN_TYPE);
+		   }
+		 
+	   }else{
+		   finish();		   
+	   }
+		  
 	}
 	
 	//***************************************
@@ -202,4 +232,53 @@ public class LookupActivity extends Activity{
 	// Display Methods - END
 	//***************************************
 	
+	private void launchScanner(String action){
+		   Intent intent = new Intent(this, ScannerActivity.class);
+		   intent.putExtra("SCAN_ACTION", action);
+		   
+		   startActivityForResult(intent,0);
+	 }
+	
+	@Override
+	public void onServiceCalled(String method, Object output) {
+		if(method.equalsIgnoreCase("getById")){
+			if(output !=null && !entityType.isEmpty()){
+				
+		        if (entityType.equalsIgnoreCase("CON") || entityType.equalsIgnoreCase("07")){
+		        	Container container = (Container)output;
+		        	displayContainer(container);
+		        }else if(entityType.equalsIgnoreCase("LOC")){
+		        	Location location = (Location)output;
+		        	displayLocation(location);
+		        }else if(entityType.equalsIgnoreCase("MSP") || entityType.equalsIgnoreCase("03")){
+		        	MixedSpecimen mixedSpecimen = (MixedSpecimen)output;
+		        	displayMixedSpecimen(mixedSpecimen);
+		        }else if(entityType.equalsIgnoreCase("PRI") || entityType.equalsIgnoreCase("05")){
+		        	PcrPrimer pcrPrimer = (PcrPrimer)output;
+		        	displayPcrPrimer(pcrPrimer);
+		        }else if(entityType.equalsIgnoreCase("SAM") || entityType.equalsIgnoreCase("04")){
+		        	Sample sample = (Sample)output;
+		        	displaySample(sample);
+		        }else if(entityType.equalsIgnoreCase("SPE") || entityType.equalsIgnoreCase("01") || entityType.equalsIgnoreCase("02")){
+		        	SpecimenReplicate specimenReplicate = (SpecimenReplicate)output;
+		        	displaySpecimenReplicate(specimenReplicate);
+		        }else if(entityType.equalsIgnoreCase("STR") || entityType.equalsIgnoreCase("08")){
+		        	Storage storage = (Storage)output;
+		        	displayStorage(storage);
+		        }
+				
+			}else{
+				// display an error message
+	        	textview_name = (TextView) findViewById(R.id.tv_lookup_name);
+	            textview_name.setText("Error: Content not found");
+	            
+	            textview_desc = (TextView) findViewById(R.id.tv_lookup_desc);
+	            //TODO add a detailed description of why the error occurred
+	            textview_desc.setText("");
+	            
+	            Toast.makeText(this, "Error getById failed", Toast.LENGTH_LONG).show();
+			}
+			
+		}
+	}
 }

@@ -3,26 +3,15 @@ package ca.gc.aafc.seqdb_barcode_scanner;
 import java.util.HashMap;
 
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
-import ca.gc.aafc.seqdb_barcode_scanner.service.ContainerService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
 import ca.gc.aafc.seqdb_barcode_scanner.utils.DataParser;
 import ca.gc.aafc.seqdb_barcode_scanner.utils.ServiceTask;
 import ca.gc.aafc.seqdb_barcode_scanner.utils.Session;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.Gravity;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.Toast;
-import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
 
@@ -38,21 +27,21 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 
 	private Session getContentSession;
 	static String SESSION_TYPE = "GET_CONTENT";
+	static final String SCAN_TYPE = "SCAN_CONTAINER";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//Should had possibility to get data from bundle in cas we start this view for move or bulk move
-		
+		//Should had possibility to get data from bundle in case we start this view for move or bulk move
 		setContentView(R.layout.activity_get_contents_template);
 		
 		getContentFragment = (GetContentFragment) getSupportFragmentManager().findFragmentById(R.id.get_content_fragment);
 		
 		getContentSession = new Session(this,SESSION_TYPE);
-	    Toast.makeText(GetContentsActivity.this, "Please scan the container to get its content", Toast.LENGTH_LONG).show();
+	    Toast.makeText(this, "Please scan the container to get its content", Toast.LENGTH_LONG).show();
 	    
-		this.launchScanner("SCAN_CONTAINER");
+		launchScanner(SCAN_TYPE);
 		
 		parser = new DataParser();
 		taskRunner = new ServiceTask(this);
@@ -63,94 +52,70 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		finish();
 	}
 	
+	/*
+	 * Is called whenever scanning was done
+	 * get scanned result and decode using getEntity
+	 * */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		/*
-		 * Is called whenever scanning was done
-		 * get scanned result and decode using getEntity
-		 * */
 	   // Make sure the request was successful
 	   if (resultCode == RESULT_OK) {
 	       Bundle resultBundle = data.getExtras();
 	       String decodedData = resultBundle.getString("DATA_RESULT");
 	       String scanAction = resultBundle.getString("SCAN_ACTION");
-	       
-	       //Toast.makeText(GetContentsActivity.this, "Data decoded : "+decodedData, Toast.LENGTH_LONG).show();
-	           
-		   System.out.print("Success data is - "+decodedData);
 		   
-		   //String current_container = this.getContentSession.getSession().getString("GET_CONTENTS_CONTAINER", "");
-		   
-		   if(scanAction != null && scanAction.equalsIgnoreCase("SCAN_CONTAINER")){
-			   /*
-			    * With the decoded data use session.get entity etc... then call server to get container info
-			    * 
-			    * */
-			   
+		   if(scanAction != null && scanAction.equalsIgnoreCase(SCAN_TYPE)){
+			   //With the decoded data use session.get entity etc... then call server to get container info
 			   try{
-				   this.parser.parse(decodedData);
+				   parser.parse(decodedData);
 				   
-				   String acronym = this.parser.getAcronym();
-				   long id = this.parser.getId();
+
+				   String acronym = parser.getAcronym();
+				   long id = parser.getId();
 				   EntityServiceI service = null;
 				   
 				   if (acronym.equalsIgnoreCase("CON") || acronym.equalsIgnoreCase("07")){
-					   service = this.getContentSession.getService(acronym);
+					   service = getContentSession.getService(acronym);
 				   }else{
-					   Toast.makeText(GetContentsActivity.this, "Wrong object scanned please scan a container", Toast.LENGTH_LONG).show();
+					   Toast.makeText(this, "Wrong object scanned please scan a container", Toast.LENGTH_LONG).show();
 					   this.launchScanner("SCAN_CONTAINER");
 				   }
-				   
+
 				   if(service != null){
-					   this.taskRunner.setService(service);
-					   //this.contentContainer = (Container)service.getById(id);
+					   taskRunner.setService(service);
 					   HashMap<String,Object> params = new HashMap<String,Object>();
 					   params.put("getById", id);
-					   this.taskRunner.execute(params);
+					   taskRunner.execute(params);
 				   }
 			   }catch(Exception e){
-				   Toast.makeText(GetContentsActivity.this, "Unknown barcode format please san a valid container", Toast.LENGTH_LONG).show();
-				   this.launchScanner("SCAN_CONTAINER");
+				   Toast.makeText(this, "Unknown barcode format: please scan a valid container", Toast.LENGTH_LONG).show();
+				   launchScanner(SCAN_TYPE);
 			   }
 			   
-			   
-			   
-			   //this.getContentSession.getSessionEditor().putString("GET_CONTENTS_CONTAINER", decodedData);
-			   //this.getContentSession.getSessionEditor().commit();
-			   /*if(this.contentContainer == null){
-				   Toast.makeText(GetContentsActivity.this, "Error getById failed", Toast.LENGTH_LONG).show();
-			   }else{
-				   this.getContentFragment.loadContent(this.contentContainer);
-			   }*/
-			   
 		   }else{
-			   Toast.makeText(GetContentsActivity.this, "NO SCANNING ACTION", Toast.LENGTH_LONG).show();
-			   this.launchScanner("SCAN_CONTAINER");
+			   Toast.makeText(this, "NO SCANNING ACTION", Toast.LENGTH_LONG).show();
+			   launchScanner(SCAN_TYPE);
 		   }
-		 
-		   
 	   }else{
 		   finish();		   
-	   }
-		  
+	   } 
 	}
 
 	@Override
 	public void onContentSelected(String row, int col) {
-		// TODO Auto-generated method stub
 		/*
 		 * fetch the content at index of container entity that we got from the server
 		 * if row and col == null then it was an empty cell
 		 * */
 		if(row == null){
-			Toast.makeText(GetContentsActivity.this, "You've clicked on an empty cell", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "You've clicked on an empty cell", Toast.LENGTH_LONG).show();
 		}else{
-			Toast.makeText(GetContentsActivity.this, "A content has been clicked at "+row+" "+col, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "A content has been clicked at "+row+" "+col, Toast.LENGTH_LONG).show();
 		}
 	}
 	
 	 private void launchScanner(String action){
-		   Intent intent = new Intent(GetContentsActivity.this, ScannerActivity.class);
+		   Intent intent = new Intent(this, ScannerActivity.class);
 		   intent.putExtra("SCAN_ACTION", action);
 		   
 		   startActivityForResult(intent,0);
@@ -158,17 +123,16 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 
 	@Override
 	public void onServiceCalled(String method, Object output) {
-		// TODO Auto-generated method stub
 		if(method.equalsIgnoreCase("getById")){
 			if(output !=null){
 				
-				this.contentContainer = (Container)output;
-				this.getContentFragment.loadContent(this.contentContainer);
+				contentContainer = (Container)output;
+				getContentFragment.loadContent(contentContainer);
 				
 			}else{
-				Toast.makeText(GetContentsActivity.this, "Record not valid in database", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Error getById failed", Toast.LENGTH_LONG).show();
+
 			}
-			
 		}
 	}
 

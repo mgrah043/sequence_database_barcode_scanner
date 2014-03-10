@@ -63,10 +63,8 @@ public class MainMenuActivity extends Activity{
 
 			//Login button
 			if(id_of_view == button_lookup.getId()){
-				Intent intent = new Intent(MainMenuActivity.this, ScannerActivity.class);
-				intent.putExtra("NEXT_ACTIVITY", "lookup");
-
-				startActivityForResult(intent,0);
+				Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
+				startActivity(intent);
 
 			//GetContents button
 			}else if(id_of_view == button_getContents.getId()){
@@ -83,77 +81,6 @@ public class MainMenuActivity extends Activity{
 		}
 	};
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		//this method should no longer be used
-		
-		// Make sure the request was successful
-		if (resultCode == RESULT_OK) {
-			Bundle resultBundle = data.getExtras();
-
-			String nextActivity = resultBundle.getString("NEXT_ACTIVITY");
-
-			if(nextActivity.equalsIgnoreCase("lookup")){
-
-				String decodedData = resultBundle.getString("DATA_RESULT");
-				Toast.makeText(MainMenuActivity.this, "Data decoded : "+decodedData, Toast.LENGTH_LONG).show();
-				//TODO check if the decodedData is null if so then throw an error
-
-				System.out.print("Success data is - "+decodedData);
-				
-				DataParser p = new DataParser();
-				try{
-				p.parse(decodedData);
-				
-				//send request to server to get result
-				String acronym = p.getAcronym();
-				long id = p.getId();
-				
-				/*
-				String[] barcodeText = decodedData.split("-");
-				try {
-					Integer.parseInt(barcodeText[0]);
-					// if the characters before the hyphen are numbers, the entity type is 
-					// identified by the first two digits after the hyphen
-					acronym = barcodeText[1].substring(0, 2);
-					id = Long.parseLong(barcodeText[1].substring(2));
-				} catch (NumberFormatException e){
-					// if the characters before the hyphen are letters, the entity type is 
-					// identified by these characters
-					acronym = barcodeText[0];
-					id = Long.parseLong(barcodeText[1]);
-				}
-				*/
-				EntityServiceI service = getService(acronym);
-				if (service != null){
-					Serializable entity = service.getById(id);
-
-					// prepare data to send to LookUp Activity
-					Bundle dataBundle = new Bundle();
-					dataBundle.putSerializable("ENTITY", entity);
-					dataBundle.putString("TYPE", acronym);
-
-					Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
-					intent.putExtras(dataBundle);
-					startActivity(intent);
-				}
-
-				else {
-					// TODO display error message to user
-				}
-				}catch(Exception e){
-					Toast.makeText(MainMenuActivity.this, "ERROR", Toast.LENGTH_LONG).show();
-				}
-
-			}
-			
-			}else{
-				
-				System.out.print("Failure");
-			}
-
-		}
-
 		@Override
 		public void onBackPressed() {
 
@@ -163,35 +90,6 @@ public class MainMenuActivity extends Activity{
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 
-		}
-
-		private EntityServiceI getService(String acronym){
-			EntityServiceI service = null;
-
-			SharedPreferences preferences = getSharedPreferences(getString(R.string.config_file), MODE_PRIVATE);
-			String serverURL = preferences.getString("SERVER_URL", "http://localhost:8080/seqdb-ws/v1");
-
-			if (acronym.equalsIgnoreCase("CON") || acronym.equalsIgnoreCase("07")){
-				service = new ContainerService(serverURL);
-			} else if (acronym.equalsIgnoreCase("LOC")){
-				service = new LocationService(serverURL);
-			} else if (acronym.equalsIgnoreCase("MSP") || acronym.equalsIgnoreCase("03")){
-				service = new MixedSpecimenService(serverURL);
-			} else if (acronym.equalsIgnoreCase("PRI") || acronym.equalsIgnoreCase("05")){
-				service = new PcrPrimerService(serverURL);
-			} else if (acronym.equalsIgnoreCase("SAM") || acronym.equalsIgnoreCase("04")){
-				service = new SampleService(serverURL);
-			} else if (acronym.equalsIgnoreCase("SPE") || acronym.equalsIgnoreCase("01") || acronym.equalsIgnoreCase("02")){
-				service = new SpecimenReplicateService(serverURL);
-			} else if (acronym.equalsIgnoreCase("STR") || acronym.equalsIgnoreCase("08")){
-				service = new StorageService(serverURL);
-//			} else if (acronym.equalsIgnoreCase("PRD") || acronym.equalsIgnoreCase("06")){
-//				service = new ProductService(serverURL);
-//			} else if (acronym.equalsIgnoreCase("ACC") || acronym.equalsIgnoreCase("00")){
-//				service = new AccountService(serverURL);
-			}
-
-			return service;
 		}
 
 	}
