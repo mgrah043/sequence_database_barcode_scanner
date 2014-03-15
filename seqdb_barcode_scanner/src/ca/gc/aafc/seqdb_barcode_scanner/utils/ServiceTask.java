@@ -84,6 +84,7 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
     protected void onPreExecute() {
     super.onPreExecute();
         progressDialog = ProgressDialog.show(this.context, "Loading", "Loading", true);
+        
     }
 	
 	/*
@@ -103,6 +104,9 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
 			     * 
 			     * */
 			    if(key.equalsIgnoreCase("getById"))
+			    	this.output = this.service.getById((Long) value);
+			    
+			    if(key.equalsIgnoreCase("getContainerById"))
 			    	this.output = this.service.getById((Long) value);
 			    
 			    if(key.equalsIgnoreCase("deleteById"))

@@ -172,7 +172,7 @@ public class GetContentFragment extends Fragment {
     	 * Creating the left column header
     	 * 
     	 * */
-		this.contentRow =  container.getContainerType().getNumberOfRows();
+		this.contentRow = container.getContainerType().getNumberOfRows();
 		this.contentColumn = container.getContainerType().getNumberOfColumns();
 		
 		this.containerId.setText("Container "+container.getId());
