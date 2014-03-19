@@ -16,10 +16,10 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="364dp"
-            android:layout_height="226dp"
+            android:layout_width="301dp"
+            android:layout_height="187dp"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/dim_10"
+            android:layout_margin="@dimen/dim_5"
             android:src="@drawable/logo_dark_blue" />
     </LinearLayout>
 
@@ -29,106 +29,33 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/logo_layout"
-        android:gravity="center"
         android:baselineAligned="false"
+        android:gravity="center"
         android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_margin="@dimen/dim_30"
+        <Button
+            android:id="@+id/btn_scan_login"
+            style="@style/Button_Blue"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/dim_10"
             android:layout_weight="1"
-            android:background="@color/gray_f4f4f4"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:tag="bold"
+            android:text="@string/txt_btn_scan_login"
+            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/txt_scan_login_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dim_20"
-                android:layout_marginTop="@dimen/dim_20"
-                
-                android:gravity="center"
-                android:text="@string/txt_scan_login_header"
-                android:textColor="@color/black_333"
-                android:textSize="@dimen/tex_size_xxlarge" />
-            
-            <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dip"
+        <Button
+            android:id="@+id/btn_manual_login"
+            style="@style/Button_Blue"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/dim_10"
             android:layout_weight="1"
-            android:orientation="vertical">
-            </LinearLayout>
-            
-			<Button
-			    android:id="@+id/btn_scan_login"
-			    style="@style/Button_Blue"
-			    android:layout_width="match_parent"
-			    android:layout_height="70dp"
-			    android:layout_margin="@dimen/dim_20"
-			    android:layout_weight="1"
-			    android:gravity="center"
-			    android:tag="bold"
-			    android:textSize="24sp"
-			    android:text="@string/txt_btn_scan_login" />
-			
-			<LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_weight="1"
-            android:layout_margin="@dimen/dim_30"
             android:gravity="center"
-            android:orientation="vertical"
-            android:background="@color/gray_f4f4f4" >
-            
-			<TextView
-			    android:id="@+id/txt_manual_login_info"
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_marginBottom="@dimen/dim_20"
-			    android:layout_marginTop="@dimen/dim_20"
-			    android:gravity="center"
-			    android:text="@string/txt_manual_login_header"
-			    android:textColor="@color/black_333"
-			    android:textSize="@dimen/tex_size_xxlarge" />
-			
-			<LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            </LinearLayout>
-            
-			<Button
-			    android:id="@+id/btn_manual_login"
-			    style="@style/Button_Blue"
-			    android:layout_width="match_parent"
-			    android:layout_height="60dp"
-			    android:layout_margin="@dimen/dim_20"
-			    android:layout_weight="1"
-			    android:gravity="center"
-			    android:tag="bold"
-			    android:textSize="24sp"
-			    android:text="@string/txt_btn_manual_login" />
-			
-			<LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            </LinearLayout>
-        </LinearLayout>
-
+            android:tag="bold"
+            android:text="@string/txt_btn_manual_login"
+            android:textSize="24sp" />
     </LinearLayout>
 
 </RelativeLayout>

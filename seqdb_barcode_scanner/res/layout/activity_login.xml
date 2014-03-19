@@ -25,14 +25,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="@dimen/dim_20" >
+                android:padding="@dimen/dim_10" >
 
                 <ImageView
                     android:id="@+id/imageView1"
-                    android:layout_width="91dp"
-                    android:layout_height="107dp"
-                    android:layout_marginBottom="@dimen/dim_20"
-                    android:layout_marginTop="@dimen/dim_20"
+                    android:layout_width="75dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="@dimen/dim_10"
+                    android:layout_marginTop="@dimen/dim_10"
                     android:src="@drawable/ico_lock" />
 
                 <EditText
