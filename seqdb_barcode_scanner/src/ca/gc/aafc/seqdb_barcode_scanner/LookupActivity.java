@@ -102,7 +102,7 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
 				   if(service != null){
 					   taskRunner.setService(service);
 					   HashMap<String,Object> params = new HashMap<String,Object>();
-					   params.put("getById", parser.getId());
+					   params.put(ServiceTask.GET_BY_ID, parser.getId());
 					   taskRunner.execute(params);
 				   }
 			   }catch(Exception e){
@@ -241,7 +241,7 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
 	
 	@Override
 	public void onServiceCalled(String method, Object output) {
-		if(method.equalsIgnoreCase("getById")){
+		if(method.equalsIgnoreCase(ServiceTask.GET_BY_ID)){
 			if(output !=null && !entityType.isEmpty()){
 				
 		        if (entityType.equalsIgnoreCase("CON") || entityType.equalsIgnoreCase("07")){

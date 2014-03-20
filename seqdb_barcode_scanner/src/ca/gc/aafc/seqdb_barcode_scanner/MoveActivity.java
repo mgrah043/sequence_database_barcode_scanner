@@ -1,32 +1,18 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
-import ca.gc.aafc.seqdb_barcode_scanner.entities.ContainerType;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Location;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.MixedSpecimen;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.PcrPrimer;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Sample;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.SpecimenReplicate;
-import ca.gc.aafc.seqdb_barcode_scanner.entities.Storage;
-import ca.gc.aafc.seqdb_barcode_scanner.service.ContainerService;
 import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
-import ca.gc.aafc.seqdb_barcode_scanner.service.LocationService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.MixedSpecimenService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.PcrPrimerService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.SampleService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.SpecimenReplicateService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.StorageService;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.AsyncTask.Status;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -172,7 +158,7 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 								ServiceTask taskRunner = new ServiceTask(this);
 								taskRunner.setService(itemService);
 								HashMap<String,Object> params = new HashMap<String,Object>();
-								params.put("getById", itemId);
+								params.put(ServiceTask.GET_BY_ID, itemId);
 								taskRunner.execute(params);
 							}
 							
@@ -182,7 +168,7 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 								ServiceTask containerTaskRunner = new ServiceTask(this);
 								containerTaskRunner.setService(containerService);
 								HashMap<String,Object> params = new HashMap<String,Object>();
-								params.put("getContainerById", containerId);
+								params.put(ServiceTask.GET_CONTAINER_BY_ID, containerId);
 								containerTaskRunner.execute(params);
 							}
 						}	
@@ -258,7 +244,7 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 
 	@Override
 	public void onServiceCalled(String method, Object output) {
-		if(method.equalsIgnoreCase("getById")){
+		if(method.equalsIgnoreCase(ServiceTask.GET_BY_ID)){
 			if(output !=null && !entityType.isEmpty() || !containerType.isEmpty()){
 				if(entityType.equalsIgnoreCase("MSP") || entityType.equalsIgnoreCase("03")){
 					MixedSpecimen mixedSpecimen = (MixedSpecimen)output;
@@ -279,7 +265,7 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 				}
 			}
 		}
-		else if(method.equalsIgnoreCase("getContainerById")){
+		else if(method.equalsIgnoreCase(ServiceTask.GET_CONTAINER_BY_ID)){
 			if(containerType.equalsIgnoreCase("CON") || containerType.equalsIgnoreCase("07")){
 				contentContainer = (Container)output;
 				Toast.makeText(MoveActivity.this, "CONTAINER!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
