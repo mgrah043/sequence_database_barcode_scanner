@@ -15,8 +15,6 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -115,6 +113,10 @@ public class MixedSpecimenService implements EntityServiceI{
 			// check for errors
 			if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
 				mixedSpecimen = wsResponse.getMixedSpecimen();
+				// get locations
+				String[] parsedURL = mixedSpecimen.getLocationUrl().split("/");
+				long locationId = Long.parseLong(parsedURL[parsedURL.length - 1]);
+				mixedSpecimen.setLocation(new LocationService(BASE_URL).getById(locationId));
 			}
 		} catch (Exception e){
 			if (e.getMessage() != null) Log.e(MixedSpecimenService.class.toString(), e.getMessage());
