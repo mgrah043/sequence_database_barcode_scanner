@@ -69,7 +69,7 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
 	
 	
 	/**
-     * Represents a listener that will be notified of content selections.
+     * 
      */
     public interface OnServiceCallCompletedListener {
         /**
