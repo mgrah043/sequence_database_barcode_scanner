@@ -255,7 +255,7 @@ public class GetContentFragment extends Fragment {
 		for(int row = 0; row  < this.contentRow; row++){
 			TableRow currentRow = new TableRow(table.getContext());
 			
-			
+			currentRow.setBaselineAligned(false);
 
 			for(int col = 0; col < this.contentColumn; col++){
 				
