@@ -22,11 +22,10 @@ import android.content.SharedPreferences;
  */
 public class Config {
 	private String CONFIG_FILE;
-<<<<<<< HEAD
-	private final String DEFAULT_SERVER_URL = "http://192.168.43.232:8080/seqdb-ws/v1";
-=======
+
 	private final String DEFAULT_SERVER_URL = "http://192.168.43.160:8080/seqdb-ws/v1";
->>>>>>> a401c29b309d038b69dde95f955966d5b92a425c
+
+
 	private String SERVER_URL = "";
 	private String AUTHORIZATION = "";
 	private Context context;

@@ -252,11 +252,37 @@ public class GetContentFragment extends Fragment {
 		/*
 		 * create main table
 		 */
+		ArrayList<Location> containerLocations = container.getlocationList();
+		HashMap<String,Location> rowCol = new HashMap<String,Location>();
+		
+		for (Location l : containerLocations) rowCol.put(l.getWellRow(),l);
+		
+		
+		for(int i = 0; i < containerLocations.size(); i++){
+			Location l = containerLocations.get(i);
+			
+			int rowVal = getIntegerFromChar(l.getWellRow().charAt(0));
+			int colVal = l.getWellColumn();
+			
+			rowCol.put(l.getWellRow(),l.getWellColumn());
+			
+			if( row == rowVal && col == colVal-1){
+				//Set button attributes
+				
+				currentButton.setBackgroundResource(R.drawable.ui_button_blue);
+				String output = (l.getMixedSpecimen() != null)? l.getMixedSpecimen().getFungiIsolated() : "Spec "+l.getWellRow()+"-"+l.getWellColumn();
+				currentButton.setText(output);
+				
+				
+				
+				//set listener
+				currentButton.setTag(rowCol);
+			}
+		}
+		
 		for(int row = 0; row  < this.contentRow; row++){
 			TableRow currentRow = new TableRow(table.getContext());
 			
-			
-
 			for(int col = 0; col < this.contentColumn; col++){
 				
 				Button currentButton = new Button(table.getContext());
@@ -264,27 +290,15 @@ public class GetContentFragment extends Fragment {
 				currentButton.setBackgroundResource(R.drawable.ui_button_red);
 				currentButton.setText("");
 				
-				ArrayList<Location> containerLocations = container.getlocationList();
+				String[] buttonTag = null;
+				String rowChar= getCharacterOfNumber(row);
 				
-				for(int i = 0; i < containerLocations.size(); i++){
-					Location l = containerLocations.get(i);
-					
-					int rowVal = getIntegerFromChar(l.getWellRow().charAt(0));
-					int colVal = l.getWellColumn();
-					if( row == rowVal && col == colVal-1){
-						//Set button attributes
-						
-						currentButton.setBackgroundResource(R.drawable.ui_button_blue);
-						String output = (l.getMixedSpecimen() != null)? l.getMixedSpecimen().getFungiIsolated() : "Spec "+l.getWellRow()+"-"+l.getWellColumn();
-						currentButton.setText(output);
-						
-						HashMap<String,Integer> rowCol = new HashMap<String,Integer>();
-						rowCol.put(l.getWellRow(),l.getWellColumn());
-						
-						//set listener
-						currentButton.setTag(rowCol);
-					}
+				if(rowCol.containsKey(rowChar) && rowCol.get(rowChar).getWellColumn() == col){
+					buttonTag = new String[]{rowChar,col+"","true"};
+				}else{
+					buttonTag = new String[]{"","","false"};
 				}
+				
 				
 
 				//TODO Change these to work on all devices...get size of screen then apply calculations?
@@ -396,7 +410,8 @@ public class GetContentFragment extends Fragment {
 					    col = entry.getValue();
 					}
 				}catch(Exception e){
-					System.out.println("empty cell clicked");
+					//System.out.println("empty cell clicked");
+					row = null
 				}
 				
 				contentSelectedListener.onContentSelected(row,col); // pass row then column

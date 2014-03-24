@@ -44,11 +44,8 @@ public class Session {
 	public EntityServiceI getService(String acronym){
 		EntityServiceI service = null;
 				
-<<<<<<< HEAD
-		String serverURL = this.config.getString("SERVER_URL", "http://192.168.43.232:8080/seqdb-ws/v1");
-=======
-		String serverURL = this.config.getString("SERVER_URL", "http://192.168.2.15:8080/seqdb-ws/v1");
->>>>>>> a401c29b309d038b69dde95f955966d5b92a425c
+		String serverURL = this.config.getString("SERVER_URL", "http://192.168.43.160:8080/seqdb-ws/v1");
+
 
 		if (acronym.equalsIgnoreCase("CON") || acronym.equalsIgnoreCase("07")){
 			service = new ContainerService(serverURL);
