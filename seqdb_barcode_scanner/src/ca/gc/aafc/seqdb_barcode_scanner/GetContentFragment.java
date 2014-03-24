@@ -67,7 +67,7 @@ public class GetContentFragment extends Fragment {
          * Called when a given content is selected.
          * @param index the index of the selected content.
          */
-        public void onContentSelected(String row,int column);
+        public void onContentSelected(String row,int column, boolean state);
     }
 
     /**
@@ -257,48 +257,27 @@ public class GetContentFragment extends Fragment {
 		
 		for (Location l : containerLocations) rowCol.put(l.getWellRow(),l);
 		
-		
-		for(int i = 0; i < containerLocations.size(); i++){
-			Location l = containerLocations.get(i);
-			
-			int rowVal = getIntegerFromChar(l.getWellRow().charAt(0));
-			int colVal = l.getWellColumn();
-			
-			rowCol.put(l.getWellRow(),l.getWellColumn());
-			
-			if( row == rowVal && col == colVal-1){
-				//Set button attributes
-				
-				currentButton.setBackgroundResource(R.drawable.ui_button_blue);
-				String output = (l.getMixedSpecimen() != null)? l.getMixedSpecimen().getFungiIsolated() : "Spec "+l.getWellRow()+"-"+l.getWellColumn();
-				currentButton.setText(output);
-				
-				
-				
-				//set listener
-				currentButton.setTag(rowCol);
-			}
-		}
-		
 		for(int row = 0; row  < this.contentRow; row++){
 			TableRow currentRow = new TableRow(table.getContext());
 			
 			for(int col = 0; col < this.contentColumn; col++){
-				
 				Button currentButton = new Button(table.getContext());
-				//initialize button....check to see if there is a data or empty element at this position
-				currentButton.setBackgroundResource(R.drawable.ui_button_red);
-				currentButton.setText("");
-				
+			
 				String[] buttonTag = null;
+				String output = "";
 				String rowChar= getCharacterOfNumber(row);
 				
 				if(rowCol.containsKey(rowChar) && rowCol.get(rowChar).getWellColumn() == col){
 					buttonTag = new String[]{rowChar,col+"","true"};
+					currentButton.setBackgroundResource(R.drawable.ui_button_blue);
+					output = rowCol.get(rowChar).getMixedSpecimen().getFungiIsolated();
 				}else{
 					buttonTag = new String[]{"","","false"};
+					currentButton.setBackgroundResource(R.drawable.ui_button_red);
 				}
 				
+				currentButton.setText(output);
+				currentButton.setTag(buttonTag);
 				
 
 				//TODO Change these to work on all devices...get size of screen then apply calculations?
@@ -401,20 +380,13 @@ public class GetContentFragment extends Fragment {
 		public void onClick(View v){
 			System.out.println("Onclick listener");
 			if (null != contentSelectedListener) {
-				String row = null;
-				int col = 0;
+				String[] tag = (String[])v.getTag();
 				
-				try{
-					for(Entry<String, Integer> entry : ((HashMap<String,Integer>)v.getTag()).entrySet()) {
-					    row = entry.getKey();
-					    col = entry.getValue();
-					}
-				}catch(Exception e){
-					//System.out.println("empty cell clicked");
-					row = null
-				}
-				
-				contentSelectedListener.onContentSelected(row,col); // pass row then column
+				String row = tag[0];
+				int col = Integer.parseInt(tag[1]);
+				boolean state = Boolean.getBoolean(tag[2]);
+					
+				contentSelectedListener.onContentSelected(row,col,state); // pass row then column
 				
 	        }
 		}

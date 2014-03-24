@@ -102,12 +102,12 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	}
 
 	@Override
-	public void onContentSelected(String row, int col) {
+	public void onContentSelected(String row, int col,boolean state) {
 		/*
 		 * fetch the content at index of container entity that we got from the server
 		 * if row and col == null then it was an empty cell
 		 * */
-		if(row == null){
+		if(!state){
 			Toast.makeText(this, "You've clicked on an empty cell", Toast.LENGTH_LONG).show();
 		}else{
 			Toast.makeText(this, "A content has been clicked at "+row+" "+col, Toast.LENGTH_LONG).show();
