@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb_barcode_scanner.utils;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
@@ -25,14 +24,20 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
 	private String serviceCall;
 	private Object output;
 	
+	public static final String GET_BY_ID = "getById";
+	public static final String GET_CONTAINER_BY_ID = "getContainerById";
+	public static final String DELETE_BY_ID = "deleteById";
+	public static final String CREATE = "create";
+	public static final String UPDATE = "update";
+	
 	OnServiceCallCompletedListener serviceCallListener = null;
 	
 	public ServiceTask(Activity activity){
 		super();
-		this.context = activity;
+		context = activity;
 		
 		try {
-			this.serviceCallListener = (OnServiceCallCompletedListener) this.context;
+			serviceCallListener = (OnServiceCallCompletedListener) context;
         	
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
@@ -44,11 +49,11 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
 	 * Setters and getters
 	 * */
 	public void setContext(Activity activity){
-		this.context = activity;
+		context = activity;
 	}
 	
 	public Activity getContext(){
-		return this.context;
+		return context;
 	}
 	
 	public void setService(EntityServiceI service){
@@ -56,15 +61,15 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
 	}
 	
 	public EntityServiceI getService(){
-		return this.service;
+		return service;
 	}
 	
 	public void setServiceCall(String methodCall){
-		this.serviceCall = methodCall;
+		serviceCall = methodCall;
 	}
 	
 	public String getServiceCall(){
-		return this.serviceCall;
+		return serviceCall;
 	}
 	
 	
@@ -73,8 +78,8 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
      */
     public interface OnServiceCallCompletedListener {
         /**
-         * @param 
-         * @param
+         * @param method
+         * @param output
          * 
          */
         public void onServiceCalled(String method,Object output);
@@ -83,7 +88,8 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
 	@Override
     protected void onPreExecute() {
     super.onPreExecute();
-        progressDialog = ProgressDialog.show(this.context, "Loading", "Loading", true);
+        progressDialog = ProgressDialog.show(context, "Loading", "Loading", true);
+        
     }
 	
 	/*
@@ -92,29 +98,28 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
 	 * */
 	@Override
 	protected Result doInBackground(HashMap<String, Object>... params) {
-		// TODO Auto-generated method stub
 		
 		for(HashMap<String,Object> param : params){
 			for(Entry<String, Object> entry : param.entrySet()) {
 			    String key = entry.getKey();
 			    Object value = entry.getValue();
 
-			    /*
-			     * 
-			     * */
-			    if(key.equalsIgnoreCase("getById"))
-			    	this.output = this.service.getById((Long) value);
+			    if(key.equalsIgnoreCase(GET_BY_ID))
+			    	output = service.getById((Long) value);
 			    
-			    if(key.equalsIgnoreCase("deleteById"))
-			    	this.output = this.service.deleteById((Long) value);
+			    if(key.equalsIgnoreCase(GET_CONTAINER_BY_ID))
+			    	output = service.getById((Long) value);
 			    
-			    if(key.equalsIgnoreCase("create"))
-			    	this.output = this.service.create((Serializable) value);
+			    if(key.equalsIgnoreCase(DELETE_BY_ID))
+			    	output = service.deleteById((Long) value);
 			    
-			    if(key.equalsIgnoreCase("update"))
-			    	this.output = this.service.update((Serializable) value);
+			    if(key.equalsIgnoreCase(CREATE))
+			    	output = service.create((Serializable) value);
 			    
-			    this.serviceCall = key;
+			    if(key.equalsIgnoreCase(UPDATE))
+			    	output = service.update((Serializable) value);
+			    
+			    serviceCall = key;
 			}
 		}
 		return null;
@@ -125,10 +130,10 @@ public class ServiceTask extends AsyncTask<HashMap<String,Object>,Void,Result> {
         progressDialog.dismiss();
         
         // call activity  
-        if (null != this.serviceCallListener) {
-        	this.serviceCallListener.onServiceCalled(this.serviceCall, this.output); // pass row then column
-        	this.output = null;
-        	this.setServiceCall("");//clear the call
+        if (null != serviceCallListener) {
+        	serviceCallListener.onServiceCalled(serviceCall, output); // pass row then column
+        	output = null;
+        	setServiceCall("");//clear the call
         }
         
     }

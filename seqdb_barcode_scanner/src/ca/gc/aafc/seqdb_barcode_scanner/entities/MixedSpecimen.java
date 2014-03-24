@@ -22,7 +22,10 @@ public class MixedSpecimen implements Serializable {
 	private String treatment;
 	@JsonProperty("project")
 	private String project;
+	@JsonProperty("locationUrl")
+	private String locationUrl;
 	
+	private Location location;
 	
 	public long getId() {
 		return id;
@@ -62,6 +65,22 @@ public class MixedSpecimen implements Serializable {
 	
 	public void setProject(String project) {
 		this.project = project;
+	}
+
+	public String getLocationUrl() {
+		return locationUrl;
+	}
+
+	public void setLocationUrl(String locationUrl) {
+		this.locationUrl = locationUrl;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	
 }

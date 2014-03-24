@@ -16,15 +16,11 @@
     
     <string name="txt_btn_scan_done">Barcode Done</string>
     
-    <string name="txt_btn_scan_login">Scan Barcode</string>
+    <string name="txt_btn_scan_login">Scan Badge</string>
     <string name="txt_btn_manual_login">Manual Login</string>
 	
     <string name="txt_login_username">Username</string>
     <string name="txt_login_password">Password</string>
-    
-    
-    <string name="txt_scan_login_header">Login using your barcode</string>
-    <string name="txt_manual_login_header">Login using your username and password</string>
     
      <string name="desc"></string>
      <string name="no_data">No Data</string>

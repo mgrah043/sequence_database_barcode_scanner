@@ -84,7 +84,7 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 				   if(service != null){
 					   taskRunner.setService(service);
 					   HashMap<String,Object> params = new HashMap<String,Object>();
-					   params.put("getById", id);
+					   params.put(ServiceTask.GET_BY_ID, id);
 					   taskRunner.execute(params);
 				   }
 			   }catch(Exception e){
@@ -123,7 +123,7 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 
 	@Override
 	public void onServiceCalled(String method, Object output) {
-		if(method.equalsIgnoreCase("getById")){
+		if(method.equalsIgnoreCase(ServiceTask.GET_BY_ID)){
 			if(output !=null){
 				
 				contentContainer = (Container)output;

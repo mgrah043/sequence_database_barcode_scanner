@@ -60,7 +60,8 @@
                         android:id="@+id/tableLayout"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent" 
-                        android:layout_toRightOf="@id/tableLayoutLeftColumnHeader">
+                        android:layout_toRightOf="@id/tableLayoutLeftColumnHeader"
+                        android:baselineAligned="false">
 
                         <!-- Insert table programatically -->
 

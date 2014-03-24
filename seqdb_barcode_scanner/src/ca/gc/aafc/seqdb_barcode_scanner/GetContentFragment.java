@@ -172,14 +172,15 @@ public class GetContentFragment extends Fragment {
     	 * Creating the left column header
     	 * 
     	 * */
-		this.contentRow =  container.getContainerType().getNumberOfRows();
+		this.contentRow = container.getContainerType().getNumberOfRows();
 		this.contentColumn = container.getContainerType().getNumberOfColumns();
 		
 		this.containerId.setText("Container "+container.getId());
 		this.containerSize.setText("Size: "+this.contentRow * this.contentColumn+" locations, # Specimens: ?");
 		
     	TableLayout leftHeader = this.tableLayoutHeaderLeft;
-    	for(int r = 0; r  <= this.contentRow+1; r++){
+    	boolean firstElementLeft = true;
+    	for(int r = 0; r  < this.contentRow; r++){
 			TableRow tableLeftHeader = new TableRow(leftHeader.getContext());
 
 			TextView currentTextView = new TextView(leftHeader.getContext());
@@ -199,7 +200,14 @@ public class GetContentFragment extends Fragment {
 			currentTextView.setTextAppearance(leftHeader.getContext(), R.style.TableHeaderFont);
 			currentTextView.setGravity(Gravity.CENTER);
 
-			textViewParams.setMargins(2, 2, 2, 2);
+			//adds extra margin for first element
+			if(firstElementLeft){
+				textViewParams.setMargins(2,75, 2, 2);
+				firstElementLeft = false;
+			}
+			else{
+				textViewParams.setMargins(2, 2, 2, 2);
+			}
 
 			//add textview to tablerow
 			tableLeftHeader.addView(currentTextView, textViewParams);
@@ -246,12 +254,14 @@ public class GetContentFragment extends Fragment {
 		 */
 		for(int row = 0; row  < this.contentRow; row++){
 			TableRow currentRow = new TableRow(table.getContext());
+			
+			
 
 			for(int col = 0; col < this.contentColumn; col++){
 				
 				Button currentButton = new Button(table.getContext());
 				//initialize button....check to see if there is a data or empty element at this position
-				currentButton.setBackgroundColor(Color.RED);
+				currentButton.setBackgroundResource(R.drawable.ui_button_red);
 				currentButton.setText("");
 				
 				ArrayList<Location> containerLocations = container.getlocationList();
@@ -263,6 +273,7 @@ public class GetContentFragment extends Fragment {
 					int colVal = l.getWellColumn();
 					if( row == rowVal && col == colVal-1){
 						//Set button attributes
+						
 						currentButton.setBackgroundResource(R.drawable.ui_button_blue);
 						String output = (l.getMixedSpecimen() != null)? l.getMixedSpecimen().getFungiIsolated() : "Spec "+l.getWellRow()+"-"+l.getWellColumn();
 						currentButton.setText(output);
@@ -331,8 +342,9 @@ public class GetContentFragment extends Fragment {
 		 * creating right column header
 		 */
 		TableLayout rightHeader = this.tableLayoutHeaderRight;
-
-		for(int r = 0; r  <= this.contentRow+1; r++){
+		
+		boolean firstElementRight = true;
+		for(int r = 0; r  < this.contentRow; r++){
 			TableRow tableRightHeader = new TableRow(rightHeader.getContext());
 			TextView currentTextView = new TextView(rightHeader.getContext());
 			LayoutParams textViewParams = null;
@@ -353,7 +365,14 @@ public class GetContentFragment extends Fragment {
 			currentTextView.setTextAppearance(rightHeader.getContext(), R.style.TableHeaderFont);
 			currentTextView.setGravity(Gravity.CENTER);
 
-			textViewParams.setMargins(2, 2, 2, 2);
+			//adds extra margin for first element
+			if(firstElementRight){
+				textViewParams.setMargins(2,75, 2, 2);
+				firstElementRight = false;
+			}
+			else{
+				textViewParams.setMargins(2, 2, 2, 2);
+			}
 
 			//add textview to tablerow
 			tableRightHeader.addView(currentTextView, textViewParams);

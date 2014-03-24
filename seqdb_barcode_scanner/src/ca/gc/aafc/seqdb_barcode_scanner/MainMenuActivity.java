@@ -1,19 +1,7 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
-import java.io.Serializable;
-
-import ca.gc.aafc.seqdb_barcode_scanner.service.ContainerService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.EntityServiceI;
-import ca.gc.aafc.seqdb_barcode_scanner.service.LocationService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.MixedSpecimenService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.PcrPrimerService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.SampleService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.SpecimenReplicateService;
-import ca.gc.aafc.seqdb_barcode_scanner.service.StorageService;
-import ca.gc.aafc.seqdb_barcode_scanner.utils.DataParser;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
