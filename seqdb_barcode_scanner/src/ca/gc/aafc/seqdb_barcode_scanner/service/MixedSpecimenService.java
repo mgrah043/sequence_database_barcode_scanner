@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.util.Log;
 
+import ca.gc.aafc.seqdb_barcode_scanner.entities.Location;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.MixedSpecimen;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.UriList;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.WSResponse;
@@ -117,6 +118,29 @@ public class MixedSpecimenService implements EntityServiceI{
 				String[] parsedURL = mixedSpecimen.getLocationUrl().split("/");
 				long locationId = Long.parseLong(parsedURL[parsedURL.length - 1]);
 				mixedSpecimen.setLocation(new LocationService(BASE_URL).getById(locationId));
+			}
+		} catch (Exception e){
+			if (e.getMessage() != null) Log.e(MixedSpecimenService.class.toString(), e.getMessage());
+			else Log.e(MixedSpecimenService.class.toString(), "An error occured while getting the Mixed Specimen by ID");
+		}
+		return mixedSpecimen;
+	}
+	
+	public MixedSpecimen getById(long id, Location location) {
+		MixedSpecimen mixedSpecimen = null;
+		// The URL for making the GET request
+		final String url = ENTITY_URL + "/" + id;
+		// This is where we get the RestTemplate and add the message converters
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+		try {
+			WSResponse wsResponse = restTemplate.getForObject(url, WSResponse.class, id);
+			// check for errors
+			if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
+				mixedSpecimen = wsResponse.getMixedSpecimen();
+				// set location
+				mixedSpecimen.setLocation(location);
 			}
 		} catch (Exception e){
 			if (e.getMessage() != null) Log.e(MixedSpecimenService.class.toString(), e.getMessage());

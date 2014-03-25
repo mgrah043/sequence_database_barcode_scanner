@@ -20,13 +20,19 @@ public class Location implements Serializable {
 	private String wellRow;
 	@JsonProperty("containerId")
 	private Long containerId;
-	@JsonProperty("mixedSpecimen")
+	
+	@JsonProperty("mixedSpecimenUrl")
+	private String mixedSpecimenUrl;
+	@JsonProperty("pcrPrimerUrl")
+	private String pcrPrimerUrl;
+	@JsonProperty("sampleUrl")
+	private String sampleUrl;
+	@JsonProperty("specimenReplicateUrl")
+	private String specimenReplicateUrl;
+	
 	private MixedSpecimen mixedSpecimen;
-	@JsonProperty("pcrPrimer")
 	private PcrPrimer pcrPrimer;
-	@JsonProperty("sample")
 	private Sample sample;
-	@JsonProperty("specimenReplicate")
 	private SpecimenReplicate specimenReplicate;
 	
 	public Long getId() {
@@ -59,6 +65,38 @@ public class Location implements Serializable {
 	
 	public void setContainerId(Long containerId) {
 		this.containerId = containerId;
+	}
+
+	public String getMixedSpecimenUrl() {
+		return mixedSpecimenUrl;
+	}
+
+	public void setMixedSpecimenUrl(String mixedSpecimenUrl) {
+		this.mixedSpecimenUrl = mixedSpecimenUrl;
+	}
+
+	public String getPcrPrimerUrl() {
+		return pcrPrimerUrl;
+	}
+
+	public void setPcrPrimerUrl(String pcrPrimerUrl) {
+		this.pcrPrimerUrl = pcrPrimerUrl;
+	}
+
+	public String getSampleUrl() {
+		return sampleUrl;
+	}
+
+	public void setSampleUrl(String sampleUrl) {
+		this.sampleUrl = sampleUrl;
+	}
+
+	public String getSpecimenReplicateUrl() {
+		return specimenReplicateUrl;
+	}
+
+	public void setSpecimenReplicateUrl(String specimenReplicateUrl) {
+		this.specimenReplicateUrl = specimenReplicateUrl;
 	}
 
 	public MixedSpecimen getMixedSpecimen() {
