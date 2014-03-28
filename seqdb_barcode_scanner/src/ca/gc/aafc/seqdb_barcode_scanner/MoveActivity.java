@@ -34,6 +34,7 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 	private ServiceTask taskRunner;
 	private Location itemLocation;
 	private Container contentContainer;
+	private Location updatedLocation;
 	//private ContainerType contentContainerType;
 	Session moveSession;
 	static final String SESSION_TYPE = "MOVE";
@@ -89,10 +90,13 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 				finish();
 			}
 			//Autofill button
+			/*
+			 * TODO TO BE COMPLETED WHEN WEB SERVICE HANDLES AUTOFILLING
 			else if(id_of_view == button_autofill.getId()){
 				ArrayList<Location> locationArray = contentContainer.getlocationList();
 				Toast.makeText(MoveActivity.this, "Autofill button pressed", Toast.LENGTH_LONG).show();
 			}
+			*/
 			else{
 				Toast.makeText(MoveActivity.this, "This action is not authorized", Toast.LENGTH_LONG).show();
 			}
@@ -195,7 +199,8 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 			}		   
 		}
 		else{
-			Toast.makeText(MoveActivity.this, "Error when scanning", Toast.LENGTH_LONG).show();		   
+			Toast.makeText(MoveActivity.this, "Error when scanning", Toast.LENGTH_LONG).show();	
+			finish();
 		}
 	}
 
@@ -209,26 +214,33 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 		//TODO delete test output
 		//Toast.makeText(MoveActivity.this, "Content has been clicked at index : "+row+column, Toast.LENGTH_LONG).show();
 		//TODO delete variable isEmptyElement, should be passed in
-		boolean isEmptyElement = false;
+		//TODO delete testing variables
+		boolean isEmptyElement = true;
+		row = "B";
+		column = 1; 	
 		//move item to this location in the container
 		if (isEmptyElement){		
-			itemLocation.setWellRow(row);
-			itemLocation.setWellColumn(column);
-			itemLocation.setContainerId(contentContainer.getId());
-			try{
-				EntityServiceI locationService = moveSession.getService("LOC");
-				if(locationService != null){
-					taskRunner = new ServiceTask(this);
-					taskRunner.setService(locationService);
-					HashMap<String,Object> params = new HashMap<String,Object>();
-					params.put("update", itemLocation);
-					taskRunner.execute(params);	
+			if(itemLocation != null){
+				itemLocation.setWellRow(row);
+				itemLocation.setWellColumn(column);
+				itemLocation.setContainerId(contentContainer.getId());
+				try{
+					EntityServiceI locationService = moveSession.getService("LOC");
+					if(locationService != null){
+						taskRunner = new ServiceTask(this);
+						taskRunner.setService(locationService);
+						HashMap<String,Object> params = new HashMap<String,Object>();
+						params.put(ServiceTask.UPDATE, itemLocation);
+						taskRunner.execute(params);	
+					}
+				}
+				catch(Exception e){
+					Toast.makeText(this, "Error while moving item, please select another location", Toast.LENGTH_LONG).show();
+					e.printStackTrace();
 				}
 			}
-			catch(Exception e){
+			else{
 				Toast.makeText(this, "Error while moving item, please select another location", Toast.LENGTH_LONG).show();
-				e.printStackTrace();
-				launchScanner(SCAN_TYPE_ITEM);
 			}
 		}
 		else{
@@ -245,23 +257,32 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 	@Override
 	public void onServiceCalled(String method, Object output) {
 		if(method.equalsIgnoreCase(ServiceTask.GET_BY_ID)){
-			if(output !=null && !entityType.isEmpty() || !containerType.isEmpty()){
+			if(output !=null && !entityType.isEmpty()){
 				if(entityType.equalsIgnoreCase("MSP") || entityType.equalsIgnoreCase("03")){
 					MixedSpecimen mixedSpecimen = (MixedSpecimen)output;
-					//TODO itemLocation = mixedSpecimen.getLocation;
+					itemLocation = mixedSpecimen.getLocation();
+					itemLocation.setMixedSpecimen(mixedSpecimen);
+					
 					Toast.makeText(MoveActivity.this, "MIXED SPECIMEN!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 				}
 				else if(entityType.equalsIgnoreCase("PRI") || entityType.equalsIgnoreCase("05")){
-					PcrPrimer pcrPrimer = (PcrPrimer)output;
-					itemLocation = pcrPrimer.getLocation();
+					//PCR PRIMER NOT IMPLEMENTED YET
+					//PcrPrimer pcrPrimer = (PcrPrimer)output;
+					//itemLocation = pcrPrimer.getLocation();
+					//itemLocation.setPcrPrimer(pcrPrimer);
+
 				}
 				else if(entityType.equalsIgnoreCase("SAM") || entityType.equalsIgnoreCase("04")){
-					Sample sample = (Sample)output;
-					itemLocation = sample.getLocation();
+					//SAMPLE NOT IMPLEMENTED YET
+					//Sample sample = (Sample)output;
+					//itemLocation = sample.getLocation();
+					//itemLocation.setSample(sample);
 				}
 				else if(entityType.equalsIgnoreCase("SPE") || entityType.equalsIgnoreCase("01") || entityType.equalsIgnoreCase("02")){
-					SpecimenReplicate specimenReplicate = (SpecimenReplicate)output;
-					itemLocation = specimenReplicate.getLocation();
+					//SAMPLE NOT IMPLEMENTED YET					
+					//SpecimenReplicate specimenReplicate = (SpecimenReplicate)output;
+					//itemLocation = specimenReplicate.getLocation();
+					//itemLocation.setSpecimenReplicate(specimenReplicate);
 				}
 			}
 		}
@@ -272,9 +293,16 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 				getContentFragment.loadContent(contentContainer);
 			}
 		}
+		else if(method.equalsIgnoreCase(ServiceTask.UPDATE)){
+				updatedLocation = (Location)output;
+				Toast.makeText(MoveActivity.this, "LOCATION!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+				getContentFragment.loadContent(contentContainer);
+		}
+
 		else{
 			//TODO Handle Error
 			Toast.makeText(this, "Error getById failed", Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 }
