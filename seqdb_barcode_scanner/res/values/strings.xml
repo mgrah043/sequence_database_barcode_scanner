@@ -31,5 +31,8 @@
     
     <string name="txt_btn_wellinfo">Use Well Info</string>
     <string name="txt_btn_wellignore">Autofill</string>
+    
+    <string name="txt_btn_list">Grid: Off</string>
+    <string name="txt_btn_grid">Grid: On</string>
      
 </resources>

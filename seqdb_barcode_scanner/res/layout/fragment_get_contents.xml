@@ -3,34 +3,59 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-          <LinearLayout
+          <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
                 
                 <TextView
-                android:id="@+id/tv_container_id"
-                android:layout_width="wrap_content"
-	            android:layout_height="0dip"
-	            android:layout_weight="1"
-                android:layout_marginTop="@dimen/dim_10"
-                android:tag="bold"
-                android:text="Container 5435"
-                android:textColor="#000000"
-                android:textSize="20sp" />
+                    android:id="@+id/tv_container_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="@dimen/dim_10"
+                    android:tag="bold"
+                    android:text="@string/no_data"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
 
 	            <TextView
 	                android:id="@+id/tv_container_size"
 	                android:layout_width="wrap_content"
-	                android:layout_height="0dip"
-	                android:layout_weight="1"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/tv_container_id"
 	                android:layout_marginBottom="@dimen/dim_10"
 	                android:layout_marginTop="@dimen/dim_10"
-	                
-	                android:text="Size: 81 locations, # Specimens: 80"
+	                android:text="@string/no_data"
 	                android:textColor="#000000"
 	                android:textSize="20sp" />
-	        </LinearLayout>
+
+	            <ToggleButton
+	                android:id="@+id/gridToggle"
+	                style="@style/Button_Blue"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignBottom="@+id/tv_container_size"
+	                android:layout_alignParentRight="true"
+	                android:layout_marginRight="75dp"
+	                android:checked="true"
+	                android:paddingBottom="@dimen/dim_5"
+	                android:paddingLeft="@dimen/dim_10"
+	                android:paddingRight="@dimen/dim_10"
+	                android:paddingTop="@dimen/dim_5"
+	                android:text="ToggleButton"
+	                android:textOff="@string/txt_btn_list"
+	                android:textOn="@string/txt_btn_grid" />
+
+	        </RelativeLayout>
+	        
+          	<ListView
+          	    android:id="@+id/listView"
+          	    android:layout_width="match_parent"
+          	    android:layout_height="wrap_content"
+          	    android:padding="@dimen/dim_5" >
+
+     		</ListView>
 			
             
 

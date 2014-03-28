@@ -1,9 +1,6 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -11,16 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TableRow.LayoutParams;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TableRow.LayoutParams;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.*;
 
 import java.util.ArrayList;
@@ -39,13 +34,17 @@ import java.util.Map.Entry;
 public class GetContentFragment extends Fragment {
     // The container with a list of elements.
     
-	List<SpecimenReplicate> contentList = new ArrayList<SpecimenReplicate>();
     private TableLayout tableLayoutHeaderLeft;
     private TableLayout tableLayout;
     private TableLayout tableLayoutHeaderRight;
+    private ListView listView;
+    private ToggleButton gridToggle;
     private TextView containerId;
     private TextView containerSize;
     private Button[][] buttonArray;
+    
+    private ArrayList<String> locationDetails;
+    private ArrayAdapter<String> adapter;
     
     /*
      * this should be from the container info
@@ -116,6 +115,8 @@ public class GetContentFragment extends Fragment {
     	this.tableLayout =  (TableLayout) view.findViewById(R.id.tableLayout);
     	this.tableLayoutHeaderLeft = (TableLayout) view.findViewById(R.id.tableLayoutLeftColumnHeader);
     	this.tableLayoutHeaderRight = (TableLayout) view.findViewById(R.id.tableLayoutRightColumnHeader);
+    	listView = (ListView) view.findViewById(R.id.listView);
+    	gridToggle = (ToggleButton) view.findViewById(R.id.gridToggle);
     	
     	// get data from bundle (that will be the container entity or something else ??)
         
@@ -176,7 +177,7 @@ public class GetContentFragment extends Fragment {
 		this.contentColumn = container.getContainerType().getNumberOfColumns();
 		
 		this.containerId.setText("Container "+container.getId());
-		this.containerSize.setText("Size: "+this.contentRow * this.contentColumn+" locations, # Specimens: ?");
+		this.containerSize.setText("Size: "+this.contentRow * this.contentColumn+" locations");
 		
     	TableLayout leftHeader = this.tableLayoutHeaderLeft;
     	boolean firstElementLeft = true;
@@ -376,12 +377,42 @@ public class GetContentFragment extends Fragment {
 			rightHeader.addView(tableRightHeader);
 		}
 		
+		// generate the list view
+		ArrayList<Location> locations = container.getlocationList();
+		locationDetails = new ArrayList<String>();
+		
+		for (int i = 0; i < locations.size(); i++){
+			Location location = locations.get(i);
+			//TODO check which entity is populated
+			locationDetails.add((i + 1) + ". " + location.getMixedSpecimen().getFungiIsolated() + ": " 
+					+ location.getWellRow() + location.getWellColumn());
+		}
+		adapter=new ArrayAdapter<String>(this.getActivity(), R.layout.list_black_text, R.id.list_content, locationDetails);
+		listView.setAdapter(adapter);
+		listView.setVisibility(View.GONE);
+		
+		OnClickListener gridToggleClickListener = new OnClickListener(){
+			public void onClick(View v){
+				if (gridToggle.isChecked()) {
+					listView.setVisibility(View.GONE);
+					tableLayout.setVisibility(View.VISIBLE);
+					tableLayoutHeaderLeft.setVisibility(View.VISIBLE);
+					tableLayoutHeaderRight.setVisibility(View.VISIBLE);
+		        }
+				else {
+					listView.setVisibility(View.VISIBLE);
+					tableLayout.setVisibility(View.GONE);
+					tableLayoutHeaderLeft.setVisibility(View.GONE);
+					tableLayoutHeaderRight.setVisibility(View.GONE);
+				}
+			}
+		};
+		gridToggle.setOnClickListener(gridToggleClickListener);
 	}
 	
 	OnClickListener Button_Click_Listener = new OnClickListener(){
 		public void onClick(View v){
-			System.out.println("Onclick listener");
-			if (null != contentSelectedListener) {
+			if (contentSelectedListener != null) {
 				String[] tag = (String[])v.getTag();
 				
 				String row = (String)tag[0];
