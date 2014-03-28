@@ -67,7 +67,7 @@ public class GetContentFragment extends Fragment {
          * Called when a given content is selected.
          * @param index the index of the selected content.
          */
-        public void onContentSelected(String row,int column, boolean state);
+        public void onContentSelected(String id,String row,int column, boolean state);
     }
 
     /**
@@ -270,11 +270,11 @@ public class GetContentFragment extends Fragment {
 				String rowChar= getCharacterOfNumber(row);
 				
 				if(rowCol.containsKey(rowChar) && rowCol.get(rowChar).getWellColumn() == col){
-					buttonTag = new String[]{rowChar,col+"","true"};
+					buttonTag = new String[]{rowChar,col+"","true","MSP-"+rowCol.get(rowChar).getMixedSpecimen().getId()};
 					currentButton.setBackgroundResource(R.drawable.ui_button_blue);
 					output = rowCol.get(rowChar).getMixedSpecimen().getFungiIsolated();
 				}else{
-					buttonTag = new String[]{"","","false"};
+					buttonTag = new String[]{"","","false",""};
 					currentButton.setBackgroundResource(R.drawable.ui_button_red);
 				}
 				
@@ -387,7 +387,7 @@ public class GetContentFragment extends Fragment {
 				String row = (String)tag[0];
 				int col = 0;
 				boolean state = (((String)tag[2]).equalsIgnoreCase("true"))? true : false;
-				
+				String id = (String)tag[3];
 				try{
 					col = Integer.parseInt((String)tag[1]);
 				}catch(Exception e){
@@ -396,7 +396,7 @@ public class GetContentFragment extends Fragment {
 				}
 				
 					
-				contentSelectedListener.onContentSelected(row,col,state); // pass row then column
+				contentSelectedListener.onContentSelected(id,row,col,state); // pass row then column
 				
 	        }
 		}

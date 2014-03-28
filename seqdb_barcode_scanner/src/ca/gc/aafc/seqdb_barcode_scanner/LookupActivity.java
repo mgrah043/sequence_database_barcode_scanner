@@ -46,12 +46,11 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
         lookupSession = new Session(this,SESSION_TYPE);
 	    Toast.makeText(this, "Please scan a barcode", Toast.LENGTH_LONG).show();
 	    
-		launchScanner(SCAN_TYPE);
-		
-		parser = new DataParser();
+	    
+	    parser = new DataParser();
 		taskRunner = new ServiceTask(this);
 		
-		 setContentView(R.layout.activity_lookup);
+		setContentView(R.layout.activity_lookup);
 	        
         //Instantiate and set click listener for buttons
         button_mainMenu = (ImageButton) findViewById(R.id.btn_header_menu);
@@ -59,6 +58,19 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
         
         header_title = (TextView) findViewById(R.id.tv_header_main_title);
         header_title.setText("LOOKUP RESULT");
+        
+        //coming from get contents process data and display
+        Bundle dataBundle = getIntent().getExtras();
+	    if(dataBundle != null){
+	    	String decodedData = dataBundle.getString("OBJECT_ID");
+	    	try{
+	    		processData(decodedData);
+	    	}catch(Exception e){
+	    		System.out.println("Incorrect Id passed");
+	    	}
+	    }else{
+	    	launchScanner(SCAN_TYPE);
+	    }
 	}
 	
 	OnClickListener Button_Click_Listener = new OnClickListener(){
@@ -94,17 +106,7 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
 		   if(scanAction != null && scanAction.equalsIgnoreCase(SCAN_TYPE)){
 			   // With the decoded data use session.get entity etc... then call server to get entity info
 			   try{
-				   parser.parse(decodedData);
-				   entityType = parser.getAcronym();
-				   
-				   EntityServiceI service = lookupSession.getService(entityType);
-				   
-				   if(service != null){
-					   taskRunner.setService(service);
-					   HashMap<String,Object> params = new HashMap<String,Object>();
-					   params.put(ServiceTask.GET_BY_ID, parser.getId());
-					   taskRunner.execute(params);
-				   }
+				   processData(decodedData);
 			   }catch(Exception e){
 				   Toast.makeText(this, "Unknown barcode format: please scan a valid barcode", Toast.LENGTH_LONG).show();
 				   launchScanner(SCAN_TYPE);
@@ -121,9 +123,24 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
 		  
 	}
 	
+
+	
 	//***************************************
 	// Display Methods - START
 	//***************************************
+	private void processData(String decodedData)throws Exception{
+		  parser.parse(decodedData);
+		  entityType = parser.getAcronym();
+		   
+		  EntityServiceI service = lookupSession.getService(entityType);
+		   
+		  if(service != null){
+			   taskRunner.setService(service);
+			   HashMap<String,Object> params = new HashMap<String,Object>();
+			   params.put(ServiceTask.GET_BY_ID, parser.getId());
+			   taskRunner.execute(params);
+		  }
+	}
 
 	private void displayContainer(Container container){
 		ContainerType containerType = container.getContainerType();

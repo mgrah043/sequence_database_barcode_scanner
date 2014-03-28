@@ -205,7 +205,7 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 	}
 
 	@Override
-	public void onContentSelected(String row, int column,boolean state) {
+	public void onContentSelected(String id, String row, int column,boolean state) {
 		//TODO delete test output
 		//Toast.makeText(MoveActivity.this, "Content has been clicked at index : "+row+column, Toast.LENGTH_LONG).show();
 		//TODO delete variable isEmptyElement, should be passed in

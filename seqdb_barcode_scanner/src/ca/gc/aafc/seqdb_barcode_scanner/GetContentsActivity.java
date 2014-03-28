@@ -102,7 +102,7 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 	}
 
 	@Override
-	public void onContentSelected(String row, int col,boolean state) {
+	public void onContentSelected(String id,String row, int col,boolean state) {
 		/*
 		 * fetch the content at index of container entity that we got from the server
 		 * if row and col == null then it was an empty cell
@@ -110,8 +110,20 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		if(!state){
 			Toast.makeText(this, "You've clicked on an empty cell", Toast.LENGTH_LONG).show();
 		}else{
-			Toast.makeText(this, "A content has been clicked at "+row+" "+col, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "A content has been clicked at "+row+" "+col+" with id : "+id, Toast.LENGTH_LONG).show();
+			
+			// launch lookup activity
+			Intent intent = new Intent(this, LookupActivity.class);
+			
+			//Data to send through intent
+        	Bundle dataBundle = new Bundle();
+        	dataBundle.putString("OBJECT_ID", id);
+        	
+			intent.putExtras(dataBundle);
+			
+			startActivity(intent);
 		}
+		
 	}
 	
 	 private void launchScanner(String action){
