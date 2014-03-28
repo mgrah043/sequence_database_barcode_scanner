@@ -155,6 +155,25 @@ public class LocationService implements EntityServiceI{
 			// check for errors
 			if (wsResponse.getMeta() != null && wsResponse.getMeta().getStatus() == 200){
 				location = wsResponse.getLocation();
+				
+				if (!location.getMixedSpecimenUrl().isEmpty()){
+					String[] parsedURL = location.getMixedSpecimenUrl().split("/");
+					long mixedSpecimenId = Long.parseLong(parsedURL[parsedURL.length - 1]);
+					location.setMixedSpecimen(new MixedSpecimenService(BASE_URL).getById(mixedSpecimenId, location));
+				//TODO uncomment the following lines once the methods have been implemented
+				}else if (!location.getPcrPrimerUrl().isEmpty()){
+					//String[] parsedURL = location.getPcrPrimerUrl().split("/");
+					//long pcrPrimerId = Long.parseLong(parsedURL[parsedURL.length - 1]);
+					//location.setPcrPrimer(new PcrPrimerService(BASE_URL).getById(pcrPrimerId, location));
+				}else if (!location.getSampleUrl().isEmpty()){
+					//String[] parsedURL = location.getSampleUrl().split("/");
+					//long sampleId = Long.parseLong(parsedURL[parsedURL.length - 1]);
+					//location.setSample(new SampleService(BASE_URL).getById(sampleId, location));
+				}else if (!location.getSpecimenReplicateUrl().isEmpty()){
+					//String[] parsedURL = location.getSpecimenReplicateUrl().split("/");
+					//long specimenReplicateId = Long.parseLong(parsedURL[parsedURL.length - 1]);
+					//location.setSpecimenReplicate(new SpecimenReplicateService(BASE_URL).getById(specimenReplicateId, location));
+				}
 			}
 		} catch (Exception e){
 			if (e.getMessage() != null) Log.e(LocationService.class.toString(), e.getMessage());

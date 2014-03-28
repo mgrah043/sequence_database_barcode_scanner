@@ -259,9 +259,12 @@ public class GetContentFragment extends Fragment {
 		
 		for(int row = 0; row  < this.contentRow; row++){
 			TableRow currentRow = new TableRow(table.getContext());
-
+			
+<<<<<<< HEAD
+=======
 			currentRow.setBaselineAligned(false);
 
+>>>>>>> 322305618c474208a843fc566ae3c001743ae400
 			for(int col = 0; col < this.contentColumn; col++){
 				Button currentButton = new Button(table.getContext());
 			
@@ -384,17 +387,9 @@ public class GetContentFragment extends Fragment {
 			if (null != contentSelectedListener) {
 				String[] tag = (String[])v.getTag();
 				
-				String row = (String)tag[0];
-				int col = 0;
-				boolean state = (((String)tag[2]).equalsIgnoreCase("true"))? true : false;
-				
-				try{
-					col = Integer.parseInt((String)tag[1]);
-				}catch(Exception e){
-					// either the col or state threw an error
-					System.out.println(e.getMessage());
-				}
-				
+				String row = tag[0];
+				int col = Integer.parseInt(tag[1]);
+				boolean state = Boolean.getBoolean(tag[2]);
 					
 				contentSelectedListener.onContentSelected(row,col,state); // pass row then column
 				
