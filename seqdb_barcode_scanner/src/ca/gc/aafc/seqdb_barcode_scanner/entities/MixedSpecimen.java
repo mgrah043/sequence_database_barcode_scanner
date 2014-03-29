@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb_barcode_scanner.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,6 +26,7 @@ public class MixedSpecimen implements Serializable {
 	@JsonProperty("locationUrl")
 	private String locationUrl;
 	
+	@JsonIgnore
 	private Location location;
 	
 	public long getId() {
@@ -75,10 +77,12 @@ public class MixedSpecimen implements Serializable {
 		this.locationUrl = locationUrl;
 	}
 
+	@JsonIgnore
 	public Location getLocation() {
 		return location;
 	}
 
+	@JsonIgnore
 	public void setLocation(Location location) {
 		this.location = location;
 	}

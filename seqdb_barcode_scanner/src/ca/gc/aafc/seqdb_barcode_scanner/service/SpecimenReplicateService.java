@@ -124,7 +124,7 @@ public class SpecimenReplicateService implements EntityServiceI{
 	}
 
 	public boolean deleteById(long id) {
-		final String url = ENTITY_URL + "/id";
+		final String url = ENTITY_URL + "/" + id;
 		// This is where we get the RestTemplate and add the message converters
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -136,10 +136,10 @@ public class SpecimenReplicateService implements EntityServiceI{
 	public boolean create(Serializable entity) {
 		SpecimenReplicate specimenReplicate = (SpecimenReplicate)entity;
 		
-		String url = BASE_URL + "user";
+		String url = ENTITY_URL;
 		HttpHeaders requestHeaders = new HttpHeaders();
 		// Set the Content-Type header
-		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		try {
 			// create the request body
@@ -174,10 +174,10 @@ public class SpecimenReplicateService implements EntityServiceI{
 	public SpecimenReplicate update(Serializable entity) {
 		SpecimenReplicate specimenReplicate = (SpecimenReplicate)entity;
 		
-		String url = ENTITY_URL + "/id";
+		String url = ENTITY_URL + "/" + specimenReplicate.getId();
 		HttpHeaders requestHeaders = new HttpHeaders();
 		// Set the Content-Type header
-		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		try {
 			// create the request body

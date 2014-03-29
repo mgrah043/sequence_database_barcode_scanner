@@ -126,7 +126,7 @@ public class ContainerService implements EntityServiceI{
 	}
 
 	public boolean deleteById(long id) {
-		final String url = ENTITY_URL + "/id";
+		final String url = ENTITY_URL + "/" + id;
 		// This is where we get the RestTemplate and add the message converters
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -138,10 +138,10 @@ public class ContainerService implements EntityServiceI{
 	public boolean create(Serializable entity) {
 		Container container = (Container)entity;
 		
-		String url = BASE_URL + "user";
+		String url = ENTITY_URL;
 		HttpHeaders requestHeaders = new HttpHeaders();
 		// Set the Content-Type header
-		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		try {
 			// create the request body
@@ -176,10 +176,10 @@ public class ContainerService implements EntityServiceI{
 	public Container update(Serializable entity) {
 		Container container = (Container)entity;
 		
-		String url = ENTITY_URL + "/id";
+		String url = ENTITY_URL + "/" + container.getId();
 		HttpHeaders requestHeaders = new HttpHeaders();
 		// Set the Content-Type header
-		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		try {
 			// create the request body
