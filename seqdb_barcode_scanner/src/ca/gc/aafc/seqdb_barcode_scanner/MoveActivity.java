@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb_barcode_scanner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Location;
@@ -31,7 +32,6 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 	Button button_autofill;
 
 	private DataParser parser;
-	private ServiceTask taskRunner;
 	private Location itemLocation;
 	private Container contentContainer;
 	private Location updatedLocation;
@@ -71,7 +71,7 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 		moveSession = new Session(this,SESSION_TYPE);
 
 		//launch scanner screen with message
-		Toast.makeText(MoveActivity.this, "Please scan item to move", Toast.LENGTH_LONG).show();
+		Toast.makeText(MoveActivity.this, "Please scan an item to move", Toast.LENGTH_LONG).show();
 		launchScanner(SCAN_TYPE_ITEM);
 	}
 
@@ -87,6 +87,10 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 			int id_of_view = v.getId();
 			//Cancel button
 			if(id_of_view == button_cancel.getId()){
+				finish();
+			}
+			//main menu button
+			else if(id_of_view == button_mainMenu.getId()){
 				finish();
 			}
 			//Autofill button
@@ -119,14 +123,33 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 			
 			//Check if item scanner
 			if(scanAction != null && scanAction.equalsIgnoreCase(SCAN_TYPE_ITEM)){
-				if(decodedData != null){				   
-					//Store move item in session
-					this.moveSession.getSessionEditor().putString("MOVE_ITEM", decodedData);
-					this.moveSession.getSessionEditor().commit();
+				if(decodedData != null){
+					try{
+						//Parsing item
+						parser = new DataParser();
+						parser.parse(decodedData);
+						entityType = parser.getAcronym();
+						itemId = parser.getId();
+					}
+					catch(Exception e){
+						Toast.makeText(this, "Unknown barcode format, please scan an item", Toast.LENGTH_LONG).show();
+						e.printStackTrace();
+						launchScanner(SCAN_TYPE_ITEM);
+					}
+					if(entityType.equalsIgnoreCase("MSP")){
+						//Store move item in session
+						this.moveSession.getSessionEditor().putString("MOVE_ITEM", decodedData);
+						this.moveSession.getSessionEditor().commit();
 
-					//Launch container scanner screen
-					Toast.makeText(MoveActivity.this, "Please scan container", Toast.LENGTH_LONG).show();
-					this.launchScanner(SCAN_TYPE_CONTAINER);
+						//Launch container scanner screen
+						Toast.makeText(MoveActivity.this, "Please scan a container", Toast.LENGTH_LONG).show();
+						this.launchScanner(SCAN_TYPE_CONTAINER);
+					}
+					else{
+						//Re-launch item scanner screen
+						Toast.makeText(MoveActivity.this, "Unknown barcode format, please scan an item", Toast.LENGTH_LONG).show();
+						this.launchScanner(SCAN_TYPE_ITEM);
+					}
 				}
 				else{
 					//Re-launch item scanner screen
@@ -141,16 +164,10 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 				if(!current_item.equalsIgnoreCase("") && decodedData != null){
 					this.moveSession.getSessionEditor().putString("MOVE_CONTAINER", decodedData);
 					this.moveSession.getSessionEditor().commit();
-					try{
-						//Parsing item
-						parser = new DataParser();
-						parser.parse(current_item);
-						entityType = parser.getAcronym();
-						itemId = parser.getId();
-						
+					try{			
 						//Parsing container
 						parser = new DataParser();
-						parser.parse(decodedData/*current_container*/);
+						parser.parse(decodedData);
 						containerType = parser.getAcronym();
 						containerId = parser.getId();
 						
@@ -177,7 +194,7 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 							}
 						}	
 						else{
-							Toast.makeText(this, "Unknown barcode format: please scan an item barcode", Toast.LENGTH_LONG).show();
+							Toast.makeText(this, "Unknown barcode format, please scan an item", Toast.LENGTH_LONG).show();
 							launchScanner(SCAN_TYPE_ITEM);
 						}
 					}
@@ -188,18 +205,17 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 					}
 				}
 				else{
-					Toast.makeText(MoveActivity.this, "Please scan item to move ", Toast.LENGTH_LONG).show();
+					Toast.makeText(MoveActivity.this, "Please scan an item", Toast.LENGTH_LONG).show();
 					System.out.print("Current item is empty; rescan item");
-					this.launchScanner("SCAN_ITEM");
+					this.launchScanner("SCAN_TYPE_ITEM");
 				}
 			}
 			else{
 				Toast.makeText(MoveActivity.this, "No scanning action, please scan an item", Toast.LENGTH_LONG).show();
-				this.launchScanner("SCAN_ITEM");
+				this.launchScanner("SCAN_TYPE_ITEM");
 			}		   
 		}
 		else{
-			Toast.makeText(MoveActivity.this, "Error when scanning", Toast.LENGTH_LONG).show();	
 			finish();
 		}
 	}
@@ -211,40 +227,38 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 
 	@Override
 	public void onContentSelected(String id, String row, int column,boolean state) {
-		//TODO delete test output
-		//Toast.makeText(MoveActivity.this, "Content has been clicked at index : "+row+column, Toast.LENGTH_LONG).show();
-		//TODO delete variable isEmptyElement, should be passed in
-		//TODO delete testing variables
-		boolean isEmptyElement = true;
-		row = "B";
-		column = 1; 	
+		boolean isFull = state;
+		
 		//move item to this location in the container
-		if (isEmptyElement){		
-			if(itemLocation != null){
+		if (!isFull){		
+				//update location
 				itemLocation.setWellRow(row);
 				itemLocation.setWellColumn(column);
 				itemLocation.setContainerId(contentContainer.getId());
+				//update container
+				ArrayList<Location> tempList= contentContainer.getlocationList();
+				tempList.add(itemLocation);
+				contentContainer.setlocationList(tempList);
+
 				try{
 					EntityServiceI locationService = moveSession.getService("LOC");
+
 					if(locationService != null){
-						taskRunner = new ServiceTask(this);
+						//updating location
+						ServiceTask taskRunner = new ServiceTask(this);
 						taskRunner.setService(locationService);
 						HashMap<String,Object> params = new HashMap<String,Object>();
 						params.put(ServiceTask.UPDATE, itemLocation);
-						taskRunner.execute(params);	
+						taskRunner.execute(params);
 					}
 				}
 				catch(Exception e){
 					Toast.makeText(this, "Error while moving item, please select another location", Toast.LENGTH_LONG).show();
 					e.printStackTrace();
 				}
-			}
-			else{
-				Toast.makeText(this, "Error while moving item, please select another location", Toast.LENGTH_LONG).show();
-			}
 		}
 		else{
-			Toast.makeText(MoveActivity.this, "Please select an empty location.", Toast.LENGTH_LONG).show();
+			Toast.makeText(MoveActivity.this, "Please select an empty location", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -261,9 +275,11 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 				if(entityType.equalsIgnoreCase("MSP") || entityType.equalsIgnoreCase("03")){
 					MixedSpecimen mixedSpecimen = (MixedSpecimen)output;
 					itemLocation = mixedSpecimen.getLocation();
+					//If item already has location set the mixed specimen
+					if(itemLocation == null){
+						itemLocation = new Location();
+					}				
 					itemLocation.setMixedSpecimen(mixedSpecimen);
-					
-					Toast.makeText(MoveActivity.this, "MIXED SPECIMEN!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 				}
 				else if(entityType.equalsIgnoreCase("PRI") || entityType.equalsIgnoreCase("05")){
 					//PCR PRIMER NOT IMPLEMENTED YET
@@ -289,14 +305,19 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 		else if(method.equalsIgnoreCase(ServiceTask.GET_CONTAINER_BY_ID)){
 			if(containerType.equalsIgnoreCase("CON") || containerType.equalsIgnoreCase("07")){
 				contentContainer = (Container)output;
-				Toast.makeText(MoveActivity.this, "CONTAINER!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 				getContentFragment.loadContent(contentContainer);
 			}
 		}
 		else if(method.equalsIgnoreCase(ServiceTask.UPDATE)){
-				updatedLocation = (Location)output;
-				Toast.makeText(MoveActivity.this, "LOCATION!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
-				getContentFragment.loadContent(contentContainer);
+			//launch GetContents activity
+			Intent intent = new Intent(this, GetContentsActivity.class);
+			//Data to send through intent
+        	Bundle dataBundle = new Bundle();
+        	dataBundle.putSerializable("CONTAINER", contentContainer);
+			intent.putExtras(dataBundle);
+			
+			startActivity(intent);
+			finish();
 		}
 
 		else{
