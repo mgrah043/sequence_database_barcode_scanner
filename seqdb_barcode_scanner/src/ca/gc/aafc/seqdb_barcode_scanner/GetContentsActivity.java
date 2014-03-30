@@ -10,6 +10,8 @@ import ca.gc.aafc.seqdb_barcode_scanner.utils.Session;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.TextView;
@@ -38,14 +40,36 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		
 		getContentFragment = (GetContentFragment) getSupportFragmentManager().findFragmentById(R.id.get_content_fragment);
 		
-		getContentSession = new Session(this,SESSION_TYPE);
-	    Toast.makeText(this, "Please scan the container to get its content", Toast.LENGTH_LONG).show();
-	    
-		launchScanner(SCAN_TYPE);
+		//instantiate and set buttons
+		button_mainMenu = (ImageButton) findViewById(R.id.btn_header_menu);
+		button_mainMenu.setOnClickListener(Button_Click_Listener);
 		
 		parser = new DataParser();
 		taskRunner = new ServiceTask(this);
+		
+		//container to display from MoveActivity
+        Bundle dataBundle = getIntent().getExtras();
+	    if(dataBundle != null){
+	    	Container contentContainer = (Container) dataBundle.getSerializable("CONTAINER");
+			getContentFragment.loadContent(contentContainer);
+	    }else{
+			getContentSession = new Session(this,SESSION_TYPE);
+		    Toast.makeText(this, "Please scan a container", Toast.LENGTH_LONG).show();
+		    
+			launchScanner(SCAN_TYPE);
+	    }		
 	}
+	
+	OnClickListener Button_Click_Listener = new OnClickListener(){
+		public void onClick(View v){
+			int id_of_view = v.getId();
+			//Main menu button
+			if(id_of_view == button_mainMenu.getId()){
+				finish();
+			}
+			
+		}
+	};
 
 	@Override
 	public void onBackPressed() {
@@ -142,7 +166,7 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 				getContentFragment.loadContent(contentContainer);
 				
 			}else{
-				Toast.makeText(this, "Error getById failed", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Get contents failed", Toast.LENGTH_LONG).show();
 
 			}
 		}

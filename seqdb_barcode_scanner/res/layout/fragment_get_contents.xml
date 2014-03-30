@@ -48,16 +48,15 @@
 	                android:textOn="@string/txt_btn_grid" />
 
 	        </RelativeLayout>
-	        
-          	<ListView
-          	    android:id="@+id/listView"
-          	    android:layout_width="match_parent"
-          	    android:layout_height="wrap_content"
-          	    android:padding="@dimen/dim_5" >
 
-     		</ListView>
-			
-            
+          <LinearLayout
+              android:id="@+id/listView"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:layout_marginTop="@dimen/dim_20" >
+
+          </LinearLayout>
 
             <HorizontalScrollView
                 android:layout_width="fill_parent"
