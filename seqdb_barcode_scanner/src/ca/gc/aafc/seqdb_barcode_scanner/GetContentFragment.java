@@ -1,8 +1,10 @@
 package ca.gc.aafc.seqdb_barcode_scanner;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TableRow.LayoutParams;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -37,14 +40,14 @@ public class GetContentFragment extends Fragment {
     private TableLayout tableLayoutHeaderLeft;
     private TableLayout tableLayout;
     private TableLayout tableLayoutHeaderRight;
-    private ListView listView;
+    private LinearLayout listView;
     private ToggleButton gridToggle;
     private TextView containerId;
     private TextView containerSize;
     private Button[][] buttonArray;
     
-    private ArrayList<String> locationDetails;
-    private ArrayAdapter<String> adapter;
+//    private ArrayList<String> locationDetails;
+//    private ArrayAdapter<String> adapter;
     
     /*
      * this should be from the container info
@@ -115,7 +118,7 @@ public class GetContentFragment extends Fragment {
     	this.tableLayout =  (TableLayout) view.findViewById(R.id.tableLayout);
     	this.tableLayoutHeaderLeft = (TableLayout) view.findViewById(R.id.tableLayoutLeftColumnHeader);
     	this.tableLayoutHeaderRight = (TableLayout) view.findViewById(R.id.tableLayoutRightColumnHeader);
-    	listView = (ListView) view.findViewById(R.id.listView);
+    	listView = (LinearLayout) view.findViewById(R.id.listView);
     	gridToggle = (ToggleButton) view.findViewById(R.id.gridToggle);
     	
     	// get data from bundle (that will be the container entity or something else ??)
@@ -270,7 +273,7 @@ public class GetContentFragment extends Fragment {
 				String output = "";
 				String rowChar= getCharacterOfNumber(row);
 				
-				if(rowCol.containsKey(rowChar) && rowCol.get(rowChar).getWellColumn() == col){
+				if(rowCol.containsKey(rowChar) && rowCol.get(rowChar).getWellColumn()-1 == col){
 					buttonTag = new String[]{rowChar,col+"","true","MSP-"+rowCol.get(rowChar).getMixedSpecimen().getId()};
 					currentButton.setBackgroundResource(R.drawable.ui_button_blue);
 					output = rowCol.get(rowChar).getMixedSpecimen().getFungiIsolated();
@@ -379,16 +382,29 @@ public class GetContentFragment extends Fragment {
 		
 		// generate the list view
 		ArrayList<Location> locations = container.getlocationList();
-		locationDetails = new ArrayList<String>();
+//		locationDetails = new ArrayList<String>();
+//		
+//		for (int i = 0; i < locations.size(); i++){
+//			Location location = locations.get(i);
+//			//TODO check which entity is populated
+//			locationDetails.add((i + 1) + ". " + location.getMixedSpecimen().getFungiIsolated() + ": " 
+//					+ location.getWellRow() + location.getWellColumn());
+//		}
+//		adapter=new ArrayAdapter<String>(this.getActivity(), R.layout.list_black_text, R.id.list_content, locationDetails);
+//		listView.setAdapter(adapter);
 		
 		for (int i = 0; i < locations.size(); i++){
 			Location location = locations.get(i);
+			TextView listElement = new TextView(this.getActivity());
+			listElement.setTextColor(Color.BLACK);
+			listElement.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			listElement.setPadding(0, 7, 0, 7);
 			//TODO check which entity is populated
-			locationDetails.add((i + 1) + ". " + location.getMixedSpecimen().getFungiIsolated() + ": " 
+			listElement.setText((i + 1) + ". " + location.getMixedSpecimen().getFungiIsolated() + ": " 
 					+ location.getWellRow() + location.getWellColumn());
+			listView.addView(listElement);
 		}
-		adapter=new ArrayAdapter<String>(this.getActivity(), R.layout.list_black_text, R.id.list_content, locationDetails);
-		listView.setAdapter(adapter);
+		
 		listView.setVisibility(View.GONE);
 		
 		OnClickListener gridToggleClickListener = new OnClickListener(){
