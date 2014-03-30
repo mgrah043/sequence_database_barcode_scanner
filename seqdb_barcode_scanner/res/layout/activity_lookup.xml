@@ -21,33 +21,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-	        <LinearLayout
+	       <LinearLayout
+	            android:id="@+id/content_layout"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
-	            android:orientation="vertical" >
+	            android:orientation="vertical"
+	            android:layout_marginLeft="20dp" >
 	
-	            <TextView
-	                android:id="@+id/tv_lookup_name"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_marginBottom="@dimen/dim_10"
-	                android:layout_marginLeft="@dimen/dim_20"
-	                android:layout_marginRight="@dimen/dim_20"
-	                android:layout_marginTop="@dimen/dim_50"
-	                android:tag="bold"
-	                android:text="@string/no_data"
-	                android:textColor="@color/blue_051f33"
-	                android:textSize="24sp" />
+
 	
-	            <TextView
-	                android:id="@+id/tv_lookup_desc"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="@dimen/dim_20"
-	                android:layout_marginRight="@dimen/dim_20"
-	                android:text="@string/no_data"
-	                android:textColor="@color/gray_626669"
-	                android:textSize="20sp" />
+
 	
 	        </LinearLayout>
         </ScrollView>

@@ -24,6 +24,7 @@
     
      <string name="desc"></string>
      <string name="no_data">No Data</string>
+     <string name="no_data_error">Could not find ID</string>
      
     <string name="txt_well_info">Well Info</string>
     <string name="txt_well_row">Row</string>

@@ -228,7 +228,6 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 	@Override
 	public void onContentSelected(String id, String row, int column,boolean state) {
 		boolean isFull = state;
-		
 		//move item to this location in the container
 		if (!isFull){		
 				//update location
