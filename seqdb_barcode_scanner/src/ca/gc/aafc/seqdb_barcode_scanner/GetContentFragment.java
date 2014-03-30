@@ -266,11 +266,12 @@ public class GetContentFragment extends Fragment {
 			for(int col = 0; col < this.contentColumn; col++){
 				Button currentButton = new Button(table.getContext());
 			
+				
 				String[] buttonTag = null;
 				String output = "";
 				String rowChar= getCharacterOfNumber(row);
 				
-				if(rowCol.containsKey(rowChar) && rowCol.get(rowChar).getWellColumn() == col){
+				if(rowCol.containsKey(rowChar) && rowCol.get(rowChar).getWellColumn()-1 == col){
 					buttonTag = new String[]{rowChar,col+"","true","MSP-"+rowCol.get(rowChar).getMixedSpecimen().getId()};
 					currentButton.setBackgroundResource(R.drawable.ui_button_blue);
 					output = rowCol.get(rowChar).getMixedSpecimen().getFungiIsolated();

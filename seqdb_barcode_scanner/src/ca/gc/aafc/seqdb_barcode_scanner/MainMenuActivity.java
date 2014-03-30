@@ -64,7 +64,8 @@ public class MainMenuActivity extends Activity{
 				startActivity(intent);
 
 			}else if(id_of_view == button_bulkMove.getId()){
-				Toast.makeText(MainMenuActivity.this, "bulk move button pressed", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(MainMenuActivity.this, BulkMoveActivity.class);
+				startActivity(intent);
 			}
 		}
 	};

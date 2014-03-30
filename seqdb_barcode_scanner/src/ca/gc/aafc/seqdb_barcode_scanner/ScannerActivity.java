@@ -68,6 +68,11 @@ public class ScannerActivity extends Activity {
         //release camera when application is paused
         cameraManager.release();
     }
+    
+    @Override
+	public void onBackPressed() {
+		finish();
+	}
 
     private class OnDecoded implements CaptureHandler.OnDecodedCallback {
         @Override

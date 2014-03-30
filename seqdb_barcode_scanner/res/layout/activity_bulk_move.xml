@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+  <include
+      android:id="@+id/main_menu_header"
+      layout="@layout/header_main_layout" />
+
+  <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+			
+			<fragment
+                android:id="@+id/get_content_fragment"
+		        android:name="ca.gc.aafc.seqdb_barcode_scanner.GetContentFragment"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        tools:layout="@layout/fragment_get_contents" />
+            
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
