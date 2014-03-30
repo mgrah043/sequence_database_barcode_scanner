@@ -278,7 +278,7 @@ public class GetContentFragment extends Fragment {
 					currentButton.setBackgroundResource(R.drawable.ui_button_blue);
 					output = rowCol.get(rowChar).getMixedSpecimen().getFungiIsolated();
 				}else{
-					buttonTag = new String[]{"","","false",""};
+					buttonTag = new String[]{rowChar, (col+1)+"","false",""};
 					currentButton.setBackgroundResource(R.drawable.ui_button_red);
 				}
 				
