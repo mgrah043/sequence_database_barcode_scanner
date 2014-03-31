@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.*;
 
@@ -444,24 +445,29 @@ public class GetContentFragment extends Fragment {
 	
 	OnClickListener Button_Click_Listener = new OnClickListener(){
 		public void onClick(View v){
-			if (contentSelectedListener != null) {
-				String[] tag = (String[])v.getTag();
-				
-				String row = (String)tag[0];
-				int col = 0;
-				boolean state = (((String)tag[2]).equalsIgnoreCase("true"))? true : false;
-				String id = (String)tag[3];
-				try{
-					col = Integer.parseInt((String)tag[1]);
-				}catch(Exception e){
-					// either the col or state threw an error
-					System.out.println(e.getMessage());
-				}
-				
+			String networkState = TopActivity.checkNetworkState(getActivity());
+			if (networkState.isEmpty()){
+				if (contentSelectedListener != null) {
+					String[] tag = (String[])v.getTag();
 					
-				contentSelectedListener.onContentSelected(id,row,col,state); // pass row then column
-				
-	        }
+					String row = (String)tag[0];
+					int col = 0;
+					boolean state = (((String)tag[2]).equalsIgnoreCase("true"))? true : false;
+					String id = (String)tag[3];
+					try{
+						col = Integer.parseInt((String)tag[1]);
+					}catch(Exception e){
+						// either the col or state threw an error
+						System.out.println(e.getMessage());
+					}
+					
+						
+					contentSelectedListener.onContentSelected(id,row,col,state); // pass row then column
+					
+		        }
+			}else {
+				Toast.makeText(getActivity(), networkState, Toast.LENGTH_LONG).show();
+			}
 		}
 	};
 

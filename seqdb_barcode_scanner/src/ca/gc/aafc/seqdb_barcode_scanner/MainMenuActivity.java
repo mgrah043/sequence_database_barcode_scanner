@@ -48,24 +48,31 @@ public class MainMenuActivity extends Activity{
 	OnClickListener Button_Click_Listener = new OnClickListener(){
 		public void onClick(View v){
 			int id_of_view = v.getId();
-
-			//Login button
-			if(id_of_view == button_lookup.getId()){
-				Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
-				startActivity(intent);
-
-			//GetContents button
-			}else if(id_of_view == button_getContents.getId()){
-				Intent intent = new Intent(MainMenuActivity.this, GetContentsActivity.class);
-				startActivity(intent);
+			
+			String networkState = TopActivity.checkNetworkState(MainMenuActivity.this);
+			if (networkState.isEmpty()){
 				
-			}else if(id_of_view == button_move.getId()){
-				Intent intent = new Intent(MainMenuActivity.this, MoveActivity.class);
-				startActivity(intent);
+				//Login button
+				if(id_of_view == button_lookup.getId()){
+					Intent intent = new Intent(MainMenuActivity.this, LookupActivity.class);
+					startActivity(intent);
+	
+				//GetContents button
+				}else if(id_of_view == button_getContents.getId()){
+					Intent intent = new Intent(MainMenuActivity.this, GetContentsActivity.class);
+					startActivity(intent);
+					
+				}else if(id_of_view == button_move.getId()){
+					Intent intent = new Intent(MainMenuActivity.this, MoveActivity.class);
+					startActivity(intent);
+	
+				}else if(id_of_view == button_bulkMove.getId()){
+					Intent intent = new Intent(MainMenuActivity.this, BulkMoveActivity.class);
+					startActivity(intent);
+				}
+			}else {
+				Toast.makeText(MainMenuActivity.this, networkState, Toast.LENGTH_LONG).show();
 
-			}else if(id_of_view == button_bulkMove.getId()){
-				Intent intent = new Intent(MainMenuActivity.this, BulkMoveActivity.class);
-				startActivity(intent);
 			}
 		}
 	};

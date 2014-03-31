@@ -97,8 +97,13 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 			/*
 			 * TODO TO BE COMPLETED WHEN WEB SERVICE HANDLES AUTOFILLING
 			else if(id_of_view == button_autofill.getId()){
-				ArrayList<Location> locationArray = contentContainer.getlocationList();
-				Toast.makeText(MoveActivity.this, "Autofill button pressed", Toast.LENGTH_LONG).show();
+				String networkState = TopActivity.checkNetworkState(MoveActivity.this);
+				if (networkState.isEmpty()){
+					ArrayList<Location> locationArray = contentContainer.getlocationList();
+					Toast.makeText(MoveActivity.this, "Autofill button pressed", Toast.LENGTH_LONG).show();
+				}else {
+					Toast.makeText(MoveActivity.this, networkState, Toast.LENGTH_LONG).show();
+				}
 			}
 			*/
 			else{
@@ -228,7 +233,6 @@ public class MoveActivity extends FragmentActivity implements GetContentFragment
 	@Override
 	public void onContentSelected(String id, String row, int column,boolean state) {
 		boolean isFull = state;
-		
 		//move item to this location in the container
 		if (!isFull){		
 				//update location

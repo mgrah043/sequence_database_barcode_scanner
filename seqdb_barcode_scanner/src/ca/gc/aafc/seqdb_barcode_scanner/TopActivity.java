@@ -3,7 +3,10 @@ package ca.gc.aafc.seqdb_barcode_scanner;
 import ca.gc.aafc.seqdb_barcode_scanner.R;
 import ca.gc.aafc.seqdb_barcode_scanner.utils.Config;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,15 +46,21 @@ public class TopActivity extends Activity{
 		public void onClick(View v){
 			int id_of_view = v.getId();
 
-			//Scan login
-			if(id_of_view == button_scanLogin.getId()){
-				Intent intent = new Intent(TopActivity.this, ScannerActivity.class);
-				startActivityForResult(intent,0);
-			}
-			//Manual login
-			else if(id_of_view == button_manualLogin.getId()){
-				Intent intent = new Intent(TopActivity.this, LoginActivity.class);
-				startActivity(intent);
+			String networkState = TopActivity.checkNetworkState(TopActivity.this);
+			if (networkState.isEmpty()){
+			
+				//Scan login
+				if(id_of_view == button_scanLogin.getId()){
+					Intent intent = new Intent(TopActivity.this, ScannerActivity.class);
+					startActivityForResult(intent,0);
+				}
+				//Manual login
+				else if(id_of_view == button_manualLogin.getId()){
+					Intent intent = new Intent(TopActivity.this, LoginActivity.class);
+					startActivity(intent);
+				}
+			}else {
+				Toast.makeText(TopActivity.this, networkState, Toast.LENGTH_LONG).show();
 			}
 		}
 	};
@@ -93,6 +102,16 @@ public class TopActivity extends Activity{
 		
 	}
 	
-	
+	public static String checkNetworkState(Activity activity){
+		String networkError = "";
+		
+		ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (!mWifi.isConnected()) {
+		    networkError = "Network Connection Error: Please check that WiFi is enabled and connected to the correct network.";
+		}
+		return networkError;
+	}
 	
 }

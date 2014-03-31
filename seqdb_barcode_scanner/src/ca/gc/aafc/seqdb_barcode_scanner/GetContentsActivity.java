@@ -40,6 +40,9 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		
 		getContentFragment = (GetContentFragment) getSupportFragmentManager().findFragmentById(R.id.get_content_fragment);
 		
+		header_title = (TextView) findViewById(R.id.tv_header_main_title);
+		header_title.setText("GET CONTENTS");
+		
 		//instantiate and set buttons
 		button_mainMenu = (ImageButton) findViewById(R.id.btn_header_menu);
 		button_mainMenu.setOnClickListener(Button_Click_Listener);
@@ -133,9 +136,7 @@ public class GetContentsActivity extends FragmentActivity implements GetContentF
 		 * */
 		if(!state){
 			Toast.makeText(this, "You've clicked on an empty cell", Toast.LENGTH_LONG).show();
-		}else{
-			Toast.makeText(this, "A content has been clicked at "+row+" "+col+" with id : "+id, Toast.LENGTH_LONG).show();
-			
+		}else{			
 			// launch lookup activity
 			Intent intent = new Intent(this, LookupActivity.class);
 			
