@@ -48,7 +48,6 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
         super.onCreate(savedInstanceState);
         
         lookupSession = new Session(this,SESSION_TYPE);
-	    Toast.makeText(this, "Please scan a barcode", Toast.LENGTH_LONG).show();
 	    
 	    
 	    parser = new DataParser();
@@ -75,6 +74,7 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
 	    		System.out.println("Incorrect Id passed");
 	    	}
 	    }else{
+		    Toast.makeText(this, "Please scan a barcode", Toast.LENGTH_LONG).show();
 	    	launchScanner(SCAN_TYPE);
 	    }
 	}
@@ -296,7 +296,7 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
         layout_content.addView(textview_location2);    
         
         TextView textview_location3 = new TextView(this);
-        textview_location3.setText("Well Row: "+mixedSpecimen.getLocation().getWellRow());
+        textview_location3.setText("Well Column: "+mixedSpecimen.getLocation().getWellColumn());
         textview_location3.setPadding(50, 0, 0, 0);
         textview_location3.setTextSize(20);
         textview_location3.setTextColor(Color.BLACK);
@@ -408,8 +408,9 @@ public class LookupActivity extends Activity implements ServiceTask.OnServiceCal
 				// display an error message
 		        TextView textview_error = new TextView(this);
 		        textview_error.setText(R.string.no_data_error);
-		        textview_error.setPadding(10, 0, 0, 0);
+		        textview_error.setPadding(10, 30, 0, 0);
 		        textview_error.setTextSize(20);
+		        textview_error.setTextColor(Color.BLACK);
 		        layout_content.addView(textview_error);
 	           }
 			

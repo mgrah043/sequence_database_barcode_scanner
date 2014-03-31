@@ -242,8 +242,6 @@ public class BulkMoveActivity extends FragmentActivity implements GetContentFrag
 					MixedSpecimen mixedSpecimen = (MixedSpecimen)output;
 					itemLocation = mixedSpecimen.getLocation();
 					itemLocation.setMixedSpecimen(mixedSpecimen);
-					
-					Toast.makeText(BulkMoveActivity.this, "MIXED SPECIMEN!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 				}
 				else if(entityType.equalsIgnoreCase("PRI") || entityType.equalsIgnoreCase("05")){
 					//PCR PRIMER NOT IMPLEMENTED YET
@@ -346,7 +344,7 @@ public class BulkMoveActivity extends FragmentActivity implements GetContentFrag
 			
 			emptyCells.remove(0);
 			
-			showDialog("Move Successful !!!!!");
+			showDialog("Move Successful!");
 			//update container
 			ArrayList<Location> tempList= contentContainer.getlocationList();
 			
@@ -377,6 +375,7 @@ public class BulkMoveActivity extends FragmentActivity implements GetContentFrag
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		
 		alertDialogBuilder.setView(promptView);
+		
 		
 		TextView input = (TextView) promptView.findViewById(R.id.move_text);
 		input.setText(text);          
