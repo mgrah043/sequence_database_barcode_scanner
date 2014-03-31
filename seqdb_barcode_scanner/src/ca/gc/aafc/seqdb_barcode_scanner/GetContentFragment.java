@@ -257,9 +257,13 @@ public class GetContentFragment extends Fragment {
 		 * create main table
 		 */
 		ArrayList<Location> containerLocations = container.getlocationList();
-		HashMap<String,Location> rowCol = new HashMap<String,Location>();
+	
+		//HashMap<String,Location> rowCol = new HashMap<String,Location>();
 		
-		for (Location l : containerLocations) rowCol.put(l.getWellRow(),l);
+		/*for (int i =0 ; i < containerLocations.size(); i++){
+			Location l = containerLocations.get(i);
+			rowCol.put(l.getWellRow(),l);
+		} */
 		
 		for(int row = 0; row  < this.contentRow; row++){
 			TableRow currentRow = new TableRow(table.getContext());
@@ -273,11 +277,22 @@ public class GetContentFragment extends Fragment {
 				String[] buttonTag = null;
 				String output = "";
 				String rowChar= getCharacterOfNumber(row);
+				boolean found = false;
+				Location foundL = new Location();
 				
-				if(rowCol.containsKey(rowChar) && rowCol.get(rowChar).getWellColumn()-1 == col){
-					buttonTag = new String[]{rowChar,col+"","true","MSP-"+rowCol.get(rowChar).getMixedSpecimen().getId()};
+				for(int i=0; i<containerLocations.size(); i++){
+					Location l = containerLocations.get(i);
+					foundL = l;
+					if(rowChar.equalsIgnoreCase(l.getWellRow()) && col == l.getWellColumn()-1){
+						found = true;
+						break;
+					}
+				}
+				
+				if(found){
+					buttonTag = new String[]{rowChar,(col+1)+"","true","MSP-"+foundL.getMixedSpecimen().getId()};
 					currentButton.setBackgroundResource(R.drawable.ui_button_blue);
-					output = rowCol.get(rowChar).getMixedSpecimen().getFungiIsolated();
+					output = foundL.getMixedSpecimen().getFungiIsolated();
 				}else{
 					buttonTag = new String[]{rowChar, (col+1)+"","false",""};
 					currentButton.setBackgroundResource(R.drawable.ui_button_red);

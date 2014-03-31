@@ -3,6 +3,8 @@ package ca.gc.aafc.seqdb_barcode_scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Container;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.Location;
 import ca.gc.aafc.seqdb_barcode_scanner.entities.MixedSpecimen;
@@ -308,7 +310,6 @@ public class BulkMoveActivity extends FragmentActivity implements GetContentFrag
 				//getContentFragment.loadContent(contentContainer);
 				
 				
-				
 		}
 
 		else{
@@ -346,6 +347,19 @@ public class BulkMoveActivity extends FragmentActivity implements GetContentFrag
 			emptyCells.remove(0);
 			
 			showDialog("Move Successful !!!!!");
+			//update container
+			ArrayList<Location> tempList= contentContainer.getlocationList();
+			
+			Location l = new Location();
+			l.setId(itemLocation.getId());
+			l.setWellColumn(itemLocation.getWellColumn());
+			l.setWellRow(itemLocation.getWellRow());
+			l.setContainerId(itemLocation.getContainerId());
+			l.setMixedSpecimen(itemLocation.getMixedSpecimen());
+			l.setMixedSpecimenUrl(itemLocation.getMixedSpecimenUrl());
+			tempList.add(l);
+			
+			contentContainer.setlocationList(tempList);
 		}
 	}
 	private String getCharacterOfNumber(int number){
@@ -380,6 +394,15 @@ public class BulkMoveActivity extends FragmentActivity implements GetContentFrag
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
 				//finish();
+				Intent intent = new Intent(BulkMoveActivity.this, GetContentsActivity.class);
+				
+				//Data to send through intent
+	        	Bundle dataBundle = new Bundle();
+	        	dataBundle.putSerializable("CONTAINER", contentContainer);
+				intent.putExtras(dataBundle);
+				
+				startActivity(intent);
+				finish();
 			}
 		});
 	
