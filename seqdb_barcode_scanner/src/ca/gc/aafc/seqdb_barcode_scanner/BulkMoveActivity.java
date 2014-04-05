@@ -344,7 +344,7 @@ public class BulkMoveActivity extends FragmentActivity implements GetContentFrag
 			
 			emptyCells.remove(0);
 			
-			showDialog("Move Successful!");
+			showDialog("Item successfully moved to: " + itemLocation.getWellColumn() + itemLocation.getWellRow());
 			//update container
 			ArrayList<Location> tempList= contentContainer.getlocationList();
 			
@@ -382,7 +382,7 @@ public class BulkMoveActivity extends FragmentActivity implements GetContentFrag
 		
 		alertDialogBuilder
 		.setCancelable(false)
-		.setPositiveButton("Scan More Item", new DialogInterface.OnClickListener() {
+		.setPositiveButton("Scan More Items", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				Toast.makeText(BulkMoveActivity.this, "Please scan an item to move", Toast.LENGTH_LONG).show();
 				launchScanner(SCAN_TYPE_ITEM);
